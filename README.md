@@ -1,4 +1,4 @@
-# SketchConnect <img align="right" alt="" src="" width="100px" height="100px" >
+# SketchConnect
 
 A collaborative 4 player doodling game.
 
