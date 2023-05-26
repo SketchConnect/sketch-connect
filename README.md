@@ -65,3 +65,7 @@ We have numerous ideas for enhancing the game experience, such as:
 ## Task breakdown
 
 ## Prototypes
+<img src="images/loginPage.png" width=600px>
+<img src="images/homePage.png" width=600px>
+<img src="images/drawingPage.png" width=600px>
+<img src="images/finshedDrawingPage.png" width=600px>
