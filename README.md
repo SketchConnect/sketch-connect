@@ -63,7 +63,7 @@ We have numerous ideas for enhancing the game experience, such as:
 
 
 ## Task breakdown
-####A canvas to doodle individually prompted and combined at the end :
+#### A canvas to doodle individually prompted and combined at the end :
 - Create a basic a frontend interface 
 - Have the pages setup for the correct control flow for the user
 - Create HTML5 Canvas and make it interactive for the user on the right page
