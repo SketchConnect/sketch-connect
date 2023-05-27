@@ -63,6 +63,17 @@ We have numerous ideas for enhancing the game experience, such as:
 
 
 ## Task breakdown
+#### A canvas to doodle individually prompted and combined at the end :
+- Create a basic a frontend interface 
+- Have the pages setup for the correct control flow for the user
+- Create HTML5 Canvas and make it interactive for the user on the right page
+- Fetch data from HTML 5 Canvas
+- Store Data from HTML 5 Canvas
+
+#### Creating and storing a session
+- Create individual sections as records in the database. In each record, have fields for all the necessary information (user ids, session id, individual canvases, etc.)
+- Create a mechanism to generate new session ids for new games
+- Create dynamic links for players to join a session given a unique url
 
 ## Prototypes
 <img src="images/loginPage.png" width=600px>
