@@ -1,10 +1,21 @@
 import "./App.css";
+import Header from './components/Header';
+
+import { createTheme, ThemeProvider } from '@mui/material';
+const theme = createTheme({
+  typography: {
+    fontFamily: [
+      'Chilanka',
+      'cursive',
+    ].join(','),
+  },});
 
 function App() {
     return (
-        <div className="App">
-            <h1>Hello World</h1>
-        </div>
+        <ThemeProvider theme={theme}>
+
+         <Header></Header>
+        </ThemeProvider>
     );
 }
 
