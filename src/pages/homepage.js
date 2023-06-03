@@ -1,10 +1,8 @@
-import "./Homepage.css";
+import "./homepage.css";
 
 function Homepage() {
     return (
         <div className="page">
-            {/* put navbar here. probably would have to adjust heigth and width for .content */}
-
             <div className="content">
                 {/* factor out as a component later, if necessary */}
                 <div className="left-pane">

@@ -1,20 +1,20 @@
 import "./App.css";
-import Header from './components/Header';
+import Header from "./components/header";
+import Homepage from "./pages/homepage";
 
-import { createTheme, ThemeProvider } from '@mui/material';
+import { createTheme, ThemeProvider } from "@mui/material";
 const theme = createTheme({
-  typography: {
-    fontFamily: [
-      'Chilanka',
-      'cursive',
-    ].join(','),
-  },});
+    typography: {
+        fontFamily: ["Chilanka", "cursive"].join(","),
+    },
+});
 
 function App() {
     return (
         <ThemeProvider theme={theme}>
+            <Header></Header>
 
-         <Header></Header>
+            <Homepage />
         </ThemeProvider>
     );
 }
