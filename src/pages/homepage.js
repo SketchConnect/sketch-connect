@@ -1,20 +1,32 @@
-import "./homepage.css";
+import "./Homepage.css";
 
-function homepage() {
+function Homepage() {
     return (
-        <div>
-            <h1>This is home page</h1>
+        <div className="page">
+            {/* put navbar here. probably would have to adjust heigth and width for .content */}
 
-            {/* factor out as a component later, if necessary*/}
-            <div className="left-pane">
-                <p>Join a session</p>
-                <div className="session">
-                    <p className="session-id">xxx-xxxx</p>
-                    <p className="capacity">1/4</p>
+            <div className="content">
+                {/* factor out as a component later, if necessary */}
+                <div className="left-pane">
+                    <p id="join-session">Join a session</p>
+                    <div className="session">
+                        <p className="session-text">xxx-xxxx</p>
+                        <p className="session-text">1/4</p>
+                    </div>
+                </div>
+
+                <div className="right-pane">
+                    {/* add instructional gif/video later */}
+                    <div id="placeholder">
+                        add instructional gif/video later
+                    </div>
+                    <button id="start-session-btn">START NEW SESSION</button>
                 </div>
             </div>
+
+            <div id="circle"></div>
         </div>
     );
 }
 
-export default homepage;
+export default Homepage;
