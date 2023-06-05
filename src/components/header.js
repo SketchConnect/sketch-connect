@@ -1,4 +1,5 @@
 import * as React from 'react';
+import "./header.css";
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -37,11 +38,11 @@ function Header() {
 
   return (
 
-    <AppBar position="static" style={{ background: 'white',WebkitTextFillColor: "#253674"}}>
+    <AppBar position="static" style={{ background: 'white', WebkitTextFillColor: "#253674" }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
 
-          <Box sx={{ flexGrow: 1 ,display: { xs: 'flex', md: 'none' } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -50,7 +51,7 @@ function Header() {
               onClick={handleOpenNavMenu}
               color="inherit"
             >
-              <MenuIcon style={{ fill: 'black' }}/>
+              <MenuIcon style={{ fill: 'black' }} />
             </IconButton>
             <Menu
               id="menu-appbar"
@@ -69,7 +70,6 @@ function Header() {
               sx={{
                 display: { xs: 'block', md: 'none' },
               }}
-
             >
               {pages.map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
@@ -78,18 +78,17 @@ function Header() {
               ))}
             </Menu>
             <img
-            src="/assets/images/logo.png"
-            alt="sketch connect logo"
-            style={{
+              src="/assets/images/logo.png"
+              alt="sketch connect logo"
+              style={{
                 display: "block",
                 marginLeft: "auto",
                 marginRight: "auto",
                 marginBottom: "10px",
                 borderRadius: 12
-            }}
+              }}
             />
           </Box>
-
 
           <Box sx={{ flexGrow: 1, fontFamily: 'Chelsea Market', display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
@@ -101,17 +100,7 @@ function Header() {
                 {page}
               </Button>
             ))}
-                     <img
-            src="/assets/images/logo.png"
-            alt="sketch connect logo"
-            style={{
-                display: "block",
-                marginLeft: "auto",
-                marginRight: "auto",
-                marginBottom: "10px",
-                borderRadius: 12
-            }}
-            />
+            <img className="logo" src="/assets/images/logo.png" alt="sketch connect logo"/>
           </Box>
 
 
