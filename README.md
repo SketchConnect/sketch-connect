@@ -77,7 +77,7 @@ We have numerous ideas for enhancing the game experience, such as:
 
 
 ## Prototypes
-<img src="public/images/loginPage.png" width=600px>
-<img src="public/images/homePage.png" width=600px>
-<img src="public/images/drawingPage.png" width=600px>
-<img src="public/images/finshedDrawingPage.png" width=600px>
+<img src="client/public/images/loginPage.png" width=600px>
+<img src="client/public/images/homePage.png" width=600px>
+<img src="client/public/images/drawingPage.png" width=600px>
+<img src="client/public/images/finshedDrawingPage.png" width=600px>
