@@ -63,6 +63,9 @@
   font-size: 34px;
   color: white;
 }
+#start-session-btn:hover{
+  background-color: red;
+}
 
 #circle {
   position: absolute;
@@ -74,4 +77,37 @@
   border-width: 0px;
   background-color: #f7963e;
 
+}
+
+/* Add any existing styles from homepage.css */
+
+/* Add the styles for the session button */
+.session-button {
+  font-family: 'Chelsea Market', cursive;
+  margin-left: 20px;
+  margin-right: 20px;
+  padding: 0px 45px 15px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.session-button:hover{
+  background-color: lightblue;
+  border-radius: 10rem;
+}
+.session-button:hover .session-text {
+  color: black;
+}
+
+.session-text {
+  margin: 0;
+  font-size: 24px;
+  text-align: center;
+  color: white;
 }

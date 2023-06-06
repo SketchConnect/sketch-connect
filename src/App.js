@@ -13,7 +13,6 @@ function App() {
     return (
         <ThemeProvider theme={theme}>
             <Header></Header>
-
             <Homepage />
         </ThemeProvider>
     );
