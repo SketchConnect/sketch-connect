@@ -1,3 +1,4 @@
+import "./page.css";
 import "./homepage.css";
 import Instructions from "../components/Instructions";
 

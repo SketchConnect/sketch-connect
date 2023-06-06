@@ -1,5 +1,11 @@
+import "./page.css";
+
 function AboutPage() {
-    return <h1>About Us</h1>;
+    return (
+        <div className="page">
+            <h1>About Us</h1>
+        </div>
+    );
 }
 
 export default AboutPage;
