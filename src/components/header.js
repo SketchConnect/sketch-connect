@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { NavLink } from 'react-router-dom';
 import "./header.css";
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -13,8 +14,10 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 
-
-const pages = ['Home', 'About Us'];
+const pages = [
+  { name: 'Home', path: '/' },
+  { name: 'About Us', path: '/about' },
+];
 const settings = ['Profile', 'Dashboard', 'Logout'];
 
 function Header() {
@@ -42,7 +45,8 @@ function Header() {
       <Container maxWidth="xl">
         <Toolbar disableGutters>
 
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+          {/* this box seems redundant? */}
+          {/* <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -88,19 +92,21 @@ function Header() {
                 borderRadius: 12
               }}
             />
-          </Box>
+          </Box> */}
 
           <Box sx={{ flexGrow: 1, fontFamily: 'Chelsea Market', display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
               <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
+                key={page.path}
+                component={NavLink}
+                to={page.path}
+                exact
+                activeClassName="active"
               >
-                {page}
+                {page.name}
               </Button>
             ))}
-            <img className="logo" src="/assets/images/logo.png" alt="sketch connect logo"/>
+            <img className="logo" src="/assets/images/logo.png" alt="sketch connect logo" />
           </Box>
 
 
@@ -139,5 +145,6 @@ function Header() {
 
   );
 }
+
 export default Header;
 

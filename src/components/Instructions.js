@@ -13,14 +13,7 @@ const Instructions = () => {
   };
 
   return (
-    <div
-      className="image-flip-container"
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center"
-      }}
-    >
+    <div className="image-flip-container" >
       <div
         className={`image-flip ${isFlipped ? 'flipped' : ''}`}
         onMouseEnter={handleMouseEnter}
