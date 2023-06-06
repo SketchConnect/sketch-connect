@@ -1,3 +1,10 @@
+import React from 'react';
+import {
+  BrowserRouter,
+  Switch,
+  Route
+} from 'react-router-dom';
+
 import "./App.css";
 import Header from "./components/header";
 import Homepage from "./pages/homepage";
@@ -11,10 +18,14 @@ const theme = createTheme({
 
 function App() {
     return (
-        <ThemeProvider theme={theme}>
-            <Header></Header>
-            <Homepage />
-        </ThemeProvider>
+        <>
+        <BrowserRouter>
+          <Header></Header>
+          <Switch>
+                <Route path='/' component={Homepage}></Route>
+          </Switch>
+        </BrowserRouter>
+      </>
     );
 }
 
