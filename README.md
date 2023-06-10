@@ -92,7 +92,7 @@ We have numerous ideas for enhancing the game experience, such as:
 
 ## Prototypes
 
-<img src="public/assets/images/hi-fi/homePage.png" width=600px>
-<img src="public/assets/images/hi-fi/gameLobbyPage.png" width=600px>
-<img src="public/assets/images/hi-fi/drawingPage.png" width=600px>
-<img src="public/assets/images/hi-fi/finishedDrawingPage.png" width=600px>
+<img src="client/public/assets/images/hi-fi/homePage.png" width=600px>
+<img src="client/public/assets/images/hi-fi/gameLobbyPage.png" width=600px>
+<img src="client/public/assets/images/hi-fi/drawingPage.png" width=600px>
+<img src="client/public/assets/images/hi-fi/finishedDrawingPage.png" width=600px>
