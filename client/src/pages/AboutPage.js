@@ -1,4 +1,4 @@
-import "./Page.css";
+import "./page.css";
 
 function AboutPage() {
     return (
