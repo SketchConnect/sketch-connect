@@ -6,10 +6,18 @@ A collaborative 4 player doodling game.  <img align="right" alt="SketchConnect" 
 <!-- TABLE OF CONTENTS -->
 ## Table of Contents
 
+* [Developed By](#developed-by)
 * [Project Description](#project-description)
 * [Project task requirements](#project-task-requirements)
 * [Task breakdown](#task-breakdown)
 * [Prototypes](#prototypes)
+
+## Developed By
+ - [Martic Cai]()
+ - [Michelle Kim]()
+ - [Michelle Wang]()
+ - [Shu Ting Hu]()
+ - [Vishal Desh](https://github.com/VDeshh)
 
 ## Project Description
 
