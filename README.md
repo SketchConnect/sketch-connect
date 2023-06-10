@@ -1,6 +1,7 @@
 # SketchConnect
 
-A collaborative 4 player doodling game.
+A collaborative 4 player doodling game.  <img align="right" alt="SketchConnect" src="./public/assets/logo.png" width="150px" height="150px" style="border-radius: 25px;">
+
 
 <!-- TABLE OF CONTENTS -->
 ## Table of Contents
