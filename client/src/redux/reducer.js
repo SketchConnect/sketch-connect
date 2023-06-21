@@ -15,7 +15,6 @@ const INITIAL_STATE = {
 const reducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case 'ADD_SESSION':
-            console.log(action.payload);
             return {
                 ...state,
                 sessions: [...state.sessions, action.payload],

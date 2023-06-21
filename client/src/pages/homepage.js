@@ -10,7 +10,6 @@ function Homepage() {
     const dispatch = useDispatch();
 
     const handleAddSession = () => {
-        console.log("sessions: " + sessions); // undefined
         dispatch(addSession());
     }
 
