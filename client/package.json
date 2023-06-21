@@ -9,6 +9,7 @@
         "@mui/material": "^5.13.4",
         "@mui/styled-engine-sc": "^5.12.0",
         "@mui/styles": "^5.13.2",
+        "@reduxjs/toolkit": "^1.9.5",
         "install": "^0.13.0",
         "mui": "^0.0.1",
         "npm": "^9.6.7",
