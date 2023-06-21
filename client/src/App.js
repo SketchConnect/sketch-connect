@@ -1,7 +1,6 @@
 import React from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import { Provider } from 'react-redux';
-import { store } from './redux/store';
 import "./App.css";
 import Header from "./components/header";
 import Homepage from "./pages/homepage";
@@ -19,7 +18,7 @@ const theme = createTheme({
 
 function App() {
     return (
-        <Provider store={store}>
+        <>
             <BrowserRouter>
                 <Header></Header>
                 <Switch>
@@ -29,7 +28,7 @@ function App() {
                     <Route path="/game" component={GamePage} />
                 </Switch>
             </BrowserRouter>
-        </Provider>
+        </>
     );
 }
 

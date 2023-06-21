@@ -70,6 +70,10 @@
 /* Add any existing styles from homepage.css */
 
 /* Add the styles for the session button */
+button {
+  cursor: pointer;
+}
+
 .session-button {
   font-family: 'Chelsea Market', cursive;
   margin-left: 20px;

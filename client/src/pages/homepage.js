@@ -3,23 +3,16 @@ import { useSelector, useDispatch } from 'react-redux';
 import "./page.css";
 import "./homepage.css";
 import Instructions from "../components/Instructions";
+import { addSession } from '../redux/actions';
 
 function Homepage() {
-    // const sessions = useSelector((state) => state.sessions);
+    const sessions = useSelector((state) => state.sessions);
+    const dispatch = useDispatch();
 
-    // moving to reducer in next commit
-    const sessions = [
-        {
-            id: 1,
-            name: 'ABC',
-            occupancy: 1,
-        },
-        {
-            id: 2,
-            name: 'XYZ',
-            occupancy: 3,
-        },
-    ];
+    const handleAddSession = () => {
+        console.log("sessions: " + sessions); // undefined
+        dispatch(addSession());
+    }
 
     return (
         <div className="page">
@@ -27,9 +20,9 @@ function Homepage() {
                 {/* factor out as a component later, if necessary */}
                 <div className="left-pane">
                     <p id="join-session">Join a session</p>
-                    {sessions.map((session) => (
+                    {sessions?.map((session) => (
                         <button className="session-button">
-                            <p className="session-text">{session.name}-{session.id}</p>
+                            <p className="session-text">Session {session.id}</p>
                             <p className="session-text">{session.occupancy}/4</p>
                         </button>
                     ))}
@@ -46,7 +39,7 @@ function Homepage() {
 
 
                     </div>
-                    <button id="start-session-btn">START NEW SESSION</button>
+                    <button id="start-session-btn" onClick={handleAddSession}>START NEW SESSION</button>
                 </div>
             </div>
 

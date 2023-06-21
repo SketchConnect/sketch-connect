@@ -2,13 +2,11 @@ const INITIAL_STATE = {
     // temp data to mock
     sessions: [
         {
-            id: 1,
-            name: 'ABC',
+            id: 0,
             occupancy: 1,
         },
         {
-            id: 2,
-            name: 'XYZ',
+            id: 1,
             occupancy: 3,
         },
     ],
@@ -16,6 +14,12 @@ const INITIAL_STATE = {
 
 const reducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
+        case 'ADD_SESSION':
+            console.log(action.payload);
+            return {
+                ...state,
+                sessions: [...state.sessions, action.payload],
+            };
         default:
             return state;
     }
