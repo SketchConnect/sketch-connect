@@ -1,5 +1,6 @@
+import * as React from 'react';
+import { NavLink } from 'react-router-dom';
 import "./WaitingPage.css";
-
 
 function WaitingPage() {
   const playerCount = 3; // temp hard coded, will retrieve from server based on players joined
@@ -22,7 +23,8 @@ function WaitingPage() {
         <img src={"/assets/images/players/" + imageSource} alt="lobby" />
       </div>
       <div>
-        
+        <button className="invite-button">INVITE</button>
+        <NavLink className="start-button" to='/game'>START</NavLink>
       </div>
     </div>
   );
