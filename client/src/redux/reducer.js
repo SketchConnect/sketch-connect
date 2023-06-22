@@ -10,6 +10,17 @@ const INITIAL_STATE = {
             occupancy: 3,
         },
     ],
+    players: [
+        {
+            id: 0,
+        },
+        {
+            id: 1,
+        },
+        {
+            id: 2,
+        },
+    ],
 };
 
 const reducer = (state = INITIAL_STATE, action) => {

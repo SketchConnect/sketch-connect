@@ -1,9 +1,11 @@
 import * as React from 'react';
 import { NavLink } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 import "./WaitingPage.css";
 
 function WaitingPage() {
-  const playerCount = 3; // temp hard coded, will retrieve from server based on players joined
+  const players = useSelector((state) => state.players);
+  const playerCount = players.length;
 
   let imageSource;
   if (playerCount === 1) {
