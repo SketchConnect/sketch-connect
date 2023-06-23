@@ -7,6 +7,8 @@ import Homepage from "./pages/homepage";
 import AboutPage from "./pages/AboutPage";
 import WaitingPage from "./pages/WaitingPage";
 import GamePage from "./pages/GamePage";
+import LoginPage from "./pages/LoginPage";
+
 
 import { createTheme, ThemeProvider } from "@mui/material";
 
@@ -26,6 +28,7 @@ function App() {
                     <Route path="/about" component={AboutPage} />
                     <Route path="/waiting" component={WaitingPage} />
                     <Route path="/game" component={GamePage} />
+                    <Route path="/login" component={LoginPage} />
                 </Switch>
             </BrowserRouter>
         </>
