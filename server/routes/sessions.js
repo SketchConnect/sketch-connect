@@ -1,5 +1,5 @@
 import express from "express";
-import db from "../db/conn.js";
+import { connectToDatabase } from "../db/conn.js";
 
 const router = express.Router();
 
@@ -14,9 +14,15 @@ const router = express.Router();
  * - An array containing all the session objects in the database.
  */
 router.get("/", async (req, res) => {
-    let collection = await db.collection("sessions");
-    let sessions = await collection.find({}).toArray();
+  try {
+    const db = await connectToDatabase();
+    const collection = db.collection("sessions");
+    const sessions = await collection.find({}).toArray();
     res.status(200).send(sessions);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ error: "Internal Server Error" });
+  }
 });
 
 /**
@@ -34,16 +40,22 @@ router.get("/", async (req, res) => {
  * - A JSON object with a single property, id, which contains the ID of the newly created session.
  */
 router.post("/", async (req, res) => {
-    let newDocument = {
-        isPublic: req.body.isPublic,
-        status: req.body.status,
-        players: [req.body.host],
-        quadrant: [],
-        finalImage: "",
+  try {
+    const db = await connectToDatabase();
+    const collection = db.collection("sessions");
+    const newDocument = {
+      isPublic: req.body.isPublic,
+      status: req.body.status,
+      players: [req.body.host],
+      quadrant: [],
+      finalImage: "",
     };
-    let collection = await db.collection("sessions");
-    let result = await collection.insertOne(newDocument);
+    const result = await collection.insertOne(newDocument);
     res.status(200).send({ id: result.insertedId });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ error: "Internal Server Error" });
+  }
 });
 
 export default router;
