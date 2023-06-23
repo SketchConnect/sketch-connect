@@ -1,10 +1,14 @@
-// conn.js (Connection Module)
-
 import { MongoClient } from "mongodb";
 
 const connectionString = process.env.DB_URI || "";
 
+let db;
+
 export async function connectToDatabase() {
+  if (db) {
+    return db;
+  }
+
   const client = new MongoClient(connectionString);
   try {
     await client.connect();
