@@ -1,0 +1,6 @@
+/* File: font.css */
+@font-face {
+    font-family: 'chelseaMarket';
+    src: local('chelseaMarket'),
+         url('./fonts/Chelsea-Market.woff') format('woff');
+}
