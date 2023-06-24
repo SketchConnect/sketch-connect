@@ -40,3 +40,10 @@ export const removePlayer = (sessionId, playerId) => {
         payload: { id: sessionId, player: playerId },
     };
 };
+
+export const updateStatus = (sessionId, status) => {
+    return {
+        type: "UPDATE_STATUS",
+        payload: { id: sessionId, status: status },
+    };
+};

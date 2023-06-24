@@ -92,7 +92,20 @@ const reducer = (state = INITIAL_STATE, action) => {
                 sessions: updatedSessions1,
             };
         case "UPDATE_STATUS":
-
+            let sessionIndex2 = state.sessions.findIndex(
+                (x) => x.id === action.payload.id
+            );
+            let session2 = state.sessions[sessionIndex2];
+            let updatedSession2 = {
+                ...session2,
+                status: action.payload.status,
+            };
+            let updatedSessions2 = [...state.sessions];
+            updatedSessions2[sessionIndex2] = updatedSession2;
+            return {
+                ...state,
+                sessions: updatedSessions2,
+            };
         default:
             return state;
     }
