@@ -2,16 +2,19 @@ import { MongoClient } from "mongodb";
 
 const connectionString = process.env.DB_URI || "";
 
+let db;
 
-const client = new MongoClient(connectionString);
+export async function connectToDatabase() {
+  if (db) {
+    return db;
+  }
 
-let conn;
-try {
-    conn = await client.connect();
-} catch (e) {
-    console.error(e);
+  const client = new MongoClient(connectionString);
+  try {
+    await client.connect();
+    return client.db("sketchconnectDB");
+  } catch (error) {
+    console.error(error);
+    throw new Error("Failed to connect to the database.");
+  }
 }
-
-let db = conn.db("sketchconnectDB");
-
-export default db;

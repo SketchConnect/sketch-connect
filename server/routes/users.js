@@ -1,5 +1,5 @@
 import express from "express";
-import db from "../db/conn.js";
+import { connectToDatabase } from "../db/conn.js";
 import { ObjectId } from "mongodb";
 
 const router = express.Router();
@@ -15,9 +15,16 @@ const router = express.Router();
  * - An array containing all the user objects in the database.
  */
 router.get("/", async (req, res) => {
-    let collection = await db.collection("users");
-    let users = await collection.find({}).toArray();
+  try {
+    const db = await connectToDatabase();
+    const collection = db.collection("users");
+
+    const users = await collection.find({}).toArray();
     res.status(200).send(users);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ error: "Internal Server Error" });
+  }
 });
 
 /**
@@ -35,14 +42,20 @@ router.get("/", async (req, res) => {
  * - If the user is not found, returns a 404 status code.
  */
 router.get("/:id", async (req, res) => {
-    let collection = await db.collection("users");
-    let user = await collection.findOne({ _id: new ObjectId(req.params.id) });
+  try {
+    const db = await connectToDatabase();
+    const collection = db.collection("users");
+    const user = await collection.findOne({ _id: new ObjectId(req.params.id) });
 
     if (user) {
-        res.status(200).send(user);
+      res.status(200).send(user);
     } else {
-        res.status(404).send({ error: "User not found" });
+      res.status(404).send({ error: "User not found" });
     }
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ error: "Internal Server Error" });
+  }
 });
 
 export default router;
