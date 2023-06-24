@@ -29,7 +29,7 @@ const INITIAL_STATE = {
             finalImage: "",
         },
     ],
-    selectedSession: {
+    currentSession: {
         id: 0,
         isPublic: true,
         status: "waiting",
@@ -59,6 +59,7 @@ const reducer = (state = INITIAL_STATE, action) => {
                 (x) => x.id === action.payload.id
             );
             let session = state.sessions[sessionIndex];
+            console.log(state);
             let updatedSession = {
                 ...session,
                 players: [...session.players, action.payload.id],
@@ -106,6 +107,14 @@ const reducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 sessions: updatedSessions2,
             };
+        case "SET_CURRENT_SESSION":
+            let curr = state.sessions.find((x) => x.id === action.payload);
+            let temp = {
+                ...state,
+                currentSession: curr,
+            };
+            console.log(temp);
+            return temp;
         default:
             return state;
     }

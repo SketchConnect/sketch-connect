@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import "./WaitingPage.css";
@@ -6,8 +6,10 @@ import { useParams } from "react-router-dom/cjs/react-router-dom";
 
 function WaitingPage() {
     const { sessionId } = useParams();
-    const players = useSelector((state) => state.sessions[sessionId]);
-    const playerCount = players.players.length;
+
+    const currentSession = useSelector((state) => state.currentSession);
+    const players = currentSession.players;
+    const playerCount = players.length;
 
     let imageSource;
     if (playerCount === 1) {
@@ -22,7 +24,11 @@ function WaitingPage() {
 
     return (
         <div className="lobby-container">
-            <h2>Session xxxx-xxxx is waiting for players to join...</h2>
+            <h2>
+                {playerCount == 4
+                    ? `Session ${sessionId} is ready to start!`
+                    : `Session ${sessionId} is waiting for players to join...`}
+            </h2>
             <div>
                 <img
                     src={"/assets/images/players/" + imageSource}

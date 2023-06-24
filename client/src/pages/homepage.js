@@ -3,11 +3,13 @@ import { useSelector, useDispatch } from "react-redux";
 import "./page.css";
 import "./homepage.css";
 import Instructions from "../components/Instructions";
-import { addPlayer, addSession } from "../redux/actions";
+import { addPlayer, addSession, setCurrentSession } from "../redux/actions";
+import { useHistory } from "react-router-dom/cjs/react-router-dom";
 
 function Homepage() {
     const sessions = useSelector((state) => state.sessions);
     const dispatch = useDispatch();
+    const history = useHistory();
 
     const handleAddSession = () => {
         dispatch(addSession());
@@ -16,6 +18,8 @@ function Homepage() {
     const joinSession = (session) => {
         if (session.status === "waiting" && session.players.length < 4) {
             dispatch(addPlayer(session.id));
+            dispatch(setCurrentSession(session.id));
+            history.push(`/waiting/${session.id}`);
         }
     };
 

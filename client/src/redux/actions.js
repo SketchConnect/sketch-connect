@@ -47,3 +47,10 @@ export const updateStatus = (sessionId, status) => {
         payload: { id: sessionId, status: status },
     };
 };
+
+export const setCurrentSession = (sessionId) => {
+    return {
+        type: "SET_CURRENT_SESSION",
+        payload: sessionId,
+    };
+};
