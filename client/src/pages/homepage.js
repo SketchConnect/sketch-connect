@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import "./page.css";
 import "./homepage.css";
 import Instructions from "../components/Instructions";
-import { addSession } from "../redux/actions";
+import { addPlayer, addSession } from "../redux/actions";
 
 function Homepage() {
     const sessions = useSelector((state) => state.sessions);
@@ -13,6 +13,12 @@ function Homepage() {
         dispatch(addSession());
     };
 
+    const joinSession = (session) => {
+        if (session.status === "waiting") {
+            dispatch(addPlayer(session.id));
+        }
+    };
+
     return (
         <div className="page">
             <div className="content">
@@ -20,7 +26,10 @@ function Homepage() {
                 <div className="left-pane">
                     <p id="join-session">Join a session</p>
                     {sessions?.map((session) => (
-                        <button className="session-button">
+                        <button
+                            className="session-button"
+                            onClick={() => joinSession(session)}
+                        >
                             <p className="session-text">Session {session.id}</p>
                             <p className="session-text">
                                 {session.players.length}/4

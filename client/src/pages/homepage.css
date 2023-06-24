@@ -7,6 +7,7 @@
   flex-direction: column;
   justify-content: flex-start;
   color: white;
+  z-index: 1;
 }
 
 #join-session {
@@ -44,7 +45,6 @@
   height: 16%;
   width: 106%;
   margin-left: -7vh;
-  z-index: -10;
   background-color: #cb3032;
   border-radius: 0px 20px 20px 0px;
   border-width: 0px;
@@ -67,6 +67,7 @@
   border-radius: 50%;
   border-width: 0px;
   background-color: #f7963e;
+  z-index: 1;
 }
 
 /* Add any existing styles from homepage.css */
