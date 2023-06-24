@@ -26,3 +26,10 @@ export const addPlayer = (sessionId) => {
         payload: { id: sessionId, player: newPlayer },
     };
 };
+
+export const removePlayer = (sessionId, playerId) => {
+    return {
+        type: "REMOVE_PLAYER",
+        payload: { id: sessionId, player: playerId },
+    };
+};

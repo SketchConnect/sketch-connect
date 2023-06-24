@@ -14,7 +14,7 @@ function Homepage() {
     };
 
     const joinSession = (session) => {
-        if (session.status === "waiting") {
+        if (session.status === "waiting" && session.players.length < 4) {
             dispatch(addPlayer(session.id));
         }
     };

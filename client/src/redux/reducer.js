@@ -39,20 +39,41 @@ const reducer = (state = INITIAL_STATE, action) => {
                 sessions: [...state.sessions, action.payload],
             };
         case "ADD_PLAYER":
-            const sessionIndex = state.sessions.findIndex(
+            let sessionIndex = state.sessions.findIndex(
                 (x) => x.id === action.payload.id
             );
-            const session = state.sessions[sessionIndex];
-            const updatedSession = {
+            let session = state.sessions[sessionIndex];
+            let updatedSession = {
                 ...session,
                 players: [...session.players, action.payload.id],
             };
-            const updatedSessions = [...state.sessions];
+            let updatedSessions = [...state.sessions];
             updatedSessions[sessionIndex] = updatedSession;
 
             return {
                 ...state,
                 sessions: updatedSessions,
+            };
+        case "REMOVE_PLAYER":
+            let sessionIndex1 = state.sessions.findIndex(
+                (x) => x.id === action.payload.id
+            );
+            const session1 = state.sessions[sessionIndex1];
+            const updatedPlayers = session1.players.filter(
+                (player) => player !== action.payload.player
+            );
+
+            const updatedSession1 = {
+                ...session1,
+                players: updatedPlayers,
+            };
+
+            const updatedSessions1 = [...state.sessions];
+            updatedSessions1[sessionIndex1] = updatedSession1;
+
+            return {
+                ...state,
+                sessions: updatedSessions1,
             };
         default:
             return state;
