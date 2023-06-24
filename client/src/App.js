@@ -20,8 +20,8 @@ const theme = createTheme({
 function App() {
   return (
     <div>
-    <BrowserRouter>
-    <AuthContextProvider>
+      <BrowserRouter>
+        <AuthContextProvider>
           <Header />
           <Routes>
             <Route path="/" element={<Homepage />} />
@@ -30,8 +30,8 @@ function App() {
             <Route path="/game" element={<GamePage />} />
             <Route path="/login" element={<LoginPage />} />
           </Routes>
-      </AuthContextProvider>
-    </BrowserRouter>
+        </AuthContextProvider>
+      </BrowserRouter>
     </div>
   );
 }

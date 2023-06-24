@@ -1,4 +1,3 @@
-// referenced tutorial: https://www.youtube.com/watch?v=cZAnibwI9u8
 import { useContext, createContext, useEffect, useState } from 'react';
 import {
   GoogleAuthProvider,
@@ -11,22 +10,28 @@ import { auth } from '../firebase';
 const AuthContext = createContext();
 
 export const AuthContextProvider = ({ children }) => {
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState(null);
 
   const googleSignIn = () => {
     const provider = new GoogleAuthProvider();
-    signInWithRedirect(auth, provider)
+    signInWithRedirect(auth, provider);
   };
 
   const logOut = () => {
-      signOut(auth)
-  }
+    signOut(auth);
+  };
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
-      console.log('User', currentUser)
+      if (currentUser) {
+        const { uid, displayName, email } = currentUser;
+        setUser({ uid, displayName, email });
+        console.log('User', currentUser);
+      } else {
+        setUser(null);
+      }
     });
+
     return () => {
       unsubscribe();
     };

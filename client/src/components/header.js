@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import './header.css';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -7,13 +7,14 @@ import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
+import { MenuList } from '@mui/material';
 import Container from '@mui/material/Container';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import { styled } from '@mui/system';
+import { UserAuth } from '../context/AuthContext';
 
 const LogoContainer = styled(Box)({
   display: 'flex',
@@ -54,6 +55,23 @@ const settings = ['Profile', 'Dashboard', 'Logout'];
 function Header() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const { googleSignIn, logOut, user } = UserAuth();
+  const navigate = useNavigate();
+
+  const handleSignOut = async () => {
+    try {
+      await logOut();
+
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  React.useEffect(() => {
+    if (user == null) {
+      navigate('/login');
+    }
+  }, [user]);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -86,7 +104,10 @@ function Header() {
                   {page.name}
                 </NavLinkButton>
               ))}
-              <LogoImage src="/assets/images/logo.png" alt="sketch connect logo" />
+              <LogoImage
+                src="/assets/images/logo.png"
+                alt="sketch connect logo"
+              />
             </LogoContainer>
           </Box>
           <Box>
@@ -99,22 +120,22 @@ function Header() {
               id="menu-appbar"
               anchorEl={anchorElUser}
               anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
+                vertical: "top",
+                horizontal: "right",
               }}
               keepMounted
               transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
+                vertical: "top",
+                horizontal: "right",
               }}
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
+              <MenuList>
+                <MenuItem>Profile</MenuItem>
+                <MenuItem>Dashboard</MenuItem>
+                <MenuItem onClick={handleSignOut}>Logout</MenuItem>
+              </MenuList>
             </Menu>
           </Box>
         </Toolbar>
