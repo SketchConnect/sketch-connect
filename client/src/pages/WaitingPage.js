@@ -2,11 +2,12 @@ import * as React from "react";
 import { NavLink } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import "./WaitingPage.css";
+import { useParams } from "react-router-dom/cjs/react-router-dom";
 
 function WaitingPage() {
-    const sessionId = 0;
+    const { sessionId } = useParams();
     const players = useSelector((state) => state.sessions[sessionId]);
-    const playerCount = players.length;
+    const playerCount = players.players.length;
 
     let imageSource;
     if (playerCount === 1) {

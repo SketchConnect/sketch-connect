@@ -17,6 +17,13 @@ export const addSession = () => {
     };
 };
 
+export const removeSession = (id) => {
+    return {
+        type: "REMOVE_SESSION",
+        payload: id,
+    };
+};
+
 export const addPlayer = (sessionId) => {
     const newPlayer = {
         id: playerCounter++,

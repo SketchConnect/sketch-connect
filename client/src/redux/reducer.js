@@ -29,6 +29,14 @@ const INITIAL_STATE = {
             finalImage: "",
         },
     ],
+    selectedSession: {
+        id: 0,
+        isPublic: true,
+        status: "waiting",
+        players: [],
+        quadrant: [],
+        finalImage: "",
+    },
 };
 
 const reducer = (state = INITIAL_STATE, action) => {
@@ -37,6 +45,14 @@ const reducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 sessions: [...state.sessions, action.payload],
+            };
+        case "REMOVE_SESSION":
+            let updatedSessions0 = state.sessions.filter(
+                (session) => session.id !== action.payload
+            );
+            return {
+                ...state,
+                sessions: updatedSessions0,
             };
         case "ADD_PLAYER":
             let sessionIndex = state.sessions.findIndex(
@@ -58,23 +74,25 @@ const reducer = (state = INITIAL_STATE, action) => {
             let sessionIndex1 = state.sessions.findIndex(
                 (x) => x.id === action.payload.id
             );
-            const session1 = state.sessions[sessionIndex1];
-            const updatedPlayers = session1.players.filter(
+            let session1 = state.sessions[sessionIndex1];
+            let updatedPlayers = session1.players.filter(
                 (player) => player !== action.payload.player
             );
 
-            const updatedSession1 = {
+            let updatedSession1 = {
                 ...session1,
                 players: updatedPlayers,
             };
 
-            const updatedSessions1 = [...state.sessions];
+            let updatedSessions1 = [...state.sessions];
             updatedSessions1[sessionIndex1] = updatedSession1;
 
             return {
                 ...state,
                 sessions: updatedSessions1,
             };
+        case "UPDATE_STATUS":
+
         default:
             return state;
     }
