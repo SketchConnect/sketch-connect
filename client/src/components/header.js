@@ -82,8 +82,6 @@ function Header() {
                   key={page.path}
                   component={NavLink}
                   to={page.path}
-                  exact
-                  activeClassName="active"
                 >
                   {page.name}
                 </NavLinkButton>
@@ -126,3 +124,4 @@ function Header() {
 }
 
 export default Header;
+

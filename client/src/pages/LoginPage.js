@@ -1,16 +1,35 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import "./LoginPage.css";
+import { UserAuth } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const LoginPage = () => {
+  const { googleSignIn, user } = UserAuth();
+  const navigate = useNavigate();
+
   const handleLogin = () => {
     // Handle login logic
   };
+
+  const handleGoogleSignIn = async () => {
+    try {
+      await googleSignIn();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    if (user != null) {
+      navigate('/');
+    }
+  }, [user]);
 
   return (
     <div className="container">
       <div className="login-box">
         <h2>Login</h2>
-        <button className="google-button" onClick={handleLogin}>
+        <button className="google-button" onClick={handleGoogleSignIn}>
           <img
             src="https://cdn-icons-png.flaticon.com/512/2702/2702602.png"
             alt="Google Icon"

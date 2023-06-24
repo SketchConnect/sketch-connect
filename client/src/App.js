@@ -1,6 +1,5 @@
 import React from "react";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
-import { Provider } from 'react-redux';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
 import Header from "./components/header";
 import Homepage from "./pages/homepage";
@@ -9,30 +8,32 @@ import WaitingPage from "./pages/WaitingPage";
 import GamePage from "./pages/GamePage";
 import LoginPage from "./pages/LoginPage";
 
-
 import { createTheme, ThemeProvider } from "@mui/material";
+import { AuthContextProvider } from "./context/AuthContext";
 
 const theme = createTheme({
-    typography: {
-        fontFamily: ["Chilanka", "cursive"].join(","),
-    },
+  typography: {
+    fontFamily: ["Chilanka", "cursive"].join(","),
+  },
 });
 
 function App() {
-    return (
-        <>
-            <BrowserRouter>
-                <Header></Header>
-                <Switch>
-                    <Route exact path="/" component={Homepage} />
-                    <Route path="/about" component={AboutPage} />
-                    <Route path="/waiting" component={WaitingPage} />
-                    <Route path="/game" component={GamePage} />
-                    <Route path="/login" component={LoginPage} />
-                </Switch>
-            </BrowserRouter>
-        </>
-    );
+  return (
+    <div>
+    <BrowserRouter>
+    <AuthContextProvider>
+          <Header />
+          <Routes>
+            <Route path="/" element={<Homepage />} />
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="/waiting" element={<WaitingPage />} />
+            <Route path="/game" element={<GamePage />} />
+            <Route path="/login" element={<LoginPage />} />
+          </Routes>
+      </AuthContextProvider>
+    </BrowserRouter>
+    </div>
+  );
 }
 
 export default App;
