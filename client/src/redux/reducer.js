@@ -59,7 +59,6 @@ const reducer = (state = INITIAL_STATE, action) => {
                 (x) => x.id === action.payload.id
             );
             let session = state.sessions[sessionIndex];
-            console.log(state);
             let updatedSession = {
                 ...session,
                 players: [...session.players, action.payload.id],
@@ -113,7 +112,6 @@ const reducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 currentSession: curr,
             };
-            console.log(temp);
             return temp;
         default:
             return state;
