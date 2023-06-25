@@ -1,0 +1,74 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  color: #253674;
+  height: 80vh;
+  margin: 10px;
+}
+
+.buttons-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-end;
+  width: 17%;
+  height: 100%;
+}
+
+.buttons-top {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.page-heading {
+  font-size: 34px;
+  text-align: end;
+  padding-top: 10%
+}
+
+#download-btn,
+#share-btn,
+#newGame-btn {
+  font-family: 'Chelsea Market', cursive;
+  font-size: 24px;
+  color: white;
+  border-width: 0;
+  border-radius: 15px 0 0 15px;
+  padding: 8px 24px;
+  margin-bottom: 22px;
+  width: 80%;
+}
+
+#download-btn {
+  background-color: #CB3032;
+}
+
+#share-btn {
+  background-color: #F7963E;
+}
+
+.buttons-bottom {
+  margin-bottom: 5vh;
+}
+
+#newGame-btn {
+  width: 180px;
+}
+
+#newGame-txt {
+  text-align: center;
+  margin: -60% 15% 0 0;
+  color: white;
+}
+
+.drawing-container {
+  width: 70%;
+  height: 100%;
+}
+
+#drawing {
+  border-width: 4px;
+  border-color: #253674;
+}

@@ -3,7 +3,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 85vh;
+  height: 85%;
   margin: 0;
 }
 
@@ -11,12 +11,23 @@
   margin: 2em;
 }
 
-.invite-button, .start-button {
+.lobby-header {
+  margin-top: 50px;
+}
+
+.button-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.invite-button,
+.start-button {
   cursor: pointer;
   border-radius: 20px;
   margin: 0 2em;
   transition: background-color 0.2s;
   text-decoration: none;
+  margin-bottom: 50px;
 }
 
 .start-button {
