@@ -1,6 +1,5 @@
 import express from "express";
-import { connectToDatabase } from "../db/conn.js";
-import { ObjectId } from "mongodb";
+import User from "../models/user.js";
 
 const router = express.Router();
 
@@ -16,14 +15,11 @@ const router = express.Router();
  */
 router.get("/", async (req, res) => {
   try {
-    const db = await connectToDatabase();
-    const collection = db.collection("users");
-
-    const users = await collection.find({}).toArray();
+    const users = await User.find({});
     res.status(200).send(users);
   } catch (error) {
     console.error(error);
-    res.status(500).send({ error: "Internal Server Error" });
+    res.status(500).send(error);
   }
 });
 
@@ -43,9 +39,7 @@ router.get("/", async (req, res) => {
  */
 router.get("/:id", async (req, res) => {
   try {
-    const db = await connectToDatabase();
-    const collection = db.collection("users");
-    const user = await collection.findOne({ _id: new ObjectId(req.params.id) });
+    const user = await User.findById(req.params.id);
 
     if (user) {
       res.status(200).send(user);
@@ -54,7 +48,7 @@ router.get("/:id", async (req, res) => {
     }
   } catch (error) {
     console.error(error);
-    res.status(500).send({ error: "Internal Server Error" });
+    res.status(500).send(error);
   }
 });
 
