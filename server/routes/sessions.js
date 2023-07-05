@@ -1,7 +1,5 @@
 import express from "express";
-import { connectToDatabase } from "../db/conn.js";
-import ImageUploadService from "../services/ImageUploadService.js";
-import { ObjectId } from "mongodb";
+import Session from "../models/session.js";
 
 const router = express.Router();
 
@@ -17,13 +15,11 @@ const router = express.Router();
  */
 router.get("/", async (req, res) => {
   try {
-    const db = await connectToDatabase();
-    const collection = db.collection("sessions");
-    const sessions = await collection.find({}).toArray();
-    return res.status(200).send(sessions);
+    const sessions = await Session.find({});
+    res.status(200).send(sessions);
   } catch (error) {
     console.error(error);
-    return res.status(500).send({ error: "Internal Server Error" });
+    res.status(500).send({ error });
   }
 });
 
@@ -34,29 +30,25 @@ router.get("/", async (req, res) => {
  * Request body parameters:
  * - isPublic (boolean): Determines if the session is public.
  * - status (string): The current status of the session. One of "waiting", "ongoing", "completed", or "cancelled".
- * - players (array): An array of player ids. Will be initialized with the host's id.
- * - quadrant (array): Used to store links to each of the images, initially empty.
- * - finalImage (string): Used to store the final image's URL or data, initially empty.
+ * - host (string): The host's ID, will be used to initialize the players array.
  *
  * Returns:
  * - A JSON object with a single property, id, which contains the ID of the newly created session.
  */
 router.post("/", async (req, res) => {
   try {
-    const db = await connectToDatabase();
-    const collection = db.collection("sessions");
-    const newDocument = {
+    const newSession = new Session({
       isPublic: req.body.isPublic,
       status: req.body.status,
       players: [req.body.host],
       quadrant: [],
       finalImage: "",
-    };
-    const result = await collection.insertOne(newDocument);
-    return res.status(200).send({ id: result.insertedId });
+    });
+    const result = await newSession.save();
+    res.status(200).send({ id: result._id });
   } catch (error) {
     console.error(error);
-    return res.status(500).send({ error: "Internal Server Error" });
+    res.status(500).send({ error });
   }
 });
 
@@ -78,13 +70,12 @@ router.patch("/:id/upload-drawing", async (req, res) => {
     const imageUploadService = new ImageUploadService();
     const publicUrl = await imageUploadService.uploadFile(req, "drawings");
 
-    const db = await connectToDatabase();
-    const collection = db.collection("sessions");
-    const filter = { _id: new ObjectId(req.params.id) };
-    const updateDocument = { $set: { finalImage: publicUrl } };
-    const result = await collection.updateOne(filter, updateDocument);
+    const result = await Session.updateOne(
+      { _id: req.params.id },
+      { $set: { finalImage: publicUrl } }
+    );
 
-    if (result.modifiedCount === 0) {
+    if (result.nModified === 0) {
       return res.status(404).send({ error: "No session found with given id" });
     }
 
