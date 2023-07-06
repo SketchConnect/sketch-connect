@@ -1,0 +1,53 @@
+.lobby-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 85%;
+  margin: 0;
+}
+
+.lobby-container div {
+  margin: 2em;
+}
+
+.lobby-header {
+  margin-top: 50px;
+}
+
+.button-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.invite-button,
+.start-button {
+  cursor: pointer;
+  border-radius: 20px;
+  margin: 0 2em;
+  transition: background-color 0.2s;
+  text-decoration: none;
+  margin-bottom: 50px;
+}
+
+.start-button {
+  background-color: #253674;
+  color: white;
+  padding: 30px 190px;
+  border: none;
+}
+
+.start-button:hover {
+  background-color: #4c60a7;
+}
+
+.invite-button {
+  background-color: white;
+  color: #253674;
+  padding: 30px 115px;
+  border-color: #253674;
+}
+
+.invite-button:hover {
+  background-color: lightgray;
+}

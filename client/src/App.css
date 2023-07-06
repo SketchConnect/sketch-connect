@@ -1,3 +1,11 @@
 .App {
   text-align: center;
 }
+
+.App-Header {
+  font-family: "chelseaMarket", cursive;
+}
+
+.App-Section {
+  font-family: "chelseaMarket", cursive;
+}
