@@ -1,9 +1,9 @@
-import { configureStore } from '@reduxjs/toolkit';
-import itemsReducer from './reducer';
+import { configureStore } from "@reduxjs/toolkit";
+import itemsReducer from "./reducer";
 
 export const store = configureStore({
   reducer: {
-    items: itemsReducer
+    items: itemsReducer,
   },
-  devTools: true
+  devTools: true,
 });

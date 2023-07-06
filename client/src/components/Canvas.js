@@ -1,18 +1,18 @@
-import React, { useRef, useEffect, useState } from 'react';
-import ExportPopup from './ExportPopup';
+import React, { useRef, useEffect, useState } from "react";
+import ExportPopup from "./ExportPopup";
 
 const Canvas = () => {
   const canvasRef = useRef(null);
   const contextRef = useRef(null);
-  const [brushColor, setBrushColor] = useState('#000000');
+  const [brushColor, setBrushColor] = useState("#000000");
   const [brushSize, setBrushSize] = useState(5);
   const [isErasing, setIsErasing] = useState(false);
-  const [previousColor, setPreviousColor] = useState('#000000');
+  const [previousColor, setPreviousColor] = useState("#000000");
   const [showExportPopup, setShowExportPopup] = useState(false);
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext("2d");
     contextRef.current = ctx;
     drawLines(ctx, canvas.width, canvas.height);
   }, []);
@@ -38,13 +38,13 @@ const Canvas = () => {
 
     contextRef.current.beginPath();
     contextRef.current.moveTo(offsetX, offsetY);
-    contextRef.current.strokeStyle = isErasing ? '#FFFFFF' : brushColor;
+    contextRef.current.strokeStyle = isErasing ? "#FFFFFF" : brushColor;
     contextRef.current.lineWidth = brushSize;
-    contextRef.current.lineJoin = 'round';
-    contextRef.current.lineCap = 'round';
+    contextRef.current.lineJoin = "round";
+    contextRef.current.lineCap = "round";
 
-    canvas.addEventListener('mousemove', handleMouseMove);
-    canvas.addEventListener('mouseup', handleMouseUp);
+    canvas.addEventListener("mousemove", handleMouseMove);
+    canvas.addEventListener("mouseup", handleMouseUp);
   };
 
   const handleMouseMove = (e) => {
@@ -59,15 +59,15 @@ const Canvas = () => {
 
   const handleMouseUp = () => {
     const canvas = canvasRef.current;
-    canvas.removeEventListener('mousemove', handleMouseMove);
-    canvas.removeEventListener('mouseup', handleMouseUp);
+    canvas.removeEventListener("mousemove", handleMouseMove);
+    canvas.removeEventListener("mouseup", handleMouseUp);
   };
 
   const handleEraserToggle = () => {
     setIsErasing(!isErasing);
     if (!isErasing) {
       setPreviousColor(brushColor);
-      setBrushColor('#FFFFFF');
+      setBrushColor("#FFFFFF");
     } else {
       setBrushColor(previousColor);
     }
@@ -90,19 +90,19 @@ const Canvas = () => {
 
   const handleDownloadImage = () => {
     const canvas = canvasRef.current;
-    const link = document.createElement('a');
-    link.href = canvas.toDataURL('image/png');
-    link.download = 'canvas_image.png';
+    const link = document.createElement("a");
+    link.href = canvas.toDataURL("image/png");
+    link.download = "canvas_image.png";
     link.click();
   };
 
   const handleShareOnSocialMedia = () => {
     // Implement your logic to share the canvas image on social media
-    console.log('Sharing on social media');
+    console.log("Sharing on social media");
   };
 
   const drawLines = (ctx, width, height) => {
-    ctx.strokeStyle = '#FF0000';
+    ctx.strokeStyle = "#FF0000";
     ctx.lineWidth = 1;
     ctx.setLineDash([5, 5]);
 
@@ -129,43 +129,43 @@ const Canvas = () => {
   return (
     <div
       style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: '100vh',
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100vh",
       }}
     >
-      <div style={{ position: 'relative' }}>
+      <div style={{ position: "relative" }}>
         <canvas
           ref={canvasRef}
           width={800}
           height={600}
-          style={{ border: '1px solid #000' }}
+          style={{ border: "1px solid #000" }}
           onMouseDown={handleMouseDown}
         />
         <div
           style={{
-            position: 'absolute',
+            position: "absolute",
             top: 10,
             right: 10,
-            padding: '10px',
-            background: '#fff',
-            boxShadow: '0 0 5px rgba(0, 0, 0, 0.3)',
+            padding: "10px",
+            background: "#fff",
+            boxShadow: "0 0 5px rgba(0, 0, 0, 0.3)",
           }}
         >
           <div>
             <label>Brush Color:</label>
             <input
-              style={{ marginLeft: '10px' }}
+              style={{ marginLeft: "10px" }}
               type="color"
-              value={isErasing ? '#FFFFFF' : brushColor}
+              value={isErasing ? "#FFFFFF" : brushColor}
               onChange={handleColorChange}
             />
           </div>
           <div>
             <label>Brush Size:</label>
             <input
-              style={{ marginLeft: '10px' }}
+              style={{ marginLeft: "10px" }}
               type="range"
               min={1}
               max={20}
@@ -186,13 +186,13 @@ const Canvas = () => {
           <div>
             <button
               style={{
-                marginRight: '5px',
-                padding: '5px 10px',
-                border: 'none',
-                borderRadius: '5px',
-                background: '#008000',
-                color: '#fff',
-                cursor: 'pointer',
+                marginRight: "5px",
+                padding: "5px 10px",
+                border: "none",
+                borderRadius: "5px",
+                background: "#008000",
+                color: "#fff",
+                cursor: "pointer",
               }}
               onClick={handleClearCanvas}
             >
@@ -200,12 +200,12 @@ const Canvas = () => {
             </button>
             <button
               style={{
-                padding: '5px 10px',
-                border: 'none',
-                borderRadius: '5px',
-                background: '#0000FF',
-                color: '#fff',
-                cursor: 'pointer',
+                padding: "5px 10px",
+                border: "none",
+                borderRadius: "5px",
+                background: "#0000FF",
+                color: "#fff",
+                cursor: "pointer",
               }}
               onClick={handleExportClick}
             >

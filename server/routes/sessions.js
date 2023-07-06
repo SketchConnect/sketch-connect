@@ -72,7 +72,7 @@ router.patch("/:id/upload-drawing", async (req, res) => {
 
     const result = await Session.updateOne(
       { _id: req.params.id },
-      { $set: { finalImage: publicUrl } }
+      { $set: { finalImage: publicUrl } },
     );
 
     if (result.nModified === 0) {

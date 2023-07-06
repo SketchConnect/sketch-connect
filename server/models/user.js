@@ -19,11 +19,11 @@ const UserSchema = new Schema({
     required: true,
   },
   sessions: {
-    type: [String]
+    type: [String],
   },
   profilePic: {
     type: String,
-  }
+  },
 });
 
 const User = mongoose.model("User", UserSchema);
