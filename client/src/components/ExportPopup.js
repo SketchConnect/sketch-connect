@@ -3,7 +3,7 @@ import React from "react";
 const ExportPopup = ({
   handleDownloadImage,
   handleShareOnSocialMedia,
-  handleCloseExportPopup,
+  handleCloseExportPopup
 }) => {
   return (
     <div
@@ -14,7 +14,7 @@ const ExportPopup = ({
         transform: "translate(-50%, -50%)",
         background: "#fff",
         padding: "20px",
-        boxShadow: "0 0 10px rgba(0, 0, 0, 0.3)",
+        boxShadow: "0 0 10px rgba(0, 0, 0, 0.3)"
       }}
     >
       <h3>Export Options</h3>

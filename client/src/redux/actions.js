@@ -8,49 +8,49 @@ export const addSession = () => {
     status: "waiting",
     players: [],
     quadrant: [],
-    finalImage: "",
+    finalImage: ""
   };
 
   return {
     type: "ADD_SESSION",
-    payload: newSession,
+    payload: newSession
   };
 };
 
 export const removeSession = (id) => {
   return {
     type: "REMOVE_SESSION",
-    payload: id,
+    payload: id
   };
 };
 
 export const addPlayer = (sessionId) => {
   const newPlayer = {
-    id: playerCounter++,
+    id: playerCounter++
   };
   return {
     type: "ADD_PLAYER",
-    payload: { id: sessionId, player: newPlayer },
+    payload: { id: sessionId, player: newPlayer }
   };
 };
 
 export const removePlayer = (sessionId, playerId) => {
   return {
     type: "REMOVE_PLAYER",
-    payload: { id: sessionId, player: playerId },
+    payload: { id: sessionId, player: playerId }
   };
 };
 
 export const updateStatus = (sessionId, status) => {
   return {
     type: "UPDATE_STATUS",
-    payload: { id: sessionId, status: status },
+    payload: { id: sessionId, status: status }
   };
 };
 
 export const setCurrentSession = (sessionId) => {
   return {
     type: "SET_CURRENT_SESSION",
-    payload: sessionId,
+    payload: sessionId
   };
 };

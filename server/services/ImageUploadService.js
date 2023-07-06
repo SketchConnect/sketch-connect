@@ -8,16 +8,16 @@ class ImageUploadService {
     this.multer = Multer({
       storage: Multer.memoryStorage(),
       limits: {
-        fileSize: 5 * 1024 * 1024, // limit files to 5MB
-      },
+        fileSize: 5 * 1024 * 1024 // limit files to 5MB
+      }
     });
 
     const storage = new Storage({
       projectId: process.env.GCLOUD_PROJECT_ID,
       credentials: {
         client_email: process.env.GCLOUD_CLIENT_EMAIL,
-        private_key: process.env.GCLOUD_PRIVATE_KEY.replace(/\\n/g, "\n"),
-      },
+        private_key: process.env.GCLOUD_PRIVATE_KEY.replace(/\\n/g, "\n")
+      }
     });
 
     this.bucket = storage.bucket("sketchconnect-images");

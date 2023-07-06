@@ -132,7 +132,7 @@ const Canvas = () => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        height: "100vh",
+        height: "100vh"
       }}
     >
       <div style={{ position: "relative" }}>
@@ -150,7 +150,7 @@ const Canvas = () => {
             right: 10,
             padding: "10px",
             background: "#fff",
-            boxShadow: "0 0 5px rgba(0, 0, 0, 0.3)",
+            boxShadow: "0 0 5px rgba(0, 0, 0, 0.3)"
           }}
         >
           <div>
@@ -192,7 +192,7 @@ const Canvas = () => {
                 borderRadius: "5px",
                 background: "#008000",
                 color: "#fff",
-                cursor: "pointer",
+                cursor: "pointer"
               }}
               onClick={handleClearCanvas}
             >
@@ -205,7 +205,7 @@ const Canvas = () => {
                 borderRadius: "5px",
                 background: "#0000FF",
                 color: "#fff",
-                cursor: "pointer",
+                cursor: "pointer"
               }}
               onClick={handleExportClick}
             >

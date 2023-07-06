@@ -48,7 +48,7 @@ function Homepage() {
               style={{
                 display: "flex",
                 justifyContent: "center",
-                alignItems: "center",
+                alignItems: "center"
               }}
             >
               <Instructions />

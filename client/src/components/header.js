@@ -17,14 +17,14 @@ import { styled } from "@mui/system";
 
 const LogoContainer = styled(Box)({
   display: "flex",
-  alignItems: "center",
+  alignItems: "center"
 });
 
 const LogoImage = styled("img")({
   margin: "0 auto",
   padding: "1em",
   maxWidth: "100%",
-  maxHeight: "5em",
+  maxHeight: "5em"
 });
 
 const NavLinkButton = styled(Button)(({ theme }) => ({
@@ -34,20 +34,20 @@ const NavLinkButton = styled(Button)(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   "&:hover": {
-    color: "#f50057",
-  },
+    color: "#f50057"
+  }
 }));
 
 const AvatarButton = styled(IconButton)(({ theme }) => ({
   background: "#f50057",
   "&:hover": {
-    background: "#ff4081",
-  },
+    background: "#ff4081"
+  }
 }));
 
 const pages = [
   { name: "Home", path: "/" },
-  { name: "About Us", path: "/about" },
+  { name: "About Us", path: "/about" }
 ];
 const settings = ["Profile", "Dashboard", "Logout"];
 
@@ -105,12 +105,12 @@ function Header() {
               anchorEl={anchorElUser}
               anchorOrigin={{
                 vertical: "top",
-                horizontal: "right",
+                horizontal: "right"
               }}
               keepMounted
               transformOrigin={{
                 vertical: "top",
-                horizontal: "right",
+                horizontal: "right"
               }}
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}

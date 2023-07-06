@@ -4,27 +4,27 @@ import { Schema } from "mongoose";
 const SessionSchema = new Schema({
   isPublic: {
     type: Boolean,
-    required: true,
+    required: true
   },
   status: {
     type: String,
     enum: ["waiting", "ongoing", "completed", "cancelled"],
-    required: true,
+    required: true
   },
   players: {
     type: [String],
     default: [],
-    required: true,
+    required: true
   },
   quadrant: {
     type: [String],
     default: [],
-    required: true,
+    required: true
   },
   finalImage: {
     type: String,
-    default: "",
-  },
+    default: ""
+  }
 });
 
 const Session = mongoose.model("Session", SessionSchema);

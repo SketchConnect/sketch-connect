@@ -11,7 +11,7 @@ const containerStyle = {
   left: "10%",
   top: "10%",
   borderRadius: "20px",
-  padding: "10% 6%",
+  padding: "10% 6%"
 };
 
 function Warning() {
