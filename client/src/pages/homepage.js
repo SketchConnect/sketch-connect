@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import "./page.css";
 import "./homepage.css";
@@ -10,6 +10,12 @@ function Homepage() {
   const sessions = useSelector((state) => state.sessions);
   const dispatch = useDispatch();
   const history = useHistory();
+
+  useEffect(() => {
+    fetch('https://sketch-connect-be.onrender.com')
+      .then(() => console.log('Server is awake'))
+      .catch(err => console.log(`Failed to wake server: ${err}`));
+  }, []);
 
   const handleAddSession = () => {
     dispatch(addSession());
@@ -48,7 +54,7 @@ function Homepage() {
               style={{
                 display: "flex",
                 justifyContent: "center",
-                alignItems: "center",
+                alignItems: "center"
               }}
             >
               <Instructions />

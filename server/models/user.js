@@ -4,25 +4,25 @@ const { Schema } = mongoose;
 const UserSchema = new Schema({
   oauthProvider: {
     type: String,
-    required: true,
+    required: true
   },
   oauthID: {
     type: String,
-    required: true,
+    required: true
   },
   email: {
     type: String,
-    required: true,
+    required: true
   },
   name: {
     type: String,
-    required: true,
+    required: true
   },
   sessions: {
     type: [String]
   },
   profilePic: {
-    type: String,
+    type: String
   }
 });
 

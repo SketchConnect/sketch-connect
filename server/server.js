@@ -12,6 +12,10 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+app.get("/", (req, res) => {
+  res.status(200).send("Hello World");
+});
+
 app.use("/sessions", sessions);
 app.use("/users", users);
 
@@ -19,7 +23,7 @@ const connectionString = process.env.DB_URI || "";
 mongoose
   .connect(connectionString, {
     useNewUrlParser: true,
-    useUnifiedTopology: true,
+    useUnifiedTopology: true
   })
   .then(() => {
     console.log("Connected to database");

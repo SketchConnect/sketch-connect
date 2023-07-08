@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import './Instructions.css';
+import React, { useState } from "react";
+import "./Instructions.css";
 
 const Instructions = () => {
   const [isFlipped, setIsFlipped] = useState(false);
@@ -13,9 +13,9 @@ const Instructions = () => {
   };
 
   return (
-    <div className="image-flip-container" >
+    <div className="image-flip-container">
       <div
-        className={`image-flip ${isFlipped ? 'flipped' : ''}`}
+        className={`image-flip ${isFlipped ? "flipped" : ""}`}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
