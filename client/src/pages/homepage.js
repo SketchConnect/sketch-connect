@@ -11,6 +11,12 @@ function Homepage() {
   const dispatch = useDispatch();
   const history = useHistory();
 
+  useEffect(() => {
+    fetch('https://sketch-connect-be.onrender.com')
+      .then(() => console.log('Server is awake'))
+      .catch(err => console.log(`Failed to wake server: ${err}`));
+  }, []);
+
   const handleAddSession = () => {
     dispatch(addSession());
   };
