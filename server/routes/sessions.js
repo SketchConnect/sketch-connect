@@ -42,7 +42,7 @@ router.post("/", async (req, res) => {
       status: req.body.status,
       players: [req.body.host],
       quadrant: [],
-      finalImage: "",
+      finalImage: ""
     });
     const result = await newSession.save();
     res.status(200).send({ id: result._id });
