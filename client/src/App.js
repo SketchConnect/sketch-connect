@@ -50,6 +50,7 @@ function App() {
             <Route path="/waiting/:sessionId" element={<WaitingPage />} />
             <Route path="/game" element={<GamePage />} />
             <Route path="/login" element={<LoginPage />} />
+            <Route path="/dashboard" element={<DashboardPage />} />
             <Route path="/complete/:sessionId" element={<CompletePage />} />
           </Routes>
         </AuthContextProvider>
