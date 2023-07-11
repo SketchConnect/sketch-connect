@@ -52,4 +52,29 @@ router.get("/:id", async (req, res) => {
   }
 });
 
+router.post("/", async (req, res) => {
+  try {
+    const existingUser = await User.findOne({ oauthID: req.body.oauthID });
+
+    if (existingUser) {
+      return res.status(400).send({ error: "User already exists" });
+    }
+
+    const newUser = new User({
+      oauthProvider: "Google",
+      oauthID: req.body.uid,
+      email: req.body.email,
+      name: req.body.displayName,
+      sessions: [],
+      profilePic: req.body.photoURL
+    });
+
+    const result = await newUser.save();
+    res.status(201).send(result);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send(error);
+  }
+});
+
 export default router;
