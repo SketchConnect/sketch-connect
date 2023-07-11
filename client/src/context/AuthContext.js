@@ -59,8 +59,8 @@ export const AuthContextProvider = ({ children }) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       if (currentUser) {
-        const { uid, displayName, email } = currentUser;
-        setUser({ uid, displayName, email });
+        const { uid, displayName, email, photoURL } = currentUser;
+        setUser({ uid, displayName, email, photoURL });
         console.log("User", currentUser);
       } else {
         setUser(null);
