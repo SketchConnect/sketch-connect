@@ -1,5 +1,6 @@
 import express from "express";
 import User from "../models/user.js";
+import Session from "../models/session.js";
 
 const router = express.Router();
 
@@ -49,6 +50,37 @@ router.get("/:id", async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).send(error);
+  }
+});
+
+/**
+ * GET /users/:id/past-drawings
+ * Gets a user's past drawings.
+ *
+ * URL parameters:
+ * - id (string): The ID of the user to retrieve.
+ *
+ * Request body parameters:
+ * - none
+ *
+ * Returns:
+ * - If the user is found, returns an array containing urls of the user's past drawings.
+ * - If the user is not found, returns a 404 status code.
+ */
+router.get("/:id/past-drawings", async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+
+    if (user) {
+      const sessions = await Session.find({ _id: { $in: user.sessions } });
+      const drawings = sessions.map((session) => session.finalImage);
+      res.status(200).send(drawings);
+    } else {
+      res.status(404).send({ error: "User not found" });
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).send(err);
   }
 });
 
