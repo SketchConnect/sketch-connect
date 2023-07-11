@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useLayoutEffect } from "react";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
 import Header from "./components/header";
 import Homepage from "./pages/homepage";
@@ -10,10 +10,11 @@ import LoginPage from "./pages/LoginPage";
 import { Modal } from "@mui/material";
 import CompletePage from "./pages/CompletePage";
 import Warning from "./components/Warning";
+import { AuthContextProvider } from "./context/AuthContext";
 
 function useWindowSize() {
-  const [size, setSize] = useState(0);
-  useLayoutEffect(() => {
+  const [size, setSize] = React.useState(0);
+  React.useLayoutEffect(() => {
     function updateSize() {
       setSize(window.innerWidth);
     }
@@ -25,10 +26,10 @@ function useWindowSize() {
 }
 
 function App() {
-  const [open, isOpen] = useState(false);
+  const [open, isOpen] = React.useState(false);
   const width = useWindowSize();
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (width < 1024) {
       isOpen(true);
     } else {
@@ -37,17 +38,19 @@ function App() {
   }, [width]);
 
   return (
-    <>
+    <div>
       <BrowserRouter>
-        <Header></Header>
-        <Switch>
+        <AuthContextProvider>
+          <Header />
+          <Routes>
           <Route exact path="/" component={Homepage} />
           <Route path="/about" component={AboutPage} />
           <Route path="/waiting/:sessionId" component={WaitingPage} />
           <Route path="/game" component={GamePage} />
           <Route path="/login" component={LoginPage} />
           <Route path="/complete/:sessionId" component={CompletePage} />
-        </Switch>
+          </Routes>
+        </AuthContextProvider>
       </BrowserRouter>
       <Modal
         aria-labelledby="modal-title"
@@ -57,7 +60,7 @@ function App() {
       >
         <Warning></Warning>
       </Modal>
-    </>
+    </div>
   );
 }
 
