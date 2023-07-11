@@ -66,7 +66,7 @@ router.post("/", async (req, res) => {
       email: req.body.email,
       name: req.body.displayName,
       sessions: [],
-      profilePic: req.body.profileURL
+      profilePic: req.body.photoURL
     });
 
     const result = await newUser.save();
