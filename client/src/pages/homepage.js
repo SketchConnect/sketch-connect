@@ -1,14 +1,15 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import "./page.css";
 import "./homepage.css";
 import Instructions from "../components/Instructions";
 import { addUserAsync } from "../redux/user/thunks";
-import { addSessionAsync } from "../redux/session/thunks";
+import { addSessionAsync, getSessionsAsync } from "../redux/session/thunks";
 import { useHistory } from "react-router-dom/cjs/react-router-dom";
 
 function Homepage() {
-  const sessions = useSelector((state) => state.sessions);
+  const tempUser = "648265d192b9bd82bbc849ed"
+  let [sessions, setSessions] = useState([]);
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -18,13 +19,29 @@ function Homepage() {
       .catch(err => console.log(`Failed to wake server: ${err}`));
   }, []);
 
+  useEffect(() => {
+      fetch("https://sketch-connect-be.onrender.com/sessions", {
+        method: "GET",
+      })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("HTTP error " + response.status);
+        }
+  
+        return response.json();
+      })
+      .then((fetchedSessions) => {
+        setSessions(fetchedSessions);
+      }).catch(err => console.log(`Failed to fetch sessions: ${err}`));
+  }, []);
+
   const handleAddSession = () => {
     dispatch(addSessionAsync());
   };
 
   const joinSession = (session) => {
     if (session.status === "waiting" && session.players.length < 4) {
-      dispatch(addUserAsync(session.id));
+      dispatch(addUserAsync(session, tempUser));
       history.push(`/waiting/${session.id}`);
     }
   };

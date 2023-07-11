@@ -16,8 +16,8 @@ export const getSessionsAsync = createAsyncThunk(
 
 export const addSessionAsync = createAsyncThunk(
   ADD_SESSION, 
-  async (session) => {
-    return await sessionService.addSession(session);	
+  async (session, host) => {
+    return await sessionService.addSession(session, host);	
 });
 
 export const deleteSessionAsync = createAsyncThunk(

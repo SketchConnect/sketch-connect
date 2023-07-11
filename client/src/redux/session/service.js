@@ -11,14 +11,18 @@ const getSessions = async () => {
   }
 }
 
-const addSession = async (session) => {
+const addSession = async (session, host) => {
     try {
       const response = await fetch("https://sketch-connect-be.onrender.com/sessions", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(session),
+        body: {
+          isPublic: session.isPublic,
+          status: session.status,
+          players: [host.id]
+        },
       });
   
       const data = await response.json();
