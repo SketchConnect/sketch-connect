@@ -7,6 +7,8 @@ import AboutPage from "./pages/AboutPage";
 import WaitingPage from "./pages/WaitingPage";
 import GamePage from "./pages/GamePage";
 import LoginPage from "./pages/LoginPage";
+import WaitingTurnPage from "./pages/WaitingTurnPage";
+
 import { Modal } from "@mui/material";
 import CompletePage from "./pages/CompletePage";
 import Warning from "./components/Warning";
@@ -47,6 +49,7 @@ function App() {
           <Route path="/game" component={GamePage} />
           <Route path="/login" component={LoginPage} />
           <Route path="/complete/:sessionId" component={CompletePage} />
+          <Route path="/waitforturn/:sessionId" component={WaitingTurnPage} />
         </Switch>
       </BrowserRouter>
       <Modal
