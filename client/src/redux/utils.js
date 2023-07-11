@@ -4,3 +4,8 @@ export const REQUEST_STATE = {
     FULFILLED: 'FULFILLED',
     REJECTED: 'REJECTED'
 };
+
+export const GET_SESSIONS = "GET_SESSIONS";
+export const ADD_SESSION = "ADD_SESSION";
+export const DELETE_SESSION = "DELETE_SESSION";
+export const UPDATE_STATUS = "UPDATE_STATUS"

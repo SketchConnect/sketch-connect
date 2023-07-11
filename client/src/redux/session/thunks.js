@@ -5,7 +5,6 @@ import {
 	ADD_SESSION,
   DELETE_SESSION,
 	UPDATE_STATUS,
-	SET_CURRENT_SESSION,
 } from "../utils";
 
 export const getSessionsAsync = createAsyncThunk(
@@ -24,20 +23,14 @@ export const addSessionAsync = createAsyncThunk(
 export const deleteSessionAsync = createAsyncThunk(
   DELETE_SESSION,
 	async (item) => {
-		//return await sessionService.addInventory(item);
+		return await sessionService.deleteSession(item);
 	}
 );
 
 export const updateStatusAsync = createAsyncThunk(
 	UPDATE_STATUS,
 	async (item) => {
-		//return await sessionService.deleteInventory(item);
+		return await sessionService.updateStatus(item);
 	}
 );
 
-export const setCurrentSessionAsync = createAsyncThunk(
-	SET_CURRENT_SESSION,
-	async (item) => {
-		//return await sessionService.editInventory(item);
-	}
-);

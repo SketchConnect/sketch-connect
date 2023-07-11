@@ -4,7 +4,6 @@ import {
   addSessionAsync,
   deleteSessionAsync,
 	updateStatusAsync,
-	setCurrentSessionAsync,
   getSessionsAsync,} from "./thunks"
 
 const INITIAL_STATE = {
@@ -75,18 +74,6 @@ const sessionSlice = createSlice({
     })
     .addCase(updateStatusAsync.rejected, (state, action) => {
       state.updateStatus = REQUEST_STATE.REJECTED;
-      state.error = action.error;
-    })
-    .addCase(setCurrentSessionAsync.pending, (state) => {
-      state.setCurrentSession = REQUEST_STATE.PENDING;
-      state.error = null;
-    })
-    .addCase(setCurrentSessionAsync.fulfilled, (state, action) => {
-      state.setCurrentSession = REQUEST_STATE.FULFILLED;
-      state.currentSession = state.sessions.find((x) => x.id === action.payload);
-    })
-    .addCase(setCurrentSessionAsync.rejected, (state, action) => {
-      state.setCurrentSession = REQUEST_STATE.REJECTED;
       state.error = action.error;
     })
   }

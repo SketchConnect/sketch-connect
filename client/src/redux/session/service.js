@@ -72,7 +72,6 @@ const addSession = async (session) => {
     }
   };
   
-  
   const services = { getSessions, addSession, deleteSession, updateStatus };
   
   export default services;
