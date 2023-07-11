@@ -48,7 +48,7 @@
   background-color: #cb3032;
   border-radius: 0px 20px 20px 0px;
   border-width: 0px;
-  font-family: 'Chelsea Market', cursive;
+  font-family: "Chelsea Market", cursive;
   font-size: 34px;
   color: white;
 }
@@ -78,7 +78,7 @@ button {
 }
 
 .session-button {
-  font-family: 'Chelsea Market', cursive;
+  font-family: "Chelsea Market", cursive;
   margin-left: 20px;
   margin-right: 20px;
   padding: 0px 45px 15px;
