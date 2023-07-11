@@ -24,23 +24,6 @@ export const removeSession = (id) => {
   };
 };
 
-export const addPlayer = (sessionId) => {
-  const newPlayer = {
-    id: playerCounter++
-  };
-  return {
-    type: "ADD_PLAYER",
-    payload: { id: sessionId, player: newPlayer }
-  };
-};
-
-export const removePlayer = (sessionId, playerId) => {
-  return {
-    type: "REMOVE_PLAYER",
-    payload: { id: sessionId, player: playerId }
-  };
-};
-
 export const updateStatus = (sessionId, status) => {
   return {
     type: "UPDATE_STATUS",
