@@ -1,64 +1,61 @@
-import * as React from "react";
-import { NavLink, useNavigate} from "react-router-dom";
-import "./header.css";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import Menu from "@mui/material/Menu";
+import * as React from 'react';
+import { NavLink, useNavigate } from 'react-router-dom';
+import './header.css';
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import Toolbar from '@mui/material/Toolbar';
+import IconButton from '@mui/material/IconButton';
+import Menu from '@mui/material/Menu';
 import { MenuList } from '@mui/material';
-import MenuIcon from "@mui/icons-material/Menu";
-import Container from "@mui/material/Container";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import Tooltip from "@mui/material/Tooltip";
-import MenuItem from "@mui/material/MenuItem";
-import { styled } from "@mui/system";
+import Container from '@mui/material/Container';
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import Tooltip from '@mui/material/Tooltip';
+import MenuItem from '@mui/material/MenuItem';
+import { styled } from '@mui/system';
 import { UserAuth } from '../context/AuthContext';
 
 const LogoContainer = styled(Box)({
-  display: "flex",
-  alignItems: "center"
+  display: 'flex',
+  alignItems: 'center',
 });
 
-const LogoImage = styled("img")({
-  margin: "0 auto",
-  padding: "1em",
-  maxWidth: "100%",
-  maxHeight: "5em"
+const LogoImage = styled('img')({
+  margin: '0 auto',
+  padding: '1em',
+  maxWidth: '100%',
+  maxHeight: '5em',
 });
 
 const NavLinkButton = styled(Button)(({ theme }) => ({
   margin: theme.spacing(0, 1),
-  color: "#253674",
-  textDecoration: "none",
-  display: "flex",
-  alignItems: "center",
-  "&:hover": {
-    color: "#f50057"
-  }
+  color: '#253674',
+  textDecoration: 'none',
+  display: 'flex',
+  alignItems: 'center',
+  '&:hover': {
+    color: '#f50057',
+  },
 }));
 
 const AvatarButton = styled(IconButton)(({ theme }) => ({
-  background: "#f50057",
-  "&:hover": {
-    background: "#ff4081"
-  }
+  background: '#f50057',
+  '&:hover': {
+    background: '#ff4081',
+  },
 }));
 
 const pages = [
-  { name: "Home", path: "/" },
-  { name: "About Us", path: "/about" }
+  { name: 'Home', path: '/' },
+  { name: 'About Us', path: '/about' },
 ];
-const settings = ["Profile", "Dashboard", "Logout"];
+const settings = ['Profile', 'Dashboard', 'Logout'];
 
 function Header() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const { googleSignIn, logOut, user } = UserAuth();
   const navigate = useNavigate();
-
 
   const handleSignOut = async () => {
     try {
@@ -69,6 +66,11 @@ function Header() {
     }
   };
 
+  React.useEffect(() => {
+    if (user == null) {
+      navigate('/login');
+    }
+  }, [user]);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -97,8 +99,6 @@ function Header() {
                   key={page.path}
                   component={NavLink}
                   to={page.path}
-                  exact
-                  activeClassName="active"
                 >
                   {page.name}
                 </NavLinkButton>
@@ -120,12 +120,12 @@ function Header() {
               anchorEl={anchorElUser}
               anchorOrigin={{
                 vertical: "top",
-                horizontal: "right"
+                horizontal: "right",
               }}
               keepMounted
               transformOrigin={{
                 vertical: "top",
-                horizontal: "right"
+                horizontal: "right",
               }}
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}

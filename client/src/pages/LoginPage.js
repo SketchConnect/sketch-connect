@@ -4,29 +4,12 @@ import { UserAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
 const LoginPage = () => {
-  const { googleSignIn, facebookSignIn, appleSignIn, user } = UserAuth();
+  const { googleSignIn, user } = UserAuth();
   const navigate = useNavigate();
 
   const handleGoogleSignIn = async () => {
     try {
       await googleSignIn();
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const handleAppleSignIn = async () => {
-    try {
-      await appleSignIn();
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const handleFacebookSignIn = async () => {
-    try {
-      console.log("handleFacebookSignIn is clicked")
-      await facebookSignIn();
     } catch (error) {
       console.log(error);
     }
@@ -50,7 +33,7 @@ const LoginPage = () => {
           />
           Sign in with Google
         </button>
-        <button className="apple-button" onClick={handleAppleSignIn}>
+        {/* <button className="apple-button" onClick={handleAppleSignIn}>
           <img
             src="https://1000logos.net/wp-content/uploads/2016/10/Apple-Logo.png"
             alt="Apple Icon"
@@ -65,7 +48,7 @@ const LoginPage = () => {
             className="fb-icon"
           />
           Sign in with Facebook
-        </button>
+        </button> */}
       </div>
     </div>
   );
