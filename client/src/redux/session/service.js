@@ -1,41 +1,15 @@
-/*
-  export const addSession = () => {
-  const newSession = {
-    id: sessionCounter++,
-    isPublic: true,
-    status: "waiting",
-    players: [],
-    quadrant: [],
-    finalImage: ""
-  };
-
-  return {
-    type: "ADD_SESSION",
-    payload: newSession
-  };
-};
-
-export const removeSession = (id) => {
-  return {
-    type: "REMOVE_SESSION",
-    payload: id
-  };
-};
-
-export const updateStatus = (sessionId, status) => {
-  return {
-    type: "UPDATE_STATUS",
-    payload: { id: sessionId, status: status }
-  };
-};
-
-export const setCurrentSession = (sessionId) => {
-  return {
-    type: "SET_CURRENT_SESSION",
-    payload: sessionId
-  };
-};
-  */
+const getSessions = async () => {
+  try {
+    const res = await fetch("http://localhost:5050/sessions", {
+      method: "GET",
+    });
+  
+    return res.json();
+  } catch (error) {
+    console.error("Error getting session:", error);
+    throw error;
+  }
+}
 
 const addSession = async (session) => {
     try {
@@ -98,14 +72,8 @@ const addSession = async (session) => {
     }
   };
   
-  const setCurrentSession = (sessionId) => {
-    return {
-      type: "SET_CURRENT_SESSION",
-      payload: sessionId,
-    };
-  };
   
-  const services = { addSession, deleteSession, updateStatus, setCurrentSession };
+  const services = { getSessions, addSession, deleteSession, updateStatus };
   
   export default services;
   
