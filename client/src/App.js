@@ -7,6 +7,7 @@ import AboutPage from "./pages/AboutPage";
 import WaitingPage from "./pages/WaitingPage";
 import GamePage from "./pages/GamePage";
 import LoginPage from "./pages/LoginPage";
+import DashboardPage from "./pages/DashboardPage";
 import WaitingTurnPage from "./pages/WaitingTurnPage";
 
 import { Modal } from "@mui/material";
@@ -48,8 +49,9 @@ function App() {
           <Route path="/waiting/:sessionId" component={WaitingPage} />
           <Route path="/game" component={GamePage} />
           <Route path="/login" component={LoginPage} />
-          <Route path="/complete/:sessionId" component={CompletePage} />
           <Route path="/waitforturn/:sessionId" component={WaitingTurnPage} />
+          <Route path="/dashboard" component={DashboardPage} />
+          <Route path="/complete/:sessionId" component={CompletePage} />
         </Switch>
       </BrowserRouter>
       <link rel="preconnect" href="https://fonts.googleapis.com"/>

@@ -97,7 +97,7 @@ function Header() {
           <Box>
             <Tooltip title="Open settings">
               <AvatarButton onClick={handleOpenUserMenu}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <Avatar alt="Profile" src="/static/images/avatar/2.jpg" />
               </AvatarButton>
             </Tooltip>
             <Menu
