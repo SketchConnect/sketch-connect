@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom/cjs/react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import "./Timer.css";
 
@@ -10,11 +10,11 @@ const Timer = ({ remainingTime }) => {
   const prevTime = useRef(null);
   const isNewTimeFirstTick = useRef(false);
   const [lastRerender, setOneLastRerender] = useState(0);
-  const history = useHistory();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (remainingTime === 0) {
-      history.push(`/complete/${currentSession.id}`);
+      navigate.push(`/complete/${currentSession.id}`);
     }
     return () => {
       // Cleanup function to cancel any ongoing tasks or subscriptions
