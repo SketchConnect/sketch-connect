@@ -8,17 +8,35 @@ import WaitingPage from "./pages/WaitingPage";
 import GamePage from "./pages/GamePage";
 import LoginPage from "./pages/LoginPage";
 import CompletePage from "./pages/CompletePage";
+import { Modal } from "@mui/material";
+import Warning from "./components/Warning";
 
-import { createTheme, ThemeProvider } from "@mui/material";
 import { AuthContextProvider } from "./context/AuthContext";
 
-const theme = createTheme({
-  typography: {
-    fontFamily: ["Chilanka", "cursive"].join(","),
-  },
-});
+function useWindowSize() {
+  const [size, setSize] = React.useState(0);
+  React.useLayoutEffect(() => {
+    function updateSize() {
+      setSize(window.innerWidth);
+    }
+    window.addEventListener("resize", updateSize);
+    updateSize();
+    return () => window.removeEventListener("resize", updateSize);
+  }, []);
+  return size;
+}
 
 function App() {
+  const [open, isOpen] = React.useState(false);
+  const width = useWindowSize();
+
+  React.useEffect(() => {
+    if (width < 1024) {
+      isOpen(true);
+    } else {
+      isOpen(false);
+    }
+  }, [width]);
   return (
     <div>
       <BrowserRouter>
@@ -34,6 +52,15 @@ function App() {
           </Routes>
         </AuthContextProvider>
       </BrowserRouter>
+
+      <Modal
+        aria-labelledby="modal-title"
+        aria-describedby="modal-description"
+        open={open}
+        onClose={() => isOpen(false)}
+      >
+        <Warning></Warning>
+      </Modal>
     </div>
   );
 }
