@@ -1,6 +1,6 @@
 const getSessions = async () => {
   try {
-    const res = await fetch("http://localhost:5050/sessions", {
+    const res = await fetch("https://sketch-connect-be.onrender.com/sessions", {
       method: "GET",
     });
   
@@ -13,7 +13,7 @@ const getSessions = async () => {
 
 const addSession = async (session) => {
     try {
-      const response = await fetch("http://localhost:5050/sessions", {
+      const response = await fetch("https://sketch-connect-be.onrender.com/sessions", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -36,7 +36,7 @@ const addSession = async (session) => {
   
   const deleteSession = async (sessionId) => {
     try {
-      const response = await fetch(`http://localhost:5050/sessions/${sessionId}`, {
+      const response = await fetch(`https://sketch-connect-be.onrender.com/sessions/${sessionId}`, {
         method: "DELETE",
       });
   
@@ -53,7 +53,7 @@ const addSession = async (session) => {
   
   const updateStatus = async (sessionId, status) => {
     try {
-      const response = await fetch(`http://localhost:5050/sessions/${sessionId}`, {
+      const response = await fetch(`https://sketch-connect-be.onrender.com/sessions/${sessionId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

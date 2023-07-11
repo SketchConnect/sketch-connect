@@ -40,7 +40,7 @@
 
 const getUsers = async () => {
   try {
-    const response = await fetch('http://localhost:5050/users');
+    const response = await fetch('https://sketch-connect-be.onrender.com/users');
     const users = await response.json();
     return users;
   } catch (error) {
@@ -51,7 +51,7 @@ const getUsers = async () => {
 
 const addUser = async (user) => {
   try {
-    const response = await fetch('http://localhost:5050/users', {
+    const response = await fetch('https://sketch-connect-be.onrender.com/users', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -74,7 +74,7 @@ const addUser = async (user) => {
 
 const deleteUser = async (userId) => {
   try {
-    const response = await fetch('http://localhost:5050/users/${userId}', {
+    const response = await fetch(`https://sketch-connect-be.onrender.com/users/${userId}`, {
       method: 'DELETE',
     });
 
@@ -93,7 +93,7 @@ const deleteUser = async (userId) => {
 
 const updateUser = async (userId, updatedUser) => {
   try {
-    const response = await fetch(`http://localhost:5050/users/${userId}`, {
+    const response = await fetch(`https://sketch-connect-be.onrender.com/users/${userId}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
