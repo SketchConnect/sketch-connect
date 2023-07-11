@@ -5,18 +5,18 @@ import "./homepage.css";
 import Instructions from "../components/Instructions";
 import { addUserAsync } from "../redux/user/thunks";
 import { addSessionAsync, getSessionsAsync } from "../redux/session/thunks";
-import { useHistory } from "react-router-dom/cjs/react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function Homepage() {
   const tempUser = "648265d192b9bd82bbc849ed"
   let [sessions, setSessions] = useState([]);
   const dispatch = useDispatch();
-  const history = useHistory();
+  const history = useNavigate();
 
   useEffect(() => {
-    fetch('https://sketch-connect-be.onrender.com')
-      .then(() => console.log('Server is awake'))
-      .catch(err => console.log(`Failed to wake server: ${err}`));
+    fetch("https://sketch-connect-be.onrender.com")
+      .then(() => console.log("Server is awake"))
+      .catch((err) => console.log(`Failed to wake server: ${err}`));
   }, []);
 
   useEffect(() => {
@@ -27,7 +27,6 @@ function Homepage() {
         if (!response.ok) {
           throw new Error("HTTP error " + response.status);
         }
-
         return response.json();
       })
       .then((fetchedSessions) => {
