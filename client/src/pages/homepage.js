@@ -4,13 +4,8 @@ import "./page.css";
 import "./homepage.css";
 import Instructions from "../components/Instructions";
 import { addUserAsync } from "../redux/user/thunks";
-<<<<<<< HEAD
 import { addSessionAsync, getSessionsAsync } from "../redux/session/thunks";
-import { useHistory } from "react-router-dom/cjs/react-router-dom";
-=======
-import { addSessionAsync } from "../redux/session/thunks";
 import { useNavigate } from "react-router-dom";
->>>>>>> 4c69392dcfdc0da303c4833898501e9640614600
 
 function Homepage() {
   const tempUser = "648265d192b9bd82bbc849ed"
@@ -32,7 +27,6 @@ function Homepage() {
         if (!response.ok) {
           throw new Error("HTTP error " + response.status);
         }
-  
         return response.json();
       })
       .then((fetchedSessions) => {

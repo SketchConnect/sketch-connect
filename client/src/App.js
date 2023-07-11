@@ -42,19 +42,6 @@ function App() {
   return (
     <div>
       <BrowserRouter>
-<<<<<<< HEAD
-        <Header></Header>
-        <Switch>
-          <Route exact path="/" component={Homepage} />
-          <Route path="/about" component={AboutPage} />
-          <Route path="/waiting/:sessionId" component={WaitingPage} />
-          <Route path="/game" component={GamePage} />
-          <Route path="/login" component={LoginPage} />
-          <Route path="/waitforturn/:sessionId" component={WaitingTurnPage} />
-          <Route path="/dashboard" component={DashboardPage} />
-          <Route path="/complete/:sessionId" component={CompletePage} />
-        </Switch>
-=======
         <AuthContextProvider>
           <Header />
           <Routes>
@@ -66,7 +53,6 @@ function App() {
             <Route path="/complete/:sessionId" element={<CompletePage />} />
           </Routes>
         </AuthContextProvider>
->>>>>>> 4c69392dcfdc0da303c4833898501e9640614600
       </BrowserRouter>
 
       <Modal
