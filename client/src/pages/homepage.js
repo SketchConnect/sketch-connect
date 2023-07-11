@@ -4,17 +4,17 @@ import "./page.css";
 import "./homepage.css";
 import Instructions from "../components/Instructions";
 import { addPlayer, addSession, setCurrentSession } from "../redux/actions";
-import { useHistory } from "react-router-dom/cjs/react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function Homepage() {
   const sessions = useSelector((state) => state.sessions);
   const dispatch = useDispatch();
-  const history = useHistory();
+  const history = useNavigate();
 
   useEffect(() => {
-    fetch('https://sketch-connect-be.onrender.com')
-      .then(() => console.log('Server is awake'))
-      .catch(err => console.log(`Failed to wake server: ${err}`));
+    fetch("https://sketch-connect-be.onrender.com")
+      .then(() => console.log("Server is awake"))
+      .catch((err) => console.log(`Failed to wake server: ${err}`));
   }, []);
 
   const handleAddSession = () => {
