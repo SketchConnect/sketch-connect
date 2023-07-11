@@ -8,10 +8,10 @@ const firebaseConfig = {
   storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
   messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
   appId: process.env.REACT_APP_APP_ID,
-  measurementId: process.env.REACT_APP_MEASUREMENT_ID,
+  measurementId: process.env.REACT_APP_MEASUREMENT_ID
 };
 
-console.log(firebaseConfig)
+console.log(firebaseConfig);
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export default app;

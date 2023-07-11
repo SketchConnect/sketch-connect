@@ -43,12 +43,12 @@ function App() {
         <AuthContextProvider>
           <Header />
           <Routes>
-          <Route path="/" element={<Homepage />} />
-          <Route path="/about" element={<AboutPage />} />
-          <Route path="/waiting/:sessionId" element={<WaitingPage />} />
-          <Route path="/game" element={<GamePage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/complete/:sessionId" element={<CompletePage />} />
+            <Route path="/" element={<Homepage />} />
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="/waiting/:sessionId" element={<WaitingPage />} />
+            <Route path="/game" element={<GamePage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/complete/:sessionId" element={<CompletePage />} />
           </Routes>
         </AuthContextProvider>
       </BrowserRouter>

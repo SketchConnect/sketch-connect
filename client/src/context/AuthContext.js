@@ -5,7 +5,7 @@ import {
   OAuthProvider,
   signInWithRedirect,
   signOut,
-  onAuthStateChanged,
+  onAuthStateChanged
 } from "firebase/auth";
 import { auth } from "../firebase";
 
@@ -20,30 +20,36 @@ export const AuthContextProvider = ({ children }) => {
 
   const googleSignIn = () => {
     const provider = new GoogleAuthProvider();
-    signInWithRedirect(auth, provider).then((res) => {
-      console.log(res);
-    }).catch((err) => {
-      console.log(err.message);
-    })
+    signInWithRedirect(auth, provider)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
   };
 
   const facebookSignIn = () => {
-    console.log("into facebookSignIn in AuthContext")
+    console.log("into facebookSignIn in AuthContext");
     const provider = new FacebookAuthProvider();
-    signInWithRedirect(auth, provider).then((res) => {
-      console.log(res);
-    }).catch((err) => {
-      console.log(err.message);
-    })
+    signInWithRedirect(auth, provider)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
   };
 
   const appleSignIn = () => {
     const provider = new AppleAuthProvider();
-    signInWithRedirect(auth, provider).then((res) => {
-      console.log(res);
-    }).catch((err) => {
-      console.log(err.message);
-    })
+    signInWithRedirect(auth, provider)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
   };
 
   const logOut = () => {

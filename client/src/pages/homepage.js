@@ -12,9 +12,9 @@ function Homepage() {
   const history = useNavigate();
 
   useEffect(() => {
-    fetch('https://sketch-connect-be.onrender.com')
-      .then(() => console.log('Server is awake'))
-      .catch(err => console.log(`Failed to wake server: ${err}`));
+    fetch("https://sketch-connect-be.onrender.com")
+      .then(() => console.log("Server is awake"))
+      .catch((err) => console.log(`Failed to wake server: ${err}`));
   }, []);
 
   const handleAddSession = () => {

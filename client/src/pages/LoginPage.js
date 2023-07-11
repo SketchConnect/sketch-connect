@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
-import './LoginPage.css';
-import { UserAuth } from '../context/AuthContext';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect } from "react";
+import "./LoginPage.css";
+import { UserAuth } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
   const { googleSignIn, user } = UserAuth();
@@ -17,7 +17,7 @@ const LoginPage = () => {
 
   useEffect(() => {
     if (user != null) {
-      navigate('/');
+      navigate("/");
     }
   }, [user]);
 
