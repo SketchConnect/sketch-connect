@@ -39,45 +39,79 @@
 */
 
 const getUsers = async () => {
-    try {
-
-    } catch (error) {
-        console.error('Error fetching users:', error);
-        throw error;
-    }
+  try {
+    const response = await fetch('http://localhost:5050/users');
+    const users = await response.json();
+    return users;
+  } catch (error) {
+    console.error('Error fetching users:', error);
+    throw error;
+  }
 };
 
 const addUser = async (user) => {
-    try {
+  try {
+    const response = await fetch('http://localhost:5050/users', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(user)
+    });
 
-    } catch (error) {
-        console.error('Error adding user:', error);
-        throw error;
+    const data = await response.json();
+    if (!response.ok) {
+      const errorMsg = data?.message;
+      throw new Error(errorMsg)
     }
+
+    return data;
+  } catch (error) {
+    console.error('Error adding user:', error);
+    throw error;
+  }
 };
 
 const deleteUser = async (userId) => {
-    try {
+  try {
+    const response = await fetch('http://localhost:5050/users/${userId}', {
+      method: 'DELETE',
+    });
 
-    } catch (error) {
-        console.error('Error deleting user:', error);
-        throw error;
-    }
+    const data = await response.json();
+        if (!response.ok) {
+            const errorMsg = data?.message;
+            throw new Error(errorMsg);
+        }
+
+        return userId;
+  } catch (error) {
+    console.error('Error deleting user:', error);
+    throw error;
+  }
 };
 
 const updateUser = async (userId, updatedUser) => {
-    try {
-
-    } catch (error) {
-        console.error('Error updating user:', error);
-        throw error;
-    }
+  try {
+    const response = await fetch(`http://localhost:5050/users/${userId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(updatedUser)
+    });
+    const updatedUserResponse = await response.json();
+    return updatedUserResponse;
+  } catch (error) {
+    console.error('Error updating user:', error);
+    throw error;
+  }
 };
 
 const service = {
-    getUsers,
-    addUser,
-    deleteUser,
-    updateUser
+  getUsers,
+  addUser,
+  deleteUser,
+  updateUser
 };
 export default service;

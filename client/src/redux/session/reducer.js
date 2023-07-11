@@ -7,32 +7,12 @@ import {
 	setCurrentSessionAsync,} from "./thunks"
 
 const INITIAL_STATE = {
-  sessions: [
-    {
-      id: 0,
-      isPublic: true,
-      status: "waiting",
-      players: [],
-      quadrant: [],
-      finalImage: ""
-    },
-    {
-      id: 1,
-      isPublic: true,
-      status: "waiting",
-      players: [0, 1, 2],
-      quadrant: [],
-      finalImage: ""
-    }
-  ],
-  currentSession: {
-    id: 0,
-    isPublic: true,
-    status: "waiting",
-    players: [],
-    quadrant: [],
-    finalImage: ""
-  },
+  isPublic: true,
+  status: "waiting",
+  players: [],
+  quadrant: [],
+  finalImage: "",
+
   addSession: REQUEST_STATE.IDLE,
   deleteSession: REQUEST_STATE.IDLE,
   updateStatus: REQUEST_STATE.IDLE,
@@ -97,45 +77,6 @@ const sessionSlice = createSlice({
       state.error = action.error;
     })
   }
-
-  /*
-  export const addSession = () => {
-  const newSession = {
-    id: sessionCounter++,
-    isPublic: true,
-    status: "waiting",
-    players: [],
-    quadrant: [],
-    finalImage: ""
-  };
-
-  return {
-    type: "ADD_SESSION",
-    payload: newSession
-  };
-};
-
-export const removeSession = (id) => {
-  return {
-    type: "REMOVE_SESSION",
-    payload: id
-  };
-};
-
-export const updateStatus = (sessionId, status) => {
-  return {
-    type: "UPDATE_STATUS",
-    payload: { id: sessionId, status: status }
-  };
-};
-
-export const setCurrentSession = (sessionId) => {
-  return {
-    type: "SET_CURRENT_SESSION",
-    payload: sessionId
-  };
-};
-  */
 });
 
 export default sessionSlice.reducer;
