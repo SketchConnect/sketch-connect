@@ -25,13 +25,13 @@
 .page-heading {
   font-size: 34px;
   text-align: end;
-  padding-top: 10%
+  padding-top: 10%;
 }
 
 #download-btn,
 #share-btn,
 #newGame-btn {
-  font-family: 'Chelsea Market', cursive;
+  font-family: "Chelsea Market", cursive;
   font-size: 24px;
   color: white;
   border-width: 0;
@@ -42,11 +42,11 @@
 }
 
 #download-btn {
-  background-color: #CB3032;
+  background-color: #cb3032;
 }
 
 #share-btn {
-  background-color: #F7963E;
+  background-color: #f7963e;
 }
 
 .buttons-bottom {
