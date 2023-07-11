@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect, useLayoutEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
 import Header from "./components/header";
@@ -14,8 +14,8 @@ import Warning from "./components/Warning";
 import { AuthContextProvider } from "./context/AuthContext";
 
 function useWindowSize() {
-  const [size, setSize] = React.useState(0);
-  React.useLayoutEffect(() => {
+  const [size, setSize] = useState(0);
+  useLayoutEffect(() => {
     function updateSize() {
       setSize(window.innerWidth);
     }
@@ -27,10 +27,10 @@ function useWindowSize() {
 }
 
 function App() {
-  const [open, isOpen] = React.useState(false);
+  const [open, isOpen] = useState(false);
   const width = useWindowSize();
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (width < 1024) {
       isOpen(true);
     } else {
