@@ -20,14 +20,14 @@ function Homepage() {
   }, []);
 
   useEffect(() => {
-      fetch("https://sketch-connect-be.onrender.com/sessions", {
-        method: "GET",
-      })
+    fetch("https://sketch-connect-be.onrender.com/sessions", {
+      method: "GET",
+    })
       .then((response) => {
         if (!response.ok) {
           throw new Error("HTTP error " + response.status);
         }
-  
+
         return response.json();
       })
       .then((fetchedSessions) => {
@@ -35,8 +35,14 @@ function Homepage() {
       }).catch(err => console.log(`Failed to fetch sessions: ${err}`));
   }, []);
 
-  const handleAddSession = () => {
-    dispatch(addSessionAsync());
+  const handleAddSession = (e) => {
+    e.preventDefault();
+    const newSession = {
+      isPublic: true,
+      status: "waiting",
+      players: [tempUser]
+    };
+    dispatch(addSessionAsync(newSession));
   };
 
   const joinSession = (session) => {
@@ -52,7 +58,7 @@ function Homepage() {
         {/* factor out as a component later, if necessary */}
         <div className="left-pane">
           <p id="join-session">Join a session</p>
-          {sessions?.map((session) => (
+          {sessions ?.map((session) => (
             <button
               className="session-button"
               onClick={() => joinSession(session)}
