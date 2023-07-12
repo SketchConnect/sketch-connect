@@ -81,20 +81,22 @@ router.get("/:id/past-drawings", async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).send(err);
-    
+  }
+});
+
 /**
-  * POST /users
-  * Creates and stores a user object.
-  *
-  * URL parameters:
-  * - none
-  *
-  * Request body parameters:
-  * - oauthID: the UID of the signed in user
-  * - email: the email of the signed in user
-  * - name: the name of the signed in user
-  * - profilePic: the url of the signed in user's profile picture
-*/
+ * POST /users
+ * Creates and stores a user object.
+ *
+ * URL parameters:
+ * - none
+ *
+ * Request body parameters:
+ * - oauthID: the UID of the signed in user
+ * - email: the email of the signed in user
+ * - name: the name of the signed in user
+ * - profilePic: the url of the signed in user's profile picture
+ */
 router.post("/", async (req, res) => {
   try {
     const existingUser = await User.findOne({ oauthID: req.body.oauthID });
