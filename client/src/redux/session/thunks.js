@@ -22,15 +22,15 @@ export const addSessionAsync = createAsyncThunk(
 
 export const deleteSessionAsync = createAsyncThunk(
   DELETE_SESSION,
-	async (item) => {
-		return await sessionService.deleteSession(item);
+	async (sessionId) => {
+		return await sessionService.deleteSession(sessionId);
 	}
 );
 
 export const updateStatusAsync = createAsyncThunk(
 	UPDATE_STATUS,
-	async (item) => {
-		return await sessionService.updateStatus(item);
+	async (sessionId) => {
+		return await sessionService.updateStatus(sessionId);
 	}
 );
 
