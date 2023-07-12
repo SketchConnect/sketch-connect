@@ -82,22 +82,22 @@ router.delete("/:id", async (req, res) => {
  * Request body parameters:
  * - isPublic (boolean): Determines if the session is public.
  * - status (string): The current status of the session. One of "waiting", "ongoing", "completed", or "cancelled".
- * - host (string): The host's ID, will be used to initialize the players array.
+ * - players (string array): Initializes the players array with host ID.
  *
  * Returns:
- * - A JSON object with a single property, id, which contains the ID of the newly created session.
+ * - A JSON object of newly created session.
  */
 router.post("/", async (req, res) => {
   try {
     const newSession = new Session({
       isPublic: req.body.isPublic,
       status: req.body.status,
-      players: [req.body.host],
+      players: req.body.players,
       quadrant: [],
       finalImage: ""
     });
     const result = await newSession.save();
-    res.status(200).send({ id: result._id });
+    res.status(200).send(result);
   } catch (error) {
     console.error(error);
     res.status(500).send({ error });
