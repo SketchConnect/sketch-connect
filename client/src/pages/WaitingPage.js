@@ -25,7 +25,7 @@ function WaitingPage() {
   return (
     <div className="lobby-container">
       <h2 className="lobby-header">
-        {playerCount == 4
+        {playerCount === 4
           ? `Session ${sessionId} is ready to start!`
           : `Session ${sessionId} is waiting for players to join...`}
       </h2>

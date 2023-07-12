@@ -26,7 +26,8 @@ const addSession = async (session) => {
       if (!response.ok) {
         throw new Error(data?.message);
       }
-  
+
+      console.log(data.id)
       return data;
     } catch (error) {
       console.error("Error adding session:", error);

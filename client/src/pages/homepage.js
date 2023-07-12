@@ -48,7 +48,10 @@ function Homepage() {
       status: "waiting",
       players: [tempUser]
     };
-    dispatch(addSessionAsync(newSession));
+    dispatch(addSessionAsync(newSession)).then((session) => {
+      const sessionId = session.payload.id;
+      navigate(`/waiting/${sessionId}`);
+    });
   };
 
   const joinSession = (session) => {
