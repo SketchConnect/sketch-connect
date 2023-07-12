@@ -7,7 +7,7 @@ import { useParams } from "react-router-dom";
 function WaitingPage() {
   const { sessionId } = useParams();
 
-  const currentSession = useSelector((state) => state.currentSession);
+  const currentSession = useSelector((state) => state.session);
   const players = currentSession.players;
   const playerCount = players.length;
 

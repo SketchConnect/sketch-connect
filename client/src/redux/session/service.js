@@ -58,7 +58,7 @@ const addSession = async (session, host) => {
   const updateStatus = async (sessionId, status) => {
     try {
       const response = await fetch(`https://sketch-connect-be.onrender.com/sessions/${sessionId}`, {
-        method: "PUT",
+        method: "PATCH",
         headers: {
           "Content-Type": "application/json",
         },
@@ -75,8 +75,31 @@ const addSession = async (session, host) => {
       throw error;
     }
   };
+
+  const addPlayer = async (sessionId, playerId) => {
+    try {
+      const response = await fetch(`https://sketch-connect-be.onrender.com/sessions/${sessionId}/add-player`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: {
+          id: playerId
+        },
+      });
   
-  const services = { getSessions, addSession, deleteSession, updateStatus };
+      const data = await response.json();
+  
+      if (!response.ok) {
+        throw new Error(data?.message);
+      }
+    } catch (error) {
+      console.error("Error adding player to session:", error);
+      throw error;
+    }
+  };
+  
+  const services = { getSessions, addSession, deleteSession, updateStatus, addPlayer };
   
   export default services;
   

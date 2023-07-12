@@ -53,6 +53,38 @@ router.post("/", async (req, res) => {
 });
 
 /**
+ * PATCH /:id/add-player
+ * Add a user to the player list of a session with given ID.
+ *
+ * URL parameters:
+ * - id (string): The ID of the session to update.
+ *
+ * Request body parameters:
+ * - id (string): the ID of the user to be added.
+ *
+ * Returns:
+ * - A JSON object with a single property, publicUrl, containing the public URL of the uploaded file.
+ */
+router.patch("/:id/add-player", async (req, res) => {
+  try {
+    
+    const result = await Session.updateOne(
+      { _id: req.params.id },
+      { $push: { players: req.id } }
+    );
+
+    if (result.nModified === 0) {
+      return res.status(404).send({ error: "No session found with given id" });
+    }
+
+    return res.status(200).send(req.body.id);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).send(error);
+  }
+});
+
+/**
  * PATCH /:id/upload-drawing
  * Uploads the session's drawing to Google Cloud Storage and updates the session's finalImage string with the public URL of the uploaded file.
  *

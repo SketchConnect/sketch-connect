@@ -5,6 +5,7 @@ import {
 	ADD_SESSION,
   DELETE_SESSION,
 	UPDATE_STATUS,
+  ADD_PLAYER
 } from "../utils";
 
 export const getSessionsAsync = createAsyncThunk(
@@ -33,4 +34,11 @@ export const updateStatusAsync = createAsyncThunk(
 		return await sessionService.updateStatus(item);
 	}
 );
+
+export const addPlayerAsync = createAsyncThunk(
+  ADD_PLAYER,
+  async (session, player) => {
+    return await sessionService.addPlayer()
+  }
+)
 

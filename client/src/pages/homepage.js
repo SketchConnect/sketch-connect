@@ -3,15 +3,16 @@ import { useSelector, useDispatch } from "react-redux";
 import "./page.css";
 import "./homepage.css";
 import Instructions from "../components/Instructions";
-import { addUserAsync } from "../redux/user/thunks";
-import { addSessionAsync, getSessionsAsync } from "../redux/session/thunks";
+import { addPlayerAsync, addSessionAsync } from "../redux/session/thunks";
 import { useNavigate } from "react-router-dom";
+import { setSession } from "../redux/session/reducer";
 
 function Homepage() {
+  const currentSessionId = useSelector((state) => state.session._id)
   const tempUser = "648265d192b9bd82bbc849ed"
   let [sessions, setSessions] = useState([]);
   const dispatch = useDispatch();
-  const history = useNavigate();
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetch("https://sketch-connect-be.onrender.com")
@@ -34,16 +35,22 @@ function Homepage() {
       }).catch(err => console.log(`Failed to fetch sessions: ${err}`));
   }, []);
 
+  useEffect(() => {
+    if (currentSessionId) {
+      navigate(`/waiting/${currentSessionId}`);
+    }
+  }, [currentSessionId, navigate]);
+
   const handleAddSession = () => {
     dispatch(addSessionAsync());
   };
 
   const joinSession = (session) => {
-    if (session.status === "waiting" && session.players.length < 4) {
-      dispatch(addUserAsync(session, tempUser));
-      history.push(`/waiting/${session.id}`);
-    }
-  };
+    if (session.status === "waiting" && !session.players.includes(tempUser)) {
+      dispatch(addPlayerAsync(session, tempUser));
+      let payload = {session: session, userId: tempUser}
+      dispatch(setSession(payload));      
+  }};
 
   return (
     <div className="page">
@@ -83,6 +90,6 @@ function Homepage() {
       </div>
     </div>
   );
-}
+};
 
 export default Homepage;
