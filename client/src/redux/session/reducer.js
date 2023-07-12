@@ -34,7 +34,6 @@ const sessionSlice = createSlice({
       state.players = [...action.payload.session.players, action.payload.userId];
       state.quadrant = action.payload.session.quadrant;
       state.finalImage = action.payload.session.finalImage;
-      
     }
   },
   extraReducers: (builder) => {

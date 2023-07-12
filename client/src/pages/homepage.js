@@ -49,14 +49,15 @@ function Homepage() {
       players: [tempUser]
     };
     dispatch(addSessionAsync(newSession)).then((session) => {
-      const sessionId = session.payload.id;
-      navigate(`/waiting/${sessionId}`);
+      let payload = {session: session.payload, userId: tempUser}
+      dispatch(setSession(payload));
     });
   };
 
   const joinSession = (session) => {
     if (session.status === "waiting" && !session.players.includes(tempUser)) {
       dispatch(addPlayerAsync(session, tempUser));
+      console.log(session)
       let payload = {session: session, userId: tempUser}
       dispatch(setSession(payload));      
   }};
