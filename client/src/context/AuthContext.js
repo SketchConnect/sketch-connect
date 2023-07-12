@@ -61,7 +61,6 @@ export const AuthContextProvider = ({ children }) => {
       if (currentUser) {
         const { uid, displayName, email, photoURL } = currentUser;
         setUser({ uid, displayName, email, photoURL });
-        console.log("User", currentUser);
       } else {
         setUser(null);
       }
