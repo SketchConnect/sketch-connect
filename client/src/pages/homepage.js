@@ -21,9 +21,9 @@ function Homepage() {
   }, []);
 
   useEffect(() => {
-      fetch("https://sketch-connect-be.onrender.com/sessions", {
-        method: "GET",
-      })
+    fetch("https://sketch-connect-be.onrender.com/sessions", {
+      method: "GET",
+    })
       .then((response) => {
         if (!response.ok) {
           throw new Error("HTTP error " + response.status);
@@ -41,8 +41,14 @@ function Homepage() {
     }
   }, [currentSessionId, navigate]);
 
-  const handleAddSession = () => {
-    dispatch(addSessionAsync());
+  const handleAddSession = (e) => {
+    e.preventDefault();
+    const newSession = {
+      isPublic: true,
+      status: "waiting",
+      players: [tempUser]
+    };
+    dispatch(addSessionAsync(newSession));
   };
 
   const joinSession = (session) => {
@@ -63,7 +69,7 @@ function Homepage() {
               className="session-button"
               onClick={() => joinSession(session)}
             >
-              <p className="session-text">Session {session.id}</p>
+              <p className="session-text">Session {session._id}</p>
               <p className="session-text">{session.players.length}/4</p>
             </button>
           ))}

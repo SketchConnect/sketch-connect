@@ -65,11 +65,11 @@ function Header() {
     }
   };
 
-  React.useEffect(() => {
-    if (user == null) {
-      navigate("/login");
-    }
-  }, [user]);
+  // React.useEffect(() => {
+  //   if (user == null) {
+  //     navigate("/login");
+  //   }
+  // }, [user]);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);

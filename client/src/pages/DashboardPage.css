@@ -31,12 +31,12 @@
   }
   
   .name {
-    font-size: 24px;
+    font-size: 35px;
     margin: 0;
   }
   
   .email {
-    font-size: 14px;
+    font-size: 20px;
     margin: 0;
     color: gray;
   }
@@ -102,4 +102,33 @@
     padding: 5px;
     cursor: pointer;
   }
+
+  .dashboard .profile-details input {
+    width: 90%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #f7963e;
+    color: white;
+    font-size: 18px;
+    margin-bottom: 10px;
+    outline: none; /* removes the default browser outline */
+  }
+  
+  .dashboard .profile-details button {
+    margin: 20px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
+    background-color: #cb3032;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+    outline: none; /* removes the default browser outline */
+  }
+  
+  .dashboard .profile-details button:hover {
+    background-color: red;
+  }
+  
   

@@ -24,6 +24,32 @@ router.get("/", async (req, res) => {
 });
 
 /**
+ * GET /sessions/:id
+ * Gets a session with the specified ID.
+ *
+ * URL parameter:
+ * - id (string): The ID of the session to retrieve.
+ *
+ * Returns:
+ * - If the session is found, returns the session object.
+ * - If the session is not found, returns a 404 status code.
+ **/
+router.get("/:id", async (req, res) => {
+  try {
+    const session = await Session.findById(req.params.id);
+
+    if (session) {
+      res.status(200).send(session);
+    } else {
+      res.status(400).send({error: "Session not found"});
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ error });
+  }
+});
+
+/**
  * POST /sessions
  * Creates a new game session.
  *

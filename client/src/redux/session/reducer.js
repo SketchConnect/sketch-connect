@@ -14,6 +14,7 @@ const INITIAL_STATE = {
   players: [],
   quadrant: [],
   finalImage: "",
+  sessions: [],
   getSessions: REQUEST_STATE.IDLE,
   addSession: REQUEST_STATE.IDLE,
   deleteSession: REQUEST_STATE.IDLE,
@@ -69,7 +70,7 @@ const sessionSlice = createSlice({
     .addCase(deleteSessionAsync.fulfilled, (state, action) => {
       state.deleteSession = REQUEST_STATE.FULFILLED;
       state.sessions = state.sessions.filter(
-        (session) => session.id !== action.payload
+        (session) => session._id !== action.payload
       );
     })
     .addCase(deleteSessionAsync.rejected, (state, action) => {

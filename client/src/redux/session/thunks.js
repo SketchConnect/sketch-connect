@@ -17,21 +17,21 @@ export const getSessionsAsync = createAsyncThunk(
 
 export const addSessionAsync = createAsyncThunk(
   ADD_SESSION, 
-  async (session, host) => {
-    return await sessionService.addSession(session, host);	
+  async (session) => {
+    return await sessionService.addSession(session);	
 });
 
 export const deleteSessionAsync = createAsyncThunk(
   DELETE_SESSION,
-	async (item) => {
-		return await sessionService.deleteSession(item);
+	async (sessionId) => {
+		return await sessionService.deleteSession(sessionId);
 	}
 );
 
 export const updateStatusAsync = createAsyncThunk(
 	UPDATE_STATUS,
-	async (item) => {
-		return await sessionService.updateStatus(item);
+	async (sessionId) => {
+		return await sessionService.updateStatus(sessionId);
 	}
 );
 
