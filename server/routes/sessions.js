@@ -41,7 +41,33 @@ router.get("/:id", async (req, res) => {
     if (session) {
       res.status(200).send(session);
     } else {
-      res.status(400).send({error: "Session not found"});
+      res.status(400).send({ error: "Session not found" });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ error });
+  }
+});
+
+/**
+ * DELETE /sessions/:id
+ * Deletes a session with the specified ID.
+ *
+ * URL parameter:
+ * - id (string): The ID of the session to delete.
+ *
+ * Returns:
+ * - A 200 status code if deletion was successful.
+ * - If the session is not found, returns a 404 status code.
+ **/
+router.delete("/:id", async (req, res) => {
+  try {
+    const session = await Session.findByIdAndDelete(req.params.id);
+
+    if (session) {
+      res.status(204).end();
+    } else {
+      res.status(404).send({ error: "Session not found" });
     }
   } catch (error) {
     console.error(error);
