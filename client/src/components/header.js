@@ -65,11 +65,11 @@ function Header() {
     }
   };
 
-  React.useEffect(() => {
-    if (user == null) {
-      navigate("/login");
-    }
-  }, [user]);
+  // React.useEffect(() => {
+  //   if (user == null) {
+  //     navigate("/login");
+  //   }
+  // }, [user]);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -111,7 +111,7 @@ function Header() {
           <Box>
             <Tooltip title="Open settings">
               <AvatarButton onClick={handleOpenUserMenu}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <Avatar alt="Profile" src="/static/images/avatar/2.jpg" />
               </AvatarButton>
             </Tooltip>
             <Menu

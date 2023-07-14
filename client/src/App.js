@@ -7,6 +7,8 @@ import AboutPage from "./pages/AboutPage";
 import WaitingPage from "./pages/WaitingPage";
 import GamePage from "./pages/GamePage";
 import LoginPage from "./pages/LoginPage";
+import DashboardPage from "./pages/DashboardPage";
+import WaitingTurnPage from "./pages/WaitingTurnPage";
 import CompletePage from "./pages/CompletePage";
 import { Modal } from "@mui/material";
 import Warning from "./components/Warning";
@@ -48,11 +50,17 @@ function App() {
             <Route path="/waiting/:sessionId" element={<WaitingPage />} />
             <Route path="/game" element={<GamePage />} />
             <Route path="/login" element={<LoginPage />} />
+            <Route path="/dashboard" element={<DashboardPage />} />
             <Route path="/complete/:sessionId" element={<CompletePage />} />
           </Routes>
         </AuthContextProvider>
       </BrowserRouter>
-
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+      <link
+        href="https://fonts.googleapis.com/css2?family=Chelsea+Market&display=swap"
+        rel="stylesheet"
+      />
       <Modal
         aria-labelledby="modal-title"
         aria-describedby="modal-description"

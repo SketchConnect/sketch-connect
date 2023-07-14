@@ -11,32 +11,7 @@ const INITIAL_STATE = {
       - finalImage (string): Used to store the final image's URL or data, initially empty.
     }   
     */
-  sessions: [
-    {
-      id: 0,
-      isPublic: true,
-      status: "waiting",
-      players: [],
-      quadrant: [],
-      finalImage: ""
-    },
-    {
-      id: 1,
-      isPublic: true,
-      status: "waiting",
-      players: [0, 1, 2],
-      quadrant: [],
-      finalImage: ""
-    }
-  ],
-  currentSession: {
-    id: 0,
-    isPublic: true,
-    status: "waiting",
-    players: [],
-    quadrant: [],
-    finalImage: ""
-  }
+  
 };
 
 const reducer = (state = INITIAL_STATE, action) => {

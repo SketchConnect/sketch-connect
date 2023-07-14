@@ -97,7 +97,6 @@ const Canvas = () => {
   };
 
   const handleShareOnSocialMedia = () => {
-    // Implement your logic to share the canvas image on social media
     console.log("Sharing on social media");
   };
 
@@ -122,7 +121,6 @@ const Canvas = () => {
   };
 
   const getInchesAsPixels = () => {
-    // Assuming 96 pixels per inch (standard screen resolution)
     return 96 * 2;
   };
 
