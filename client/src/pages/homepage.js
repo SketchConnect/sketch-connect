@@ -64,6 +64,7 @@ function Homepage() {
       dispatch(addPlayerAsync(session, tempUser));
       let payload = { session: session, userId: tempUser };
       dispatch(setSession(payload));
+      console.log(currentSessionId)
     }
   };
 
