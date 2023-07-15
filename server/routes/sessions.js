@@ -115,7 +115,7 @@ router.post("/", async (req, res) => {
  * - id (string): the ID of the user to be added.
  *
  * Returns:
- * - A JSON object with a single property, publicUrl, containing the public URL of the uploaded file.
+ * - The ID of the user added
  */
 router.patch("/:id/add-player", async (req, res) => {
   try {
