@@ -15,11 +15,11 @@ const LoginPage = () => {
     }
   };
 
-  // useEffect(() => {
-  //   // if (user != null) {
-  //   //   navigate("/");
-  //   // }
-  // }, [user]);
+  useEffect(() => {
+    if (user != null) {
+      navigate("/");
+    }
+  }, [user]);
 
   return (
     <div className="container">

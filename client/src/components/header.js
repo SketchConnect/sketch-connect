@@ -64,12 +64,20 @@ function Header() {
       console.log(error);
     }
   };
+  
+  const handleNavToProfile = () => {
+    navigate('/profile'); // Replace '/profile' with the actual route for the profile page
+  };
+  
+  const handleNavToDashboard = () => {
+    navigate('/dashboard');
+  };
 
-  // React.useEffect(() => {
-  //   if (user == null) {
-  //     navigate("/login");
-  //   }
-  // }, [user]);
+  React.useEffect(() => {
+    if (user == null) {
+      navigate("/login");
+    }
+  }, [user]);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -130,8 +138,8 @@ function Header() {
               onClose={handleCloseUserMenu}
             >
               <MenuList>
-                <MenuItem>Profile</MenuItem>
-                <MenuItem>Dashboard</MenuItem>
+                <MenuItem onClick={handleNavToProfile}>Profile</MenuItem>
+                <MenuItem onClick={handleNavToDashboard}>Dashboard</MenuItem>
                 <MenuItem onClick={handleSignOut}>Logout</MenuItem>
               </MenuList>
             </Menu>
