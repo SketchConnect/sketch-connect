@@ -12,7 +12,6 @@ const CompletePage = () => {
 
   useEffect(() => {
     dispatch(resetSession());
-    console.log(current)
   }, [dispatch])
 
   return (
