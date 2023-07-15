@@ -109,6 +109,6 @@ const sessionSlice = createSlice({
   }
 });
 
-export const { setSession } = sessionSlice.actions;
+export const { resetSession, setSession } = sessionSlice.actions;
 
 export default sessionSlice.reducer;

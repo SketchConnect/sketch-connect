@@ -7,6 +7,13 @@ import { useNavigate } from "react-router-dom";
 
 const CompletePage = () => {
   let navigate = useNavigate();
+  const current = useSelector((state) => state.session);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(resetSession());
+    console.log(current)
+  }, [dispatch])
 
   return (
     <div className="container">
