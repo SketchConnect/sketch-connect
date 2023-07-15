@@ -119,10 +119,9 @@ router.post("/", async (req, res) => {
  */
 router.patch("/:id/add-player", async (req, res) => {
   try {
-    
     const result = await Session.updateOne(
       { _id: req.params.id },
-      { $push: { players: req.id } }
+      { $push: { players: req.body.id } }
     );
 
     if (result.nModified === 0) {

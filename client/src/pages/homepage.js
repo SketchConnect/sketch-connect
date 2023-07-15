@@ -9,7 +9,7 @@ import { setSession } from "../redux/session/reducer";
 
 function Homepage() {
   const currentSessionId = useSelector((state) => state.session._id);
-  const tempUser = "648265d192b9bd82bbc849ed";
+  const tempUser = "648265d192b9bd82bbc84912";
   let [sessions, setSessions] = useState([]);
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
@@ -61,10 +61,10 @@ function Homepage() {
 
   const joinSession = (session) => {
     if (session.status === "waiting" && !session.players.includes(tempUser)) {
-      dispatch(addPlayerAsync(session, tempUser));
+      dispatch(addPlayerAsync({ session, player: tempUser }));
       let payload = { session: session, userId: tempUser };
       dispatch(setSession(payload));
-      console.log(currentSessionId)
+      console.log(currentSessionId);
     }
   };
 
