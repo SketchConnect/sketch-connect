@@ -84,7 +84,7 @@ const updateStatus = async (sessionId, status) => {
 const addPlayer = async (sessionId, playerId) => {
   try {
     const response = await fetch(
-      `http://localhost:5050/sessions/${sessionId}/add-player`,
+      `https://sketch-connect-be.onrender.com/sessions/${sessionId}/add-player`,
       {
         method: "PATCH",
         headers: {
