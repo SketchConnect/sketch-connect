@@ -92,15 +92,21 @@ function Homepage() {
         {/* factor out as a component later, if necessary */}
         <div className="left-pane">
           <p id="join-session">Join a session</p>
-          {sessions?.map((session) => (
-            <button
-              className="session-button"
-              onClick={() => joinSession(session)}
-            >
-              <p className="session-text">Session {session._id}</p>
-              <p className="session-text">{session.players.length}/4</p>
-            </button>
-          ))}
+          {sessions?.map((session) => {
+            if (session.status === "waiting") {
+              return (
+                <button
+                  className="session-button"
+                  key={session._id}
+                  onClick={() => joinSession(session)}
+                >
+                  <p className="session-text">Session {session._id}</p>
+                  <p className="session-text">{session.players.length}/4</p>
+                </button>
+              );
+            } 
+            return null;
+            })}
         </div>
 
         <div id="circle"></div>

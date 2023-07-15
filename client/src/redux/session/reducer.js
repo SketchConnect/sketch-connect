@@ -27,6 +27,13 @@ const sessionSlice = createSlice({
   name: "session",
   initialState: INITIAL_STATE,
   reducers: {
+    resetSession: (state) => {
+      state._id = "";
+      state.isPublic = true;
+      state.status = "waiting";
+      state.quadrant = [];
+      state.finalImage = "";
+    },
     setSession: (state, action) => {
       state._id = action.payload.session._id;
       state.isPublic = action.payload.session.isPublic;
