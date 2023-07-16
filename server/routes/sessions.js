@@ -146,7 +146,7 @@ router.patch("/:id/add-player", async (req, res) => {
  * Request body parameters:
  * - A multipart/form-data payload with:
  * - key: "img", value: the file to be uploaded
- * - key: "folder", value: the name of the folder in which to store the uploaded file, one of "drawings/quadrants", "drawings/complete", or "profilePics"
+ * - key: "folder", value: the name of the folder in which to store the uploaded file, one of "drawings/quadrants", "drawings/complete"
  * - key: "quadrantNumber", value: the quadrant number of the drawing, if applicable. One of 1, 2, 3, or 4.
  *
  * Returns:
