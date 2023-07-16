@@ -154,3 +154,32 @@ button {
 .loading-dots:nth-child(3) {
   animation-delay: 0.8s;
 }
+
+.modal-content form input[type="text"] {
+  background-color: white;
+  color: #000;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 20px;
+  width: auto;
+}
+
+.modal-content form button[type="submit"] {
+  background-color: #f8f6f6;
+  color: black;
+  border-radius: 5px;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.modal-content form button[type="submit"]:hover {
+  background-color: black;
+  color: white;
+}

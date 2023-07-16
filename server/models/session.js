@@ -23,6 +23,10 @@ const SessionSchema = new Schema({
   finalImage: {
     type: String,
     default: ""
+  },
+  name: {
+    type: String,
+    required: true
   }
 });
 

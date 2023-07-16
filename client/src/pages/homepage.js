@@ -6,12 +6,15 @@ import Instructions from "../components/Instructions";
 import { addPlayerAsync, addSessionAsync } from "../redux/session/thunks";
 import { useNavigate } from "react-router-dom";
 import { setSession } from "../redux/session/reducer";
+import Modal from "../components/Modal";
 
 function Homepage() {
   const currentSessionId = useSelector((state) => state.session._id);
-  const tempUser = "648265d192b9bd82bbc84912";
+  const tempUser = "648265d192b9bd82bbc8491a4";
   let [sessions, setSessions] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [sessionName, setSessionName] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -48,15 +51,28 @@ function Homepage() {
 
   const handleAddSession = (e) => {
     e.preventDefault();
+    setModalOpen(true);
+  };
+
+  const handleModalFormSubmit = (e) => {
+    e.preventDefault();
+
     const newSession = {
+      name: sessionName,
       isPublic: true,
       status: "waiting",
       players: [tempUser]
     };
+
     dispatch(addSessionAsync(newSession)).then((session) => {
       let payload = { session: session.payload, userId: tempUser };
       dispatch(setSession(payload));
+      setModalOpen(false);
     });
+  };
+
+  const handleCloseModal = () => {
+    setModalOpen(false);
   };
 
   const joinSession = (session) => {
@@ -87,45 +103,60 @@ function Homepage() {
   }
 
   return (
-    <div className="page">
-      <div className="content">
-        {/* factor out as a component later, if necessary */}
-        <div className="left-pane">
-          <p id="join-session">Join a session</p>
-          {sessions?.map((session) => {
-            if (session.status === "waiting") {
-              return (
-                <button
-                  className="session-button"
-                  key={session._id}
-                  onClick={() => joinSession(session)}
-                >
-                  <p className="session-text">Session {session._id}</p>
-                  <p className="session-text">{session.players.length}/4</p>
-                </button>
-              );
-            } 
-            return null;
+    <div>
+      <Modal isOpen={modalOpen} onClose={handleCloseModal}>
+        <h2>Create a new session</h2>
+        <form onSubmit={handleModalFormSubmit}>
+          <input
+            type="text"
+            value={sessionName}
+            onChange={(e) => setSessionName(e.target.value)}
+            placeholder="Session name"
+            required
+          />
+          <button type="submit">Create Session</button>
+        </form>
+      </Modal>
+      <div className="page">
+        <div className="content">
+          {/* factor out as a component later, if necessary */}
+          <div className="left-pane">
+            <p id="join-session">Join a session</p>
+            {sessions?.map((session) => {
+              if (session.status === "waiting") {
+                return (
+                  <button
+                    className="session-button"
+                    key={session._id}
+                    onClick={() => joinSession(session)}
+                  >
+                    <p className="session-text">{session.name}</p>
+                    <p className="session-text">{session.players.length}/4</p>
+                  </button>
+                );
+              }
+              return null;
             })}
-        </div>
-
-        <div id="circle"></div>
-
-        <div className="right-pane">
-          <div id="placeholder">
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center"
-              }}
-            >
-              <Instructions />
-            </div>
           </div>
-          <button id="start-session-btn" onClick={handleAddSession}>
-            START NEW SESSION
-          </button>
+
+          <div id="circle"></div>
+
+          <div className="right-pane">
+            <div id="placeholder">
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center"
+                }}
+              >
+                <Instructions />
+              </div>
+            </div>
+            <button id="start-session-btn" onClick={handleAddSession}>
+              START NEW SESSION
+            </button>
+          </div>
         </div>
       </div>
     </div>
