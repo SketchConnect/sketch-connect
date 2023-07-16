@@ -52,9 +52,8 @@ const pages = [
 const settings = ["Profile", "Dashboard", "Logout"];
 
 function Header() {
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
-  const { googleSignIn, logOut, user } = UserAuth();
+  const { logOut, user } = UserAuth();
   const navigate = useNavigate();
 
   const handleSignOut = async () => {
@@ -79,16 +78,8 @@ function Header() {
     }
   }, [user]);
 
-  const handleOpenNavMenu = (event) => {
-    setAnchorElNav(event.currentTarget);
-  };
-
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
-  };
-
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
   };
 
   const handleCloseUserMenu = () => {

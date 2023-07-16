@@ -1,26 +1,21 @@
 import { useContext, createContext, useEffect, useState } from "react";
-import {
-  GoogleAuthProvider,
-  FacebookAuthProvider,
-  OAuthProvider,
-  signInWithRedirect,
-  signOut,
-  onAuthStateChanged
-} from "firebase/auth";
+import { GoogleAuthProvider, FacebookAuthProvider, OAuthProvider, signInWithPopup, signOut, onIdTokenChanged } from "firebase/auth";
 import { auth } from "../firebase";
+import { useDispatch } from "react-redux";
+import { addUserAsync } from "../redux/user/thunks";
 
-const AppleAuthProvider = new OAuthProvider("apple.com");
+const GoogleProvider = new GoogleAuthProvider();
+const FacebookProvider = new FacebookAuthProvider();
+const AppleProvider = new OAuthProvider("apple.com");
 
 const AuthContext = createContext();
 
-// const auth = getAuth();
-
 export const AuthContextProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const dispatch = useDispatch();
 
   const googleSignIn = () => {
-    const provider = new GoogleAuthProvider();
-    signInWithRedirect(auth, provider)
+    signInWithPopup(auth, GoogleProvider)
       .then((res) => {
         console.log(res);
       })
@@ -31,8 +26,7 @@ export const AuthContextProvider = ({ children }) => {
 
   const facebookSignIn = () => {
     console.log("into facebookSignIn in AuthContext");
-    const provider = new FacebookAuthProvider();
-    signInWithRedirect(auth, provider)
+    signInWithPopup(auth, FacebookProvider)
       .then((res) => {
         console.log(res);
       })
@@ -42,8 +36,7 @@ export const AuthContextProvider = ({ children }) => {
   };
 
   const appleSignIn = () => {
-    const provider = new AppleAuthProvider();
-    signInWithRedirect(auth, provider)
+    signInWithPopup(auth, AppleProvider)
       .then((res) => {
         console.log(res);
       })
@@ -57,10 +50,18 @@ export const AuthContextProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+    const unsubscribe = onIdTokenChanged(auth, (currentUser) => {
       if (currentUser) {
         const { uid, displayName, email, photoURL } = currentUser;
         setUser({ uid, displayName, email, photoURL });
+        const userToAdd = {
+          oauthID: uid,
+          email: email,
+          name: displayName,
+          profilePic: photoURL,
+        };
+        console.log("user is", userToAdd);
+        dispatch(addUserAsync(userToAdd));
       } else {
         setUser(null);
       }
