@@ -1,5 +1,6 @@
 import express from "express";
 import Session from "../models/session.js";
+import ImageUploadService from "../services/ImageUploadService.js";
 
 const router = express.Router();
 
@@ -141,6 +142,8 @@ router.patch("/:id/add-player", async (req, res) => {
  *
  * URL parameters:
  * - id (string): The ID of the session to update.
+ * - folder (string): The name of the folder in which to store the uploaded file, one of "drawings/quadrants", "drawings/complete", or "profilePics"
+ * - quadrantNumber (string): The quadrant number of the drawing, if applicable. One of 1, 2, 3, or 4.
  *
  * Request body parameters:
  * - A multipart/form-data payload with a key of "img" and the value being the file to be uploaded.
@@ -151,7 +154,7 @@ router.patch("/:id/add-player", async (req, res) => {
 router.patch("/:id/upload-drawing", async (req, res) => {
   try {
     const imageUploadService = new ImageUploadService();
-    const publicUrl = await imageUploadService.uploadFile(req, "drawings");
+    const publicUrl = await imageUploadService.uploadFile(req);
 
     const result = await Session.updateOne(
       { _id: req.params.id },
