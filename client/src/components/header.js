@@ -64,6 +64,14 @@ function Header() {
       console.log(error);
     }
   };
+  
+  const handleNavToProfile = () => {
+    navigate('/profile'); // Replace '/profile' with the actual route for the profile page
+  };
+  
+  const handleNavToDashboard = () => {
+    navigate('/dashboard');
+  };
 
   React.useEffect(() => {
     if (user == null) {
@@ -111,7 +119,7 @@ function Header() {
           <Box>
             <Tooltip title="Open settings">
               <AvatarButton onClick={handleOpenUserMenu}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <Avatar alt="Profile" src="/static/images/avatar/2.jpg" />
               </AvatarButton>
             </Tooltip>
             <Menu
@@ -130,8 +138,8 @@ function Header() {
               onClose={handleCloseUserMenu}
             >
               <MenuList>
-                <MenuItem>Profile</MenuItem>
-                <MenuItem>Dashboard</MenuItem>
+                <MenuItem onClick={handleNavToProfile}>Profile</MenuItem>
+                <MenuItem onClick={handleNavToDashboard}>Dashboard</MenuItem>
                 <MenuItem onClick={handleSignOut}>Logout</MenuItem>
               </MenuList>
             </Menu>

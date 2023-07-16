@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import "./Timer.css";
 
 const Timer = ({ remainingTime }) => {
-  const currentSession = useSelector((state) => state.currentSession);
+  const currentSession = useSelector((state) => state.session._id);
   const currentTime = useRef(remainingTime);
   const prevTime = useRef(null);
   const isNewTimeFirstTick = useRef(false);
@@ -14,7 +14,7 @@ const Timer = ({ remainingTime }) => {
 
   useEffect(() => {
     if (remainingTime === 0) {
-      navigate.push(`/complete/${currentSession.id}`);
+      navigate(`/complete/${currentSession.id}`);
     }
     return () => {
       // Cleanup function to cancel any ongoing tasks or subscriptions

@@ -7,7 +7,7 @@ import { useParams } from "react-router-dom";
 function WaitingPage() {
   const { sessionId } = useParams();
 
-  const currentSession = useSelector((state) => state.currentSession);
+  const currentSession = useSelector((state) => state.session);
   const players = currentSession.players;
   const playerCount = players.length;
 
@@ -25,7 +25,7 @@ function WaitingPage() {
   return (
     <div className="lobby-container">
       <h2 className="lobby-header">
-        {playerCount == 4
+        {playerCount === 4
           ? `Session ${sessionId} is ready to start!`
           : `Session ${sessionId} is waiting for players to join...`}
       </h2>

@@ -1,9 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./page.css";
 import "./CompletePage.css";
-//import PuzzleBtn from "../../public/assets/images/puzzle-button.svg";
+import { useSelector, useDispatch } from "react-redux";
+import { resetSession } from "../redux/session/reducer";
+import { useNavigate } from "react-router-dom";
 
 const CompletePage = () => {
+  let navigate = useNavigate();
+  const current = useSelector((state) => state.session);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(resetSession());
+  }, [dispatch])
+
   return (
     <div className="container">
       <div className="buttons-container">
@@ -13,7 +23,7 @@ const CompletePage = () => {
           <button id="share-btn">Share</button>
         </div>
 
-        <div className="buttons-bottom">
+        <div className="buttons-bottom" onClick={() => navigate('/')}>
           <img
             id="newGame-btn"
             src={"/assets/images/puzzle-button.svg"}
