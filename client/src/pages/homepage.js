@@ -7,6 +7,7 @@ import { addPlayerAsync, addSessionAsync } from "../redux/session/thunks";
 import { useNavigate } from "react-router-dom";
 import { setSession } from "../redux/session/reducer";
 import Modal from "../components/Modal";
+import { motion } from "framer-motion";
 
 function Homepage() {
   const currentSessionId = useSelector((state) => state.session._id);
@@ -114,7 +115,9 @@ function Homepage() {
             placeholder="Session name"
             required
           />
-          <button type="submit">Create Session</button>
+          <motion.button type="submit" whileTap={{ scale: 0.9 }}>
+            Create Session
+          </motion.button>
         </form>
       </Modal>
       <div className="page">

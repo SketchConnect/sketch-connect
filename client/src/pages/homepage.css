@@ -173,6 +173,7 @@ button {
   padding: 10px 20px;
   cursor: pointer;
   font-size: 15px;
+  font-family: "Chelsea Market", cursive;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -180,6 +181,6 @@ button {
 }
 
 .modal-content form button[type="submit"]:hover {
-  background-color: black;
-  color: white;
+  background-color: white;
+  color: black;
 }
