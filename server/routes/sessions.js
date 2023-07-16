@@ -94,10 +94,11 @@ router.post("/", async (req, res) => {
       status: req.body.status,
       players: req.body.players,
       quadrant: [],
-      finalImage: ""
+      finalImage: "",
+      name: req.body.name
     });
     const result = await newSession.save();
-    res.status(200).send(result);
+    res.status(200).send({ session: result });
   } catch (error) {
     console.error(error);
     res.status(500).send({ error });
@@ -128,7 +129,7 @@ router.patch("/:id/add-player", async (req, res) => {
       return res.status(404).send({ error: "No session found with given id" });
     }
 
-    return res.status(200).send(req.body.id);
+    return res.status(200).send({ id: req.body.id });
   } catch (error) {
     console.error(error);
     return res.status(500).send(error);
@@ -162,7 +163,7 @@ router.patch("/:id/upload-drawing", async (req, res) => {
       return res.status(404).send({ error: "No session found with given id" });
     }
 
-    return res.status(200).send({ publicUrl });
+    return res.status(200).send({ url: publicUrl });
   } catch (error) {
     console.error(error);
     return res.status(500).send(error);

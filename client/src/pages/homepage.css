@@ -154,3 +154,28 @@ button {
 .loading-dots:nth-child(3) {
   animation-delay: 0.8s;
 }
+
+.modal-content form input[type="text"] {
+  background-color: white;
+  color: #000;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 20px;
+  width: auto;
+}
+
+.modal-content form button[type="submit"] {
+  background-color: white;
+  color: #487eb9;
+  border-radius: 5px;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 15px;
+  font-family: "Chelsea Market", cursive;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
