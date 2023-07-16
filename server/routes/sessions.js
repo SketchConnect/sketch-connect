@@ -142,11 +142,12 @@ router.patch("/:id/add-player", async (req, res) => {
  *
  * URL parameters:
  * - id (string): The ID of the session to update.
- * - folder (string): The name of the folder in which to store the uploaded file, one of "drawings/quadrants", "drawings/complete", or "profilePics"
- * - quadrantNumber (string): The quadrant number of the drawing, if applicable. One of 1, 2, 3, or 4.
  *
  * Request body parameters:
- * - A multipart/form-data payload with a key of "img" and the value being the file to be uploaded.
+ * - A multipart/form-data payload with:
+ * - key: "img", value: the file to be uploaded
+ * - key: "folder", value: the name of the folder in which to store the uploaded file, one of "drawings/quadrants", "drawings/complete", or "profilePics"
+ * - key: "quadrantNumber", value: the quadrant number of the drawing, if applicable. One of 1, 2, 3, or 4.
  *
  * Returns:
  * - A JSON object with a single property, publicUrl, containing the public URL of the uploaded file.
