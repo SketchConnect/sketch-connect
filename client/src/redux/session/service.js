@@ -14,7 +14,7 @@ const getSessions = async () => {
 const addSession = async (session) => {
   try {
     const response = await fetch(
-      "https://sketch-connect-be.onrender.com/sessions/sessions",
+      "https://sketch-connect-be.onrender.com/sessions",
       {
         method: "POST",
         headers: {
