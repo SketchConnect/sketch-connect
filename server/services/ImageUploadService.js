@@ -23,7 +23,7 @@ class ImageUploadService {
     this.bucket = storage.bucket("sketchconnect-images");
   }
 
-  async uploadFile(req, folder) {
+  async uploadFile(req) {
     return new Promise((resolve, reject) => {
       this.multer.single("img")(req, {}, async (error) => {
         if (error) {
@@ -31,9 +31,19 @@ class ImageUploadService {
           reject(error);
         } else {
           try {
-            const timestamp = this.getFormattedTimestamp();
             const extension = path.extname(req.file.originalname);
-            const fileName = `${timestamp}` + extension;
+            const quadrantNumber = req.body.quadrantNumber;
+            let folder = "";
+            let fileName = "";
+
+            if (req.body.folder === "drawings/quadrants") {
+              folder = `${req.body.folder}/${req.params.id}`;
+              fileName = `${quadrantNumber}` + extension;
+            } else {
+              folder = req.body.folder;
+              fileName = `${req.params.id}` + extension;
+            }
+
             const blob = this.bucket.file(`${folder}/${fileName}`);
             const blobStream = blob.createWriteStream();
 
@@ -53,11 +63,6 @@ class ImageUploadService {
         }
       });
     });
-  }
-
-  getFormattedTimestamp() {
-    const now = new Date();
-    return format(now, "MM-dd-yyyy-HH:mm:ss:SSS");
   }
 }
 
