@@ -166,8 +166,8 @@ button {
 }
 
 .modal-content form button[type="submit"] {
-  background-color: #f8f6f6;
-  color: black;
+  background-color: white;
+  color: #487eb9;
   border-radius: 5px;
   border: none;
   padding: 10px 20px;
@@ -178,9 +178,4 @@ button {
   justify-content: center;
   align-items: center;
   width: 100%;
-}
-
-.modal-content form button[type="submit"]:hover {
-  background-color: white;
-  color: black;
 }

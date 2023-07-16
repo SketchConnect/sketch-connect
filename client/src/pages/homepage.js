@@ -115,7 +115,11 @@ function Homepage() {
             placeholder="Session name"
             required
           />
-          <motion.button type="submit" whileTap={{ scale: 0.9 }}>
+          <motion.button
+            type="submit"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.9 }}
+          >
             Create Session
           </motion.button>
         </form>
