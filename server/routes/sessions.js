@@ -94,7 +94,7 @@ router.post("/", async (req, res) => {
       isPublic: req.body.isPublic,
       status: req.body.status,
       players: req.body.players,
-      quadrant: [],
+      quadrants: [],
       finalImage: "",
       name: req.body.name
     });
@@ -158,10 +158,19 @@ router.patch("/:id/upload-drawing", async (req, res) => {
     const imageUploadService = new ImageUploadService();
     const publicUrl = await imageUploadService.uploadFile(req);
 
-    const result = await Session.updateOne(
-      { _id: req.params.id },
-      { $set: { finalImage: publicUrl } }
-    );
+    let result;
+
+    if (req.body.folder === "drawings/quadrants") {
+      result = await Session.updateOne(
+        { _id: req.params.id },
+        { $push: { quadrants: publicUrl } }
+      );
+    } else {
+      result = await Session.updateOne(
+        { _id: req.params.id },
+        { $set: { finalImage: publicUrl } }
+      );
+    }
 
     if (result.nModified === 0) {
       return res.status(404).send({ error: "No session found with given id" });
