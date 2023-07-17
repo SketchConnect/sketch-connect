@@ -92,22 +92,22 @@ router.get("/:id/past-drawings", async (req, res) => {
  * - none
  *
  * Request body parameters:
- * - oauthID: the UID of the signed in user
+ * - _id: the UID of the signed in user
  * - email: the email of the signed in user
  * - name: the name of the signed in user
  * - profilePic: the url of the signed in user's profile picture
  */
 router.post("/", async (req, res) => {
   try {
-    const existingUser = await User.findOne({ oauthID: req.body.oauthID });
+    const existingUser = await User.findById(req.body._id);
 
     if (existingUser) {
-      return res.status(400).send({ error: "User already exists" });
+      return res.status(200).end();
     }
 
     const newUser = new User({
+      _id: req.body._id,
       oauthProvider: "Google",
-      oauthID: req.body.oauthID,
       email: req.body.email,
       name: req.body.name,
       sessions: [],

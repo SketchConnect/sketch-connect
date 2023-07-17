@@ -2,11 +2,11 @@ import mongoose from "mongoose";
 const { Schema } = mongoose;
 
 const UserSchema = new Schema({
-  oauthProvider: {
+  _id: {
     type: String,
     required: true
   },
-  oauthID: {
+  oauthProvider: {
     type: String,
     required: true
   },
