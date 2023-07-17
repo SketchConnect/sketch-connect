@@ -1,5 +1,12 @@
 import { useContext, createContext, useEffect, useState } from "react";
-import { GoogleAuthProvider, FacebookAuthProvider, OAuthProvider, signInWithPopup, signOut, onIdTokenChanged } from "firebase/auth";
+import {
+  GoogleAuthProvider,
+  FacebookAuthProvider,
+  OAuthProvider,
+  signInWithPopup,
+  signOut,
+  onIdTokenChanged
+} from "firebase/auth";
 import { auth } from "../firebase";
 import { useDispatch } from "react-redux";
 import { addUserAsync } from "../redux/user/thunks";
@@ -55,10 +62,10 @@ export const AuthContextProvider = ({ children }) => {
         const { uid, displayName, email, photoURL } = currentUser;
         setUser({ uid, displayName, email, photoURL });
         const userToAdd = {
-          oauthID: uid,
+          _id: uid,
           email: email,
           name: displayName,
-          profilePic: photoURL,
+          profilePic: photoURL
         };
         console.log("user is", userToAdd);
         dispatch(addUserAsync(userToAdd));
