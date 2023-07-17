@@ -14,6 +14,7 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import { styled } from "@mui/system";
 import { UserAuth } from "../context/AuthContext";
+import { useSelector } from "react-redux";
 
 const LogoContainer = styled(Box)({
   display: "flex",
@@ -49,11 +50,10 @@ const pages = [
   { name: "Home", path: "/" },
   { name: "About Us", path: "/about" }
 ];
-const settings = ["Profile", "Dashboard", "Logout"];
 
 function Header() {
   const [anchorElUser, setAnchorElUser] = React.useState(null);
-  const { logOut, user } = UserAuth();
+  const { logOut } = UserAuth();
   const navigate = useNavigate();
 
   const handleSignOut = async () => {
@@ -63,20 +63,21 @@ function Header() {
       console.log(error);
     }
   };
-  
+
   const handleNavToProfile = () => {
     navigate('/profile'); // Replace '/profile' with the actual route for the profile page
   };
-  
+
   const handleNavToDashboard = () => {
     navigate('/dashboard');
   };
 
+  const currentUser = useSelector((state) => state.user);
   React.useEffect(() => {
-    if (user == null) {
+    if (currentUser._id === "") {
       navigate("/login");
     }
-  }, [user]);
+  }, [currentUser]);
 
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
