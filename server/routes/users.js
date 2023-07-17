@@ -92,14 +92,14 @@ router.get("/:id/past-drawings", async (req, res) => {
  * - none
  *
  * Request body parameters:
- * - oauthID: the UID of the signed in user
+ * - _id: the UID of the signed in user
  * - email: the email of the signed in user
  * - name: the name of the signed in user
  * - profilePic: the url of the signed in user's profile picture
  */
 router.post("/", async (req, res) => {
   try {
-    const existingUser = await User.findById(req.body.oauthID);
+    const existingUser = await User.findById(req.body._id);
 
     if (existingUser) {
       return res.status(200).end();
