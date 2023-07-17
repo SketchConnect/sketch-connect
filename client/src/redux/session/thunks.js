@@ -5,7 +5,8 @@ import {
   ADD_SESSION,
   DELETE_SESSION,
   UPDATE_STATUS,
-  ADD_PLAYER
+  ADD_PLAYER,
+  FINAL_IMAGE
 } from "../utils";
 
 export const getSessionsAsync = createAsyncThunk(GET_SESSIONS, async () => {
@@ -40,3 +41,10 @@ export const addPlayerAsync = createAsyncThunk(
     return await sessionService.addPlayer(session._id, player);
   }
 );
+
+export const finalImageAsync = createAsyncThunk(
+  FINAL_IMAGE,
+  async ({sessionId, image}) => {
+    return await sessionService.finalImage(sessionId, image);
+  }
+)

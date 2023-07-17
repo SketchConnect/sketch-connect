@@ -77,7 +77,8 @@ function Homepage() {
   };
 
   const joinSession = (session) => {
-    if (session.status === "waiting" && !session.players.includes(tempUser)) {
+    if (session.status === "waiting") {
+    // if (session.status === "waiting" && !session.players.includes(tempUser)) {
       dispatch(addPlayerAsync({ session, player: tempUser }));
       let payload = { session: session, userId: tempUser };
       dispatch(setSession(payload));

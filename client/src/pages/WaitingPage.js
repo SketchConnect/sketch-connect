@@ -1,11 +1,12 @@
 import React, { useEffect } from "react";
-import { NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import "./WaitingPage.css";
 import { useParams } from "react-router-dom";
 
 function WaitingPage() {
   const { sessionId } = useParams();
+  const navigate = useNavigate();
 
   const currentSession = useSelector((state) => state.session);
   const players = currentSession.players;
@@ -34,9 +35,9 @@ function WaitingPage() {
       </div>
       <div className="button-container">
         <button className="invite-button">INVITE</button>
-        <NavLink className="start-button" to="/game">
+        <button className="start-button" onClick={() => navigate(`/game/${sessionId}`)}>
           START
-        </NavLink>
+        </button>
       </div>
     </div>
   );

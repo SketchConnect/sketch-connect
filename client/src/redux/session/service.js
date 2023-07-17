@@ -105,12 +105,41 @@ const addPlayer = async (sessionId, playerId) => {
   }
 };
 
+const finalImage = async (sessionId, image) => {
+  try {
+    let formData = new FormData();
+    formData.append('img', image);
+    formData.append('folder', 'drawings/complete')
+    formData.append('quadrantNumber', "")
+    const response = await fetch(
+      `https://sketch-connect-be.onrender.com/sessions/${sessionId}/upload-drawing`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: formData
+      }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data?.message);
+    }
+  } catch (error) {
+    console.error("Error final image to session:", error);
+    throw error;
+  }
+};
+
 const services = {
   getSessions,
   addSession,
   deleteSession,
   updateStatus,
-  addPlayer
+  addPlayer,
+  finalImage
 };
 
 export default services;
