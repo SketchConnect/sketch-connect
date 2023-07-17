@@ -1,17 +1,15 @@
 const INITIAL_STATE = {
   // temp data to mock
-
   /*
     From BE
     session: {
       - isPublic (boolean): Determines if the session is public.
       - status (string): The current status of the session. One of "waiting", "ongoing", "completed", or "cancelled".
       - players (array): An array of player ids. Will be initialized with the host's id.
-      - quadrant (array): Used to store links to each of the images, initially empty.
+      - quadrants (array): Used to store links to each of the images, initially empty.
       - finalImage (string): Used to store the final image's URL or data, initially empty.
     }   
     */
-  
 };
 
 const reducer = (state = INITIAL_STATE, action) => {
