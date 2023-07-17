@@ -85,24 +85,6 @@ function Homepage() {
     }
   };
 
-  if (loading) {
-    return (
-      <div className="loading-overlay">
-        <img
-          src={"assets/images/logo.png"}
-          alt="loading"
-          className="loading-image"
-        />
-        <div className="loading-text">
-          <span>Loading</span>
-          <span className="loading-dots">.</span>
-          <span className="loading-dots">.</span>
-          <span className="loading-dots">.</span>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div>
       <Modal isOpen={modalOpen} onClose={handleCloseModal}>

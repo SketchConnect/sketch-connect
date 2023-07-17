@@ -1,143 +1,112 @@
-import * as React from "react";
-import { NavLink, useNavigate } from "react-router-dom";
-import "./header.css";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import Menu from "@mui/material/Menu";
-import { MenuList } from "@mui/material";
-import Container from "@mui/material/Container";
+import React from "react";
+import "./Header.css";
 import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import Tooltip from "@mui/material/Tooltip";
+import { NavLink } from "react-router-dom";
+import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
+import ListItemText from "@mui/material/ListItemText";
 import { styled } from "@mui/system";
-import { UserAuth } from "../context/AuthContext";
-
-const LogoContainer = styled(Box)({
-  display: "flex",
-  alignItems: "center"
-});
-
-const LogoImage = styled("img")({
-  margin: "0 auto",
-  padding: "1em",
-  maxWidth: "100%",
-  maxHeight: "5em"
-});
-
-const NavLinkButton = styled(Button)(({ theme }) => ({
-  margin: theme.spacing(0, 1),
-  color: "#253674",
-  textDecoration: "none",
-  display: "flex",
-  alignItems: "center",
-  "&:hover": {
-    color: "#f50057"
-  }
-}));
-
-const AvatarButton = styled(IconButton)(({ theme }) => ({
-  background: "#f50057",
-  "&:hover": {
-    background: "#ff4081"
-  }
-}));
-
-const pages = [
-  { name: "Home", path: "/" },
-  { name: "About Us", path: "/about" }
-];
-const settings = ["Profile", "Dashboard", "Logout"];
+import { useState } from "react";
 
 function Header() {
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
-  const { logOut, user } = UserAuth();
-  const navigate = useNavigate();
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+  const user = true;
 
-  const handleSignOut = async () => {
-    try {
-      await logOut();
-    } catch (error) {
-      console.log(error);
+  const handleMenu = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleLogout = () => {
+    // todo: add logout logic
+    handleClose();
+  };
+
+  const StyledMenuItem = styled(MenuItem)(({ theme }) => ({
+    "&:focus": {
+      backgroundColor: "#f7963e"
+    },
+    "&:hover": {
+      backgroundColor: "#f7a961"
     }
-  };
-  
-  const handleNavToProfile = () => {
-    navigate('/profile'); // Replace '/profile' with the actual route for the profile page
-  };
-  
-  const handleNavToDashboard = () => {
-    navigate('/dashboard');
-  };
-
-  React.useEffect(() => {
-    if (user == null) {
-      navigate("/login");
-    }
-  }, [user]);
-
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
-  };
-
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-  };
+  }));
 
   return (
-    <AppBar position="static" color="default">
-      <Container maxWidth="xl">
-        <Toolbar disableGutters>
-          <Box sx={{ flexGrow: 1 }}>
-            <LogoContainer>
-              {pages.map((page) => (
-                <NavLinkButton
-                  key={page.path}
-                  component={NavLink}
-                  to={page.path}
-                >
-                  {page.name}
-                </NavLinkButton>
-              ))}
-              <LogoImage
-                src="/assets/images/logo.png"
-                alt="sketch connect logo"
-              />
-            </LogoContainer>
-          </Box>
-          <Box>
-            <Tooltip title="Open settings">
-              <AvatarButton onClick={handleOpenUserMenu}>
-                <Avatar alt="Profile" src="/static/images/avatar/2.jpg" />
-              </AvatarButton>
-            </Tooltip>
+    <header className="new-header">
+      <div className="nav-left">
+        <NavLink to="/" className="nav-link">
+          Home
+        </NavLink>
+        <NavLink to="/about" className="nav-link">
+          About Us
+        </NavLink>
+      </div>
+
+      <img src="/assets/images/logo.png" alt="Logo" className="logo" />
+
+      <div className="nav-right">
+        {user ? (
+          <>
+            <NavLink to="/dashboard" className="nav-link">
+              Hello, User 1
+            </NavLink>
+            <Avatar
+              alt="User 1"
+              src="/assets/images/user1.png"
+              aria-controls="fade-menu"
+              aria-haspopup="true"
+              onClick={handleMenu}
+              style={{ cursor: "pointer" }}
+            />
             <Menu
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right"
-              }}
+              id="fade-menu"
+              anchorEl={anchorEl}
               keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right"
+              open={open}
+              onClose={handleClose}
+              PaperProps={{
+                style: {
+                  marginTop: "20px",
+                  borderRadius: "10px",
+                  backgroundColor: "#f7963e",
+                  color: "white"
+                }
               }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
+              transformOrigin={{ horizontal: "center", vertical: "top" }}
+              anchorOrigin={{ horizontal: "center", vertical: "bottom" }}
             >
-              <MenuList>
-                <MenuItem onClick={handleNavToProfile}>Profile</MenuItem>
-                <MenuItem onClick={handleNavToDashboard}>Dashboard</MenuItem>
-                <MenuItem onClick={handleSignOut}>Logout</MenuItem>
-              </MenuList>
+              <StyledMenuItem onClick={handleClose}>
+                <ListItemText
+                  primary={
+                    <NavLink
+                      to="/dashboard"
+                      style={{ color: "white", textDecoration: "none" }}
+                    >
+                      Dashboard
+                    </NavLink>
+                  }
+                  style={{ textAlign: "center" }}
+                />
+              </StyledMenuItem>
+              <StyledMenuItem onClick={handleLogout}>
+                <ListItemText
+                  primary="Logout"
+                  style={{ textAlign: "center" }}
+                />
+              </StyledMenuItem>
             </Menu>
-          </Box>
-        </Toolbar>
-      </Container>
-    </AppBar>
+          </>
+        ) : (
+          <NavLink to="/login" className="nav-link">
+            Login
+          </NavLink>
+        )}
+      </div>
+    </header>
   );
 }
 

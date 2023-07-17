@@ -1,31 +1,45 @@
-.logo-container {
+.new-header {
+  margin-top: 10px;
+  position: relative;
   display: flex;
+  justify-content: space-between;
   align-items: center;
+  padding: 0 20px;
+  background: transparent;
+}
+
+.nav-left {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  width: calc(50% - 150px);
+
+  font-size: 25px;
+}
+
+.nav-right {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  width: calc(50% - 150px);
+
+  font-size: 25px;
+}
+
+.nav-link,
+.nav-text {
+  color: #487eb9;
+  text-decoration: none;
+}
+
+.nav-text:hover {
+  cursor: default;
+}
+.nav-link:hover {
+  cursor: pointer;
 }
 
 .logo {
-  margin: 0 auto;
-  padding: 1em;
-  max-width: 100%;
-  max-height: 5em;
-}
-
-.navLink {
-  margin: 0 1em;
-  color: #253674;
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-}
-
-.navLink:hover {
-  color: #f50057;
-}
-
-.avatar {
-  background: #f50057;
-}
-
-.avatar:hover {
-  background: #ff4081;
+  height: auto;
+  width: 300px;
 }
