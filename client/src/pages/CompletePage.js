@@ -10,7 +10,7 @@ const CompletePage = () => {
   let navigate = useNavigate();
   const current = useSelector((state) => state.session);
   const dispatch = useDispatch();
-  //let [quadrants, setQuadrants] = useState([]); 
+  // let [quadrants, setQuadrants] = useState([]);
   let canvas = useRef();
   let link = useRef();
 
@@ -18,91 +18,91 @@ const CompletePage = () => {
     fetch(`https://sketch-connect-be.onrender.com/sessions/${current._id}`, {
       method: "GET"
     })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error("HTTP error " + response.status);
-      }
-      return response.json();
-    })
-    .then((response) => {
-      //setQuadrants(response.quadrants);
-      make_base(response.quadrants);
-    })
-    .then(() => {
-      let dataURL =canvas.current.toDataURL();
-      // def not the way to get file
-      dispatch(finalImageAsync(current._id, dataURL))
-    })
-    .then(
-      () => {
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("HTTP error " + response.status);
+        }
+        return response.json();
+      })
+      .then((response) => {
+        return make_base(response.quadrants);
+      })
+      .then(() => {
+        canvas.current.toBlob((blob) => {
+          const sessionId = current._id;
+          const image = new File([blob], "image.png", {
+            type: "image/png"
+          });
+          dispatch(finalImageAsync({ sessionId, image }));
+        }, "image/png");
+      })
+      .then(() => {
         dispatch(resetSession());
-      }
-    ).catch((err) => console.log(`Failed to fetch session: ${err}`));
-  }, [dispatch])
+      })
+      .catch((err) => console.log(`Failed to fetch session: ${err}`));
+  }, [dispatch]);
 
   const make_base = (quadrants) => {
-    let context = canvas.current.getContext('2d');
-    console.log(quadrants)
+    return new Promise((resolve, reject) => {
+      let context = canvas.current.getContext("2d");
 
-    let images = [];
-    let loadedCount = 0;
-  
-    const loadImages = () => {
-      for (let i = 0; i < 4; i++) {
-        images[i] = new Image();
-        // uncomment after Martin set crossOrigin allow
-        //images[i].crossOrigin="anonymous";
-        images[i].src = quadrants[i];
-        images[i].onload = function() {
-          loadedCount++;
-          if (loadedCount === 4) {
-            drawImages();
-          }
-        };
-      }
-    };
-  
-    const drawImages = () => {
-      let imageWidth = canvas.current.width / 2;
-      let imageHeight = canvas.current.height / 2;
-  
-      for (let i = 0; i < 4; i++) {
-        let x = (i % 2) * imageWidth;
-        let y = Math.floor(i / 2) * imageHeight;
-        context.drawImage(images[i], x, y, imageWidth, imageHeight);
-      }
-      
-      downloadImage();
-    };
-  
-    loadImages();
+      let images = [];
+      let loadedCount = 0;
+
+      const loadImages = () => {
+        for (let i = 0; i < 4; i++) {
+          images[i] = new Image();
+          images[i].crossOrigin = "anonymous";
+          images[i].src = quadrants[i];
+          images[i].onload = function () {
+            loadedCount++;
+            if (loadedCount === 4) {
+              drawImages();
+              resolve();
+            }
+          };
+          images[i].onerror = reject;
+        }
+      };
+
+      const drawImages = () => {
+        let imageWidth = canvas.current.width / 2;
+        let imageHeight = canvas.current.height / 2;
+
+        for (let i = 0; i < 4; i++) {
+          let x = (i % 2) * imageWidth;
+          let y = Math.floor(i / 2) * imageHeight;
+          context.drawImage(images[i], x, y, imageWidth, imageHeight);
+        }
+      };
+
+      loadImages();
+    });
   };
 
-  const downloadImage = () => {
-    fetch(canvas.current.toDataURL())
-    .then((response) => {
-      response.blob();
-    })
-    .then((blob) => {
-      const objUrl = window.URL.createObjectURL(blob);
-      let link = document.createElement('a');
-      link.download = 'Image.png';
-      link.href = objUrl; //canvas.current.toDataURL()
-      link.click();
-    })
-  }
-  
+  const downloadImage = (session) => {
+    let link = document.createElement("a");
+    link.download = `${session.name}.png`;
+    link.href = canvas.current.toDataURL();
+    link.click();
+  };
 
   return (
     <div className="container">
       <div className="buttons-container">
         <div className="buttons-top">
           <h2 className="page-heading">What a masterpiece!</h2>
-          <button id="download-btn" ref={link} onClick={() => downloadImage()}>Download</button>
+          <button
+            id="download-btn"
+            ref={link}
+            onClick={() => downloadImage(current)}
+          >
+            Download
+          </button>
           <button id="share-btn">Share</button>
         </div>
 
-        <div className="buttons-bottom" onClick={() => navigate('/')}>
+        <div className="buttons-bottom" onClick={() => navigate("/")}>
           <img
             id="newGame-btn"
             src={"/assets/images/puzzle-button.svg"}
