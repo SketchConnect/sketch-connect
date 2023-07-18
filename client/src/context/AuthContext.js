@@ -1,4 +1,4 @@
-import { useContext, createContext, useEffect, useState } from "react";
+import { useContext, createContext, useEffect } from "react";
 import {
   GoogleAuthProvider,
   FacebookAuthProvider,
@@ -8,8 +8,9 @@ import {
   onIdTokenChanged
 } from "firebase/auth";
 import { auth } from "../firebase";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addUserAsync } from "../redux/user/thunks";
+import { resetUser, setUser } from "../redux/user/reducer";
 
 const GoogleProvider = new GoogleAuthProvider();
 const FacebookProvider = new FacebookAuthProvider();
@@ -18,7 +19,6 @@ const AppleProvider = new OAuthProvider("apple.com");
 const AuthContext = createContext();
 
 export const AuthContextProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
   const dispatch = useDispatch();
 
   const googleSignIn = () => {
@@ -60,7 +60,6 @@ export const AuthContextProvider = ({ children }) => {
     const unsubscribe = onIdTokenChanged(auth, (currentUser) => {
       if (currentUser) {
         const { uid, displayName, email, photoURL } = currentUser;
-        setUser({ uid, displayName, email, photoURL });
         const userToAdd = {
           _id: uid,
           email: email,
@@ -68,9 +67,13 @@ export const AuthContextProvider = ({ children }) => {
           profilePic: photoURL
         };
         console.log("user is", userToAdd);
-        dispatch(addUserAsync(userToAdd));
+        dispatch(addUserAsync(userToAdd)).then((user) => {
+          let payload = { user: user };
+          console.log("the payload is ", payload);
+          dispatch(setUser(payload));
+        });
       } else {
-        setUser(null);
+        dispatch(resetUser());
       }
     });
 
@@ -79,9 +82,13 @@ export const AuthContextProvider = ({ children }) => {
     };
   }, []);
 
+  // Use the selector function to access the user state
+  const currentUser = useSelector((state) => state.user);
+  console.log("the user in AuthContext is", currentUser);
+
   return (
     <AuthContext.Provider
-      value={{ googleSignIn, facebookSignIn, appleSignIn, logOut, user }}
+      value={{ googleSignIn, facebookSignIn, appleSignIn, logOut }}
     >
       {children}
     </AuthContext.Provider>

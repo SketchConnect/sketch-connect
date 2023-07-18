@@ -11,7 +11,7 @@ import { motion } from "framer-motion";
 
 function Homepage() {
   const currentSessionId = useSelector((state) => state.session._id);
-  const tempUser = "648265d192b9bd82bbc8491a4";
+  const currentUser = useSelector((state) => state.user._id);
   let [sessions, setSessions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
@@ -62,11 +62,11 @@ function Homepage() {
       name: sessionName,
       isPublic: true,
       status: "waiting",
-      players: [tempUser]
+      players: [currentUser]
     };
 
     dispatch(addSessionAsync(newSession)).then((session) => {
-      let payload = { session: session.payload, userId: tempUser };
+      let payload = { session: session.payload, userId: currentUser };
       dispatch(setSession(payload));
       setModalOpen(false);
     });
@@ -77,31 +77,17 @@ function Homepage() {
   };
 
   const joinSession = (session) => {
-    if (session.status === "waiting" && !session.players.includes(tempUser)) {
-      dispatch(addPlayerAsync({ session, player: tempUser }));
-      let payload = { session: session, userId: tempUser };
+    console.log("the user that wants to join the game is ", currentUser);
+    if (
+      session.status === "waiting" &&
+      !session.players.includes(currentUser)
+    ) {
+      dispatch(addPlayerAsync({ session, player: currentUser }));
+      let payload = { session: session, userId: currentUser };
       dispatch(setSession(payload));
       console.log(currentSessionId);
     }
   };
-
-  if (loading) {
-    return (
-      <div className="loading-overlay">
-        <img
-          src={"assets/images/logo.png"}
-          alt="loading"
-          className="loading-image"
-        />
-        <div className="loading-text">
-          <span>Loading</span>
-          <span className="loading-dots">.</span>
-          <span className="loading-dots">.</span>
-          <span className="loading-dots">.</span>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div>

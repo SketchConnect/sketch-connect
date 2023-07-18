@@ -102,7 +102,7 @@ router.post("/", async (req, res) => {
     const existingUser = await User.findById(req.body._id);
 
     if (existingUser) {
-      return res.status(200).end();
+      return res.status(200).send(existingUser);
     }
 
     const newUser = new User({

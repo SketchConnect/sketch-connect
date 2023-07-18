@@ -15,7 +15,7 @@ const SessionSchema = new Schema({
     default: [],
     required: true
   },
-  quadrant: {
+  quadrants: {
     type: [String],
     default: [],
     required: true

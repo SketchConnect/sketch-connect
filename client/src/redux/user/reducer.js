@@ -1,9 +1,20 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { REQUEST_STATE } from '../utils';
-import { getUsersAsync, addUserAsync, deleteUserAsync, updateUserAsync } from './thunks';
+import { createSlice, createSelector } from "@reduxjs/toolkit";
+import { REQUEST_STATE } from "../utils";
+import {
+  getUsersAsync,
+  addUserAsync,
+  deleteUserAsync,
+  updateUserAsync
+} from "./thunks";
 
 const INITIAL_STATE = {
-  list: [],
+  // list: [],
+  _id: "",
+  oauthProvider: "",
+  email: "",
+  name: "",
+  sessions: [],
+  profilePic: "",
   getUsers: REQUEST_STATE.IDLE,
   addUser: REQUEST_STATE.IDLE,
   deleteUser: REQUEST_STATE.IDLE,
@@ -11,9 +22,26 @@ const INITIAL_STATE = {
 };
 
 const userSlice = createSlice({
-  name: 'user',
+  name: "user",
   initialState: INITIAL_STATE,
-  reducers: {},
+  reducers: {
+    resetUser: (state) => {
+      state._id = "";
+      state.oauthProvider = "";
+      state.email = "";
+      state.name = "";
+      state.sessions = [];
+      state.profilePic = "";
+    },
+    setUser: (state, action) => {
+      state._id = action.payload.user.payload._id;
+      state.oauthProvider = action.payload.user.payload.authProvider;
+      state.email = action.payload.user.payload.email;
+      state.name = action.payload.user.payload.name;
+      state.sessions = action.payload.user.payload.sessions;
+      state.profilePic = action.payload.user.payload.profilePic;
+    }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getUsersAsync.pending, (state) => {
@@ -34,7 +62,7 @@ const userSlice = createSlice({
       })
       .addCase(addUserAsync.fulfilled, (state, action) => {
         state.addUser = REQUEST_STATE.FULFILLED;
-        state.list.push(action.payload);
+        // state.list.push(action.payload);
       })
       .addCase(addUserAsync.rejected, (state, action) => {
         state.addUser = REQUEST_STATE.REJECTED;
@@ -59,7 +87,9 @@ const userSlice = createSlice({
       .addCase(updateUserAsync.fulfilled, (state, action) => {
         state.updateUser = REQUEST_STATE.FULFILLED;
         const updatedUser = action.payload;
-        const updatedIndex = state.list.findIndex((user) => user._id === updatedUser._id);
+        const updatedIndex = state.list.findIndex(
+          (user) => user._id === updatedUser._id
+        );
         if (updatedIndex !== -1) {
           state.list[updatedIndex] = updatedUser;
         }
@@ -71,4 +101,5 @@ const userSlice = createSlice({
   }
 });
 
+export const { resetUser, setUser } = userSlice.actions;
 export default userSlice.reducer;
