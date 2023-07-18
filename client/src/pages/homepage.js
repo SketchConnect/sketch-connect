@@ -8,10 +8,11 @@ import { useNavigate } from "react-router-dom";
 import { setSession } from "../redux/session/reducer";
 import Modal from "../components/Modal";
 import { motion } from "framer-motion";
+import { Avatar } from "@mantine/core";
 
 function Homepage() {
   const currentSessionId = useSelector((state) => state.session._id);
-  const currentUser = useSelector((state) => state.user._id);
+  const currentUser = useSelector((state) => state.user);
   let [sessions, setSessions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
@@ -62,11 +63,11 @@ function Homepage() {
       name: sessionName,
       isPublic: true,
       status: "waiting",
-      players: [currentUser]
+      players: [currentUser._id]
     };
 
     dispatch(addSessionAsync(newSession)).then((session) => {
-      let payload = { session: session.payload, userId: currentUser };
+      let payload = { session: session.payload, userId: currentUser._id };
       dispatch(setSession(payload));
       setModalOpen(false);
     });
@@ -77,13 +78,13 @@ function Homepage() {
   };
 
   const joinSession = (session) => {
-    console.log("the user that wants to join the game is ", currentUser);
+    console.log("the user that wants to join the game is ", currentUser._id);
     if (
       session.status === "waiting" &&
-      !session.players.includes(currentUser)
+      !session.players.includes(currentUser._id)
     ) {
-      dispatch(addPlayerAsync({ session, player: currentUser }));
-      let payload = { session: session, userId: currentUser };
+      dispatch(addPlayerAsync({ session, player: currentUser._id }));
+      let payload = { session: session, userId: currentUser._id };
       dispatch(setSession(payload));
       console.log(currentSessionId);
     }
@@ -114,6 +115,14 @@ function Homepage() {
         <div className="content">
           {/* factor out as a component later, if necessary */}
           <div className="left-pane">
+            <div className="avatar">
+              <Avatar
+                src={currentUser.profilePic || "/assets/images/user.png"}
+                size={128}
+                radius={128}
+              />
+              <p className="user-name">{currentUser.name}</p>
+            </div>
             <p id="join-session">Join a session</p>
             {sessions?.map((session) => {
               if (session.status === "waiting") {
