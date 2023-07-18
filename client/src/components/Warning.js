@@ -24,10 +24,11 @@ function Warning() {
       ></img>
       <h2 id="modal-title">WAIT!</h2>
       <p id="modal-description">
-        Our game is best played on laptop due to canvas size resetrictions.
+        Our game is best played on laptop due to canvas size restrictions.
       </p>
       <p id="modal-description">
-        Please use device with at least 1024px width for the full experience.
+        Please use a device with a width of at least 1024px width for the full
+        experience.
       </p>
     </div>
   );

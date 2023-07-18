@@ -39,6 +39,11 @@
   cursor: pointer;
 }
 
+.menu-item {
+  font-family: 'Chelsea Market', cursive;
+  font-size: 20px;
+}
+
 .logo {
   height: auto;
   width: 300px;

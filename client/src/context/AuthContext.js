@@ -88,7 +88,7 @@ export const AuthContextProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ googleSignIn, facebookSignIn, appleSignIn, logOut}}
+      value={{ googleSignIn, facebookSignIn, appleSignIn, logOut }}
     >
       {children}
     </AuthContext.Provider>
@@ -98,4 +98,3 @@ export const AuthContextProvider = ({ children }) => {
 export const UserAuth = () => {
   return useContext(AuthContext);
 };
-

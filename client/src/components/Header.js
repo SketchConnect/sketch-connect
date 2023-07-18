@@ -1,39 +1,42 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./Header.css";
-import Avatar from "@mui/material/Avatar";
-import { NavLink } from "react-router-dom";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import ListItemText from "@mui/material/ListItemText";
-import { styled } from "@mui/system";
+import { Menu, Avatar } from "@mantine/core";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { UserAuth } from "../context/AuthContext";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 function Header() {
-  const [anchorEl, setAnchorEl] = useState(null);
-  const open = Boolean(anchorEl);
-  const user = true;
+  const { logOut } = UserAuth();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [opened, setOpened] = useState(false);
+  const user = useSelector((state) => state.user);
 
-  const handleMenu = (event) => {
-    setAnchorEl(event.currentTarget);
+  useEffect(() => {
+    if (!user || user._id === "") {
+      navigate("/login");
+    }
+  }, [dispatch, user]);
+
+  const handleMenu = () => {
+    setOpened(!opened);
+    console.log(user.profilePic);
   };
 
   const handleClose = () => {
-    setAnchorEl(null);
+    setOpened(false);
   };
 
-  const handleLogout = () => {
-    // todo: add logout logic
-    handleClose();
-  };
-
-  const StyledMenuItem = styled(MenuItem)(({ theme }) => ({
-    "&:focus": {
-      backgroundColor: "#f7963e"
-    },
-    "&:hover": {
-      backgroundColor: "#f7a961"
+  const handleLogout = async () => {
+    try {
+      await logOut();
+      handleClose();
+    } catch (error) {
+      console.log(error);
     }
-  }));
+  };
 
   return (
     <header className="new-header">
@@ -49,55 +52,44 @@ function Header() {
       <img src="/assets/images/logo.png" alt="Logo" className="logo" />
 
       <div className="nav-right">
-        {user ? (
+        {user && user._id !== "" ? (
           <>
             <NavLink to="/dashboard" className="nav-link">
-              Hello, User 1
+              Hello, {user.name.split(" ")[0] || "Player"}
             </NavLink>
-            <Avatar
-              alt="User 1"
-              src="/assets/images/user1.png"
-              aria-controls="fade-menu"
-              aria-haspopup="true"
-              onClick={handleMenu}
-              style={{ cursor: "pointer" }}
-            />
+
             <Menu
-              id="fade-menu"
-              anchorEl={anchorEl}
-              keepMounted
-              open={open}
-              onClose={handleClose}
-              PaperProps={{
-                style: {
-                  marginTop: "20px",
-                  borderRadius: "10px",
-                  backgroundColor: "#f7963e",
-                  color: "white"
-                }
-              }}
-              transformOrigin={{ horizontal: "center", vertical: "top" }}
-              anchorOrigin={{ horizontal: "center", vertical: "bottom" }}
+              opened={opened}
+              onChange={setOpened}
+              classNames={{ item: "menu-item" }}
+              radius="md"
             >
-              <StyledMenuItem onClick={handleClose}>
-                <ListItemText
-                  primary={
-                    <NavLink
-                      to="/dashboard"
-                      style={{ color: "white", textDecoration: "none" }}
-                    >
-                      Dashboard
-                    </NavLink>
-                  }
-                  style={{ textAlign: "center" }}
+              <Menu.Target>
+                <Avatar
+                  alt="User 1"
+                  src={user.profilePic || "/assets/images/user.png"}
+                  radius="xl"
+                  size="lg"
+                  onClick={handleMenu}
+                  style={{ cursor: "pointer" }}
                 />
-              </StyledMenuItem>
-              <StyledMenuItem onClick={handleLogout}>
-                <ListItemText
-                  primary="Logout"
-                  style={{ textAlign: "center" }}
-                />
-              </StyledMenuItem>
+              </Menu.Target>
+
+              <Menu.Dropdown>
+                <Menu.Item>
+                  <NavLink
+                    to="/dashboard"
+                    className="nav-link"
+                    onClick={handleClose}
+                  >
+                    Dashboard
+                  </NavLink>
+                </Menu.Item>
+
+                <Menu.Item color="red" onClick={handleLogout}>
+                  Logout
+                </Menu.Item>
+              </Menu.Dropdown>
             </Menu>
           </>
         ) : (
