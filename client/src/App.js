@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useLayoutEffect } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import "./App.css";
-import Header from "./components/header";
+import Header from "./components/Header";
 import Homepage from "./pages/homepage";
 import AboutPage from "./pages/AboutPage";
 import WaitingPage from "./pages/WaitingPage";
@@ -31,6 +31,16 @@ function useWindowSize() {
 function App() {
   const [open, isOpen] = useState(false);
   const width = useWindowSize();
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("https://sketch-connect-be.onrender.com")
+      .then(() => {
+        console.log("Server is awake");
+        setLoading(false);
+      })
+      .catch((err) => console.log(`Failed to wake server: ${err}`));
+  }, []);
 
   useEffect(() => {
     if (width < 1024) {
@@ -39,6 +49,24 @@ function App() {
       isOpen(false);
     }
   }, [width]);
+
+  if (loading) {
+    return (
+      <div className="loading-overlay">
+        <img
+          src={"assets/images/logo.png"}
+          alt="loading"
+          className="loading-image"
+        />
+        <div className="loading-text">
+          <span>Loading</span>
+          <span className="loading-dots">.</span>
+          <span className="loading-dots">.</span>
+          <span className="loading-dots">.</span>
+        </div>
+      </div>
+    );
+  }
   return (
     <div>
       <BrowserRouter>
