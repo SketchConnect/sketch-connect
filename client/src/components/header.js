@@ -49,7 +49,7 @@ const pages = [
   { name: "Home", path: "/" },
   { name: "About Us", path: "/about" }
 ];
-const settings = ["Profile", "Dashboard", "Logout"];
+const settings = ["Dashboard", "Logout"];
 
 function Header() {
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -62,10 +62,6 @@ function Header() {
     } catch (error) {
       console.log(error);
     }
-  };
-  
-  const handleNavToProfile = () => {
-    navigate('/profile'); // Replace '/profile' with the actual route for the profile page
   };
   
   const handleNavToDashboard = () => {
@@ -129,7 +125,6 @@ function Header() {
               onClose={handleCloseUserMenu}
             >
               <MenuList>
-                <MenuItem onClick={handleNavToProfile}>Profile</MenuItem>
                 <MenuItem onClick={handleNavToDashboard}>Dashboard</MenuItem>
                 <MenuItem onClick={handleSignOut}>Logout</MenuItem>
               </MenuList>
