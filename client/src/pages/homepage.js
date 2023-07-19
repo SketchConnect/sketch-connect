@@ -118,11 +118,12 @@ function Homepage() {
             <div className="avatar">
               <Avatar
                 src={currentUser.profilePic || "/assets/images/user.png"}
-                size={128}
-                radius={128}
+                size={100}
+                radius={100}
               />
-              <p className="user-name">{currentUser.name}</p>
+              <p id="user-name">{currentUser.name}</p>
             </div>
+            <div id="line-break"></div>
             <p id="join-session">Join a session</p>
             {sessions?.map((session) => {
               if (session.status === "waiting") {

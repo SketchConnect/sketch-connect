@@ -18,11 +18,19 @@
   padding-top: 30px;
 }
 
-.user-name {
+#user-name {
   display: flex;
   justify-content: center;
   width: 100%;
-  font-size: 20px;
+  font-size: 25px;
+}
+
+#line-break {
+  display: flex;
+  justify-content: center;
+  border-top: 5px solid white;
+  border-radius: 10px;
+  margin: 20px 20px;
 }
 
 #join-session {
