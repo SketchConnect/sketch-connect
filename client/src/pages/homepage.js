@@ -14,20 +14,11 @@ function Homepage() {
   const currentSessionId = useSelector((state) => state.session._id);
   const currentUser = useSelector((state) => state.user);
   let [sessions, setSessions] = useState([]);
-  const [loading, setLoading] = useState(true);
+
   const [modalOpen, setModalOpen] = useState(false);
   const [sessionName, setSessionName] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    fetch("https://sketch-connect-be.onrender.com")
-      .then(() => {
-        console.log("Server is awake");
-        setLoading(false);
-      })
-      .catch((err) => console.log(`Failed to wake server: ${err}`));
-  }, []);
 
   useEffect(() => {
     fetch("https://sketch-connect-be.onrender.com/sessions", {
@@ -67,7 +58,10 @@ function Homepage() {
     };
 
     dispatch(addSessionAsync(newSession)).then((session) => {
-      let payload = { session: session.payload, userId: currentUser._id };
+      let payload = {
+        session: session.payload.session,
+        userId: currentUser._id
+      };
       dispatch(setSession(payload));
       setModalOpen(false);
     });
