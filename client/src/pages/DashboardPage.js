@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
-import ProfilePhoto from '../components/ProfilePhoto';
+import { useSelector, useDispatch } from "react-redux";
 import HallOfFame from '../components/HallOfFame';
 import './DashboardPage.css';
+import { Avatar } from "@mantine/core";
 
 const DashboardPage = () => {
+  const currentUser = useSelector((state) => state.user);
+
   const [editable, setEditable] = useState(false);
-  const [name, setName] = useState('John Doe');
-  const [email, setEmail] = useState('johndoe@example.com');
+  const [name, setName] = useState(currentUser.name);
+  const [email, setEmail] = useState(currentUser.email);
 
   const handleNameChange = (e) => setName(e.target.value);
   const handleEmailChange = (e) => setEmail(e.target.value);
@@ -30,7 +33,13 @@ const DashboardPage = () => {
   return (
     <div className="dashboard">
       <div className="profile-section">
-        <ProfilePhoto />
+        <div className="profile-photo">
+          <Avatar
+            src={currentUser.profilePic || "/assets/images/user.png"}
+            size={150}
+            radius={150}
+          />
+        </div>
         <div className="profile-details">
           {editable ? (
             <>
@@ -49,7 +58,7 @@ const DashboardPage = () => {
             }
             setEditable(!editable);
           }}>
-            {editable ? 'Save' : 'Edit'}
+            {editable ? 'Save' : 'Edit Profile'}
           </button>
         </div>
       </div>
