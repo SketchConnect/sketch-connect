@@ -122,4 +122,31 @@ router.post("/", async (req, res) => {
   }
 });
 
+/**
+ * PATCH /:id
+ * Updates existing user object.
+ *
+ * URL parameters:
+ * - id (string): The ID of the user to update.
+ *
+ * Request body parameters:
+ * - key: "name", value: the new name to be updated
+ * - key: "email", value: the new email to be updated
+ */
+router.patch("/:id", async (req, res) => {
+  try {
+    const result = await User.updateOne(
+      { _id: req.params.id },
+      { $set: { name: req.body.name, email: req.body.email } }
+    );
+
+    if (result.nModified === 0) {
+      return res.status(404).send({ error: "No user found with given id" });
+    }
+  } catch (error) {
+    console.error(error);
+    return res.status(500).send(error);
+  }
+});
+
 export default router;
