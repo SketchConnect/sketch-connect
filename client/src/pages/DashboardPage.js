@@ -3,9 +3,11 @@ import { useSelector, useDispatch } from "react-redux";
 import HallOfFame from '../components/HallOfFame';
 import './DashboardPage.css';
 import { Avatar } from "@mantine/core";
+import { updateUserAsync } from "../redux/user/thunks";
 
 const DashboardPage = () => {
   const currentUser = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
   const [editable, setEditable] = useState(false);
   const [name, setName] = useState(currentUser.name);
@@ -15,19 +17,7 @@ const DashboardPage = () => {
   const handleEmailChange = (e) => setEmail(e.target.value);
 
   const handleSave = () => {
-    fetch('e', {
-      method: 'PUT', 
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ name, email }) 
-    })
-    .then(response => response.json())
-    .then(data => {
-    })
-    .catch((error) => {
-      console.error('Error:', error);
-    });
+    dispatch(updateUserAsync({ userId: currentUser._id, updatedUser: { name, email } }));
   };
 
   return (
