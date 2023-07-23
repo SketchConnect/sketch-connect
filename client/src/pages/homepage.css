@@ -23,6 +23,7 @@
   justify-content: center;
   width: 100%;
   font-size: 25px;
+  margin: 15px 0px;
 }
 
 #line-break {
@@ -30,13 +31,13 @@
   justify-content: center;
   border-top: 5px solid white;
   border-radius: 10px;
-  margin: 20px 20px;
+  margin: 10px 20px;
 }
 
 #join-session {
   margin: 0;
-  padding: 10px 45px 30px;
-  font-size: 34px;
+  padding: 10px 30px 30px;
+  font-size: 28px;
   text-align: center;
 }
 
@@ -100,8 +101,8 @@ button {
 
 .session-button {
   font-family: "Chelsea Market", cursive;
-  margin-left: 20px;
-  margin-right: 20px;
+  margin-left: 5%;
+  margin-right: 5%;
   padding: 0px 45px 15px;
   display: flex;
   flex-direction: row;
@@ -111,11 +112,12 @@ button {
   outline: none;
   cursor: pointer;
   padding: 0;
+  width: 90%;
 }
 
 .session-button:hover {
   background-color: lightblue;
-  border-radius: 10rem;
+
 }
 
 .session-button:hover .session-text {
