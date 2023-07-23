@@ -2,9 +2,11 @@ import React, { useEffect } from "react";
 import "./LoginPage.css";
 import { UserAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+// import user from "../redux/user/reducer";
+import { useSelector } from "react-redux";
 
 const LoginPage = () => {
-  const { googleSignIn, user } = UserAuth();
+  const { googleSignIn } = UserAuth();
   const navigate = useNavigate();
 
   const handleGoogleSignIn = async () => {
@@ -14,12 +16,13 @@ const LoginPage = () => {
       console.log(error);
     }
   };
+  const currentUser = useSelector((state) => state.user);
 
   useEffect(() => {
-    if (user != null) {
+    if (currentUser._id !== "") {
       navigate("/");
     }
-  }, [user]);
+  }, [currentUser]);
 
   return (
     <div className="container">
@@ -33,22 +36,6 @@ const LoginPage = () => {
           />
           Sign in with Google
         </button>
-        {/* <button className="apple-button" onClick={handleAppleSignIn}>
-          <img
-            src="https://1000logos.net/wp-content/uploads/2016/10/Apple-Logo.png"
-            alt="Apple Icon"
-            className="apple-icon"
-          />
-          Sign in with Apple
-        </button>
-        <button className="fb-button" onClick={handleFacebookSignIn}>
-          <img
-            src="https://1000logos.net/wp-content/uploads/2021/04/Facebook-logo.png"
-            alt="fb Icon"
-            className="fb-icon"
-          />
-          Sign in with Facebook
-        </button> */}
       </div>
     </div>
   );

@@ -13,7 +13,7 @@ const INITIAL_STATE = {
   isPublic: true,
   status: "waiting",
   players: [],
-  quadrant: [],
+  quadrants: [],
   finalImage: "",
   sessions: [],
   getSessions: REQUEST_STATE.IDLE,
@@ -32,17 +32,21 @@ const sessionSlice = createSlice({
       state._id = "";
       state.isPublic = true;
       state.status = "waiting";
-      state.quadrant = [];
+      state.quadrants = [];
       state.finalImage = "";
     },
     setSession: (state, action) => {
       state._id = action.payload.session._id;
       state.isPublic = action.payload.session.isPublic;
       state.status = action.payload.session.status;
-      state.players = [
-        ...action.payload.session.players,
-        action.payload.userId
-      ];
+      if (Array.isArray(action.payload.session.players)) {
+        state.players = [
+          ...action.payload.session.players,
+          action.payload.userId
+        ];
+      } else {
+        state.players = [action.payload.session.players, action.payload.userId];
+      }
       state.quadrant = action.payload.session.quadrant;
       state.finalImage = action.payload.session.finalImage;
       state.name = action.payload.session.name;
