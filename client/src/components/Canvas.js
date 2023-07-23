@@ -13,8 +13,7 @@ const Canvas = () => {
 
   const session = useSelector((state) => state.session);
   const user = useSelector((state) => state.user);
-  const quadrant = session.players//.indexOf(user._id);
-  console.log(session);
+  const quadrant = session.players.indexOf(user._id) + 1;
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -111,17 +110,76 @@ const Canvas = () => {
     ctx.lineWidth = 1;
     ctx.setLineDash([5, 5]);
 
+    switch(quadrant) {
+      case 1:
+        // Vertical line
+        ctx.beginPath();
+        ctx.moveTo(0.35 * getInchesAsPixels(), 0);
+        ctx.lineTo(0.35 * getInchesAsPixels(), height);
+        ctx.stroke();
+
+        // Horizontal line
+        ctx.beginPath();
+        ctx.moveTo(0, height - 0.35 * getInchesAsPixels());
+        ctx.lineTo(width, height - 0.35 * getInchesAsPixels());
+        ctx.stroke();
+        break;
+      case 2:
+        // Vertical line
+        ctx.beginPath();
+        ctx.moveTo(width - 0.35 * getInchesAsPixels(), 0);
+        ctx.lineTo(width - 0.35 * getInchesAsPixels(), height);
+        ctx.stroke();
+
+        // Horizontal line
+        ctx.beginPath();
+        ctx.moveTo(0, height - 0.35 * getInchesAsPixels());
+        ctx.lineTo(width, height - 0.35 * getInchesAsPixels());
+        ctx.stroke();
+        break;
+      case 3:
+        // Vertical line
+        ctx.beginPath();
+        ctx.moveTo(width - 0.35 * getInchesAsPixels(), 0);
+        ctx.lineTo(width - 0.35 * getInchesAsPixels(), height);
+        ctx.stroke();
+
+        // Horizontal line
+        ctx.beginPath();
+        ctx.moveTo(0, 0.35 * getInchesAsPixels());
+        ctx.lineTo(width, 0.35 * getInchesAsPixels());
+        ctx.stroke();
+        break;
+      case 4:
+        // Vertical line
+        ctx.beginPath();
+        ctx.moveTo(0.35 * getInchesAsPixels(), 0);
+        ctx.lineTo(0.35 * getInchesAsPixels(), height);
+        ctx.stroke();
+        
+        // Horizontal line
+        ctx.beginPath();
+        ctx.moveTo(0, 0.35 * getInchesAsPixels());
+        ctx.lineTo(width, 0.35 * getInchesAsPixels());
+        ctx.stroke();
+        break;
+      default: 
+        console.log("uh oh, no quadrant is detected!")
+    }
+
+    /*
     // Vertical line
     ctx.beginPath();
-    ctx.moveTo(width - 0.35 * getInchesAsPixels(), 0);
-    ctx.lineTo(width - 0.35 * getInchesAsPixels(), height);
+    ctx.moveTo(0.35 * getInchesAsPixels(), 0);
+    ctx.lineTo(0.35 * getInchesAsPixels(), height);
     ctx.stroke();
 
     // Horizontal line
     ctx.beginPath();
-    ctx.moveTo(0, height - 0.35 * getInchesAsPixels());
-    ctx.lineTo(width, height - 0.35 * getInchesAsPixels());
+    ctx.moveTo(0, 0.35 * getInchesAsPixels());
+    ctx.lineTo(width, 0.35 * getInchesAsPixels());
     ctx.stroke();
+    */
 
     ctx.setLineDash([]);
   };
