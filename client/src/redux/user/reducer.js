@@ -3,6 +3,10 @@ import { REQUEST_STATE } from '../utils';
 import { getUsersAsync, addUserAsync, deleteUserAsync, updateUserAsync } from './thunks';
 
 const INITIAL_STATE = {
+  _id: "",
+  email: "",
+  name: "",
+  profilePic: "",
   list: [],
   getUsers: REQUEST_STATE.IDLE,
   addUser: REQUEST_STATE.IDLE,
@@ -13,7 +17,14 @@ const INITIAL_STATE = {
 const userSlice = createSlice({
   name: 'user',
   initialState: INITIAL_STATE,
-  reducers: {},
+  reducers: {
+    setUser: (state, action) => {
+      state._id = action.payload._id;
+      state.email = action.payload.email;
+      state.name = action.payload.name;
+      state.profilePic = action.payload.profilePic;
+    }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getUsersAsync.pending, (state) => {
@@ -70,5 +81,7 @@ const userSlice = createSlice({
       });
   }
 });
+
+export const { setUser } = userSlice.actions;
 
 export default userSlice.reducer;
