@@ -10,10 +10,34 @@
   z-index: 1;
 }
 
+.avatar {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: 30px;
+}
+
+#user-name {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  font-size: 25px;
+}
+
+#line-break {
+  display: flex;
+  justify-content: center;
+  border-top: 5px solid white;
+  border-radius: 10px;
+  margin: 20px 20px;
+}
+
 #join-session {
   margin: 0;
-  padding: 31px 45px 38px;
+  padding: 10px 45px 30px;
   font-size: 34px;
+  text-align: center;
 }
 
 .session {

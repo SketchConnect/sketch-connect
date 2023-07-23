@@ -8,25 +8,17 @@ import { useNavigate } from "react-router-dom";
 import { setSession } from "../redux/session/reducer";
 import Modal from "../components/Modal";
 import { motion } from "framer-motion";
+import { Avatar } from "@mantine/core";
 
 function Homepage() {
   const currentSessionId = useSelector((state) => state.session._id);
-  const currentUser = useSelector((state) => state.user._id);
+  const currentUser = useSelector((state) => state.user);
   let [sessions, setSessions] = useState([]);
-  const [loading, setLoading] = useState(true);
+
   const [modalOpen, setModalOpen] = useState(false);
   const [sessionName, setSessionName] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    fetch("https://sketch-connect-be.onrender.com")
-      .then(() => {
-        console.log("Server is awake");
-        setLoading(false);
-      })
-      .catch((err) => console.log(`Failed to wake server: ${err}`));
-  }, []);
 
   useEffect(() => {
     fetch("https://sketch-connect-be.onrender.com/sessions", {
@@ -77,12 +69,14 @@ function Homepage() {
   };
 
   const joinSession = (session) => {
-    console.log("the user that wants to join the game is ", currentUser)
-    if (session.status === "waiting") {
-    // if (session.status === "waiting" && !session.players.includes(currentUser)) {
-      let payload = { session: session, userId: currentUser };
+    console.log("the user that wants to join the game is ", currentUser._id);
+    if (
+      session.status === "waiting" &&
+      !session.players.includes(currentUser._id)
+    ) {
+      let payload = { session: session, userId: currentUser._id };
       dispatch(setSession(payload));
-      dispatch(addPlayerAsync({ session, player: currentUser }));
+      dispatch(addPlayerAsync({ session, player: currentUser._id }));
     }
   };
 
@@ -111,6 +105,15 @@ function Homepage() {
         <div className="content">
           {/* factor out as a component later, if necessary */}
           <div className="left-pane">
+            <div className="avatar">
+              <Avatar
+                src={currentUser.profilePic || "/assets/images/user.png"}
+                size={100}
+                radius={100}
+              />
+              <p id="user-name">{currentUser.name}</p>
+            </div>
+            <div id="line-break"></div>
             <p id="join-session">Join a session</p>
             {sessions?.map((session) => {
               if (session.status === "waiting") {

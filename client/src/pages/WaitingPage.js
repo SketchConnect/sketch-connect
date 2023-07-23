@@ -1,19 +1,17 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import "./WaitingPage.css";
 import { useParams } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
 
 function WaitingPage() {
   const { sessionId } = useParams();
   const navigate = useNavigate();
-
+  const [isCopied, setIsCopied] = useState(false);
   const currentSession = useSelector((state) => state.session);
   const players = currentSession.players;
   const playerCount = players.length;
-
-  console.log(players)
-
 
   let imageSource;
   if (playerCount === 1) {
@@ -26,6 +24,22 @@ function WaitingPage() {
     imageSource = "player4.png";
   }
 
+  // TODO: the link is copied but the logic to join the session is not fully working
+  const handleShareClick = async () => {
+    try {
+      console.log("hi");
+      await navigator.clipboard.writeText(
+        `https://sketchconnect.vercel.app/waiting/${currentSession._id}`
+      );
+      setIsCopied(true);
+      setTimeout(() => {
+        setIsCopied(false);
+      }, 2000);
+    } catch (err) {
+      console.error("Failed to copy: ", err);
+    }
+  };
+
   return (
     <div className="lobby-container">
       <h2 className="lobby-header">
@@ -37,11 +51,36 @@ function WaitingPage() {
         <img src={"/assets/images/players/" + imageSource} alt="lobby" />
       </div>
       <div className="button-container">
-        <button className="invite-button">INVITE</button>
+        <button className="invite-button" onClick={handleShareClick}>
+          INVITE
+        </button>
         <button className="start-button" onClick={() => navigate(`/game/${sessionId}`)}>
           START
         </button>
       </div>
+      <AnimatePresence>
+        {isCopied && (
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 50 }}
+            transition={{ duration: 0.5 }}
+            style={{
+              position: "fixed",
+              bottom: "0px",
+              right: "0px",
+              margin: "16px",
+              padding: "24px",
+              fontSize: "20px",
+              backgroundColor: "#f7963e",
+              color: "white",
+              borderRadius: "16px"
+            }}
+          >
+            URL copied to clipboard!
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
