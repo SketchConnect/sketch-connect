@@ -62,14 +62,14 @@ function Homepage() {
       name: sessionName,
       isPublic: true,
       status: "waiting",
-      players: [currentUser]
+      players: []
     };
 
     dispatch(addSessionAsync(newSession)).then((session) => {
-      let payload = { session: session.payload, userId: currentUser };
-      dispatch(setSession(payload));
+      joinSession(session.payload.session);
       setModalOpen(false);
-    });
+    })
+
   };
 
   const handleCloseModal = () => {
@@ -80,10 +80,9 @@ function Homepage() {
     console.log("the user that wants to join the game is ", currentUser)
     if (session.status === "waiting") {
     // if (session.status === "waiting" && !session.players.includes(currentUser)) {
-      dispatch(addPlayerAsync({ session, player: currentUser }));
       let payload = { session: session, userId: currentUser };
       dispatch(setSession(payload));
-      console.log(currentSessionId);
+      dispatch(addPlayerAsync({ session, player: currentUser }));
     }
   };
 

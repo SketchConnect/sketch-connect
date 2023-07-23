@@ -12,6 +12,9 @@ function WaitingPage() {
   const players = currentSession.players;
   const playerCount = players.length;
 
+  console.log(players)
+
+
   let imageSource;
   if (playerCount === 1) {
     imageSource = "player1.png";

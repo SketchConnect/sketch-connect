@@ -1,4 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import ExportPopup from "./ExportPopup";
 
 const Canvas = () => {
@@ -9,6 +10,11 @@ const Canvas = () => {
   const [isErasing, setIsErasing] = useState(false);
   const [previousColor, setPreviousColor] = useState("#000000");
   const [showExportPopup, setShowExportPopup] = useState(false);
+
+  const session = useSelector((state) => state.session);
+  const user = useSelector((state) => state.user);
+  const quadrant = session.players//.indexOf(user._id);
+  console.log(session);
 
   useEffect(() => {
     const canvas = canvasRef.current;
