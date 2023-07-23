@@ -14,7 +14,7 @@ const Timer = ({ remainingTime }) => {
 
   useEffect(() => {
     if (remainingTime === 0) {
-      navigate(`/complete/${currentSession.id}`);
+      navigate(`/complete/${currentSession}`);
     }
     return () => {
       // Cleanup function to cancel any ongoing tasks or subscriptions

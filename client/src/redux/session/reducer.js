@@ -39,16 +39,10 @@ const sessionSlice = createSlice({
       state._id = action.payload.session._id;
       state.isPublic = action.payload.session.isPublic;
       state.status = action.payload.session.status;
-      if (Array.isArray(action.payload.session.players)) {
-        state.players = [
-          ...action.payload.session.players,
-          action.payload.userId
-        ];
-      } else {
-        state.players = [action.payload.session.players, action.payload.userId];
-      }
-      state.quadrants = action.payload.session.quadrants;
+      state.players = action.payload.session.players
+      state.quadrant = action.payload.session.quadrant;
       state.finalImage = action.payload.session.finalImage;
+      state.name = action.payload.session.name;
     }
   },
   extraReducers: (builder) => {
@@ -109,7 +103,7 @@ const sessionSlice = createSlice({
       })
       .addCase(addPlayerAsync.fulfilled, (state, action) => {
         state.addPlayer = REQUEST_STATE.FULFILLED;
-        state.players = state.players.push(action.payload);
+        state.players = [...state.players, action.payload.id];
       })
       .addCase(addPlayerAsync.rejected, (state, action) => {
         state.addPlayer = REQUEST_STATE.REJECTED;

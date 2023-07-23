@@ -1,12 +1,13 @@
-import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
-import { useSelector } from "react-redux";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 import "./WaitingPage.css";
 import { useParams } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 
 function WaitingPage() {
   const { sessionId } = useParams();
+  const navigate = useNavigate();
   const [isCopied, setIsCopied] = useState(false);
   const currentSession = useSelector((state) => state.session);
   const players = currentSession.players;
@@ -53,9 +54,9 @@ function WaitingPage() {
         <button className="invite-button" onClick={handleShareClick}>
           INVITE
         </button>
-        <NavLink className="start-button" to="/game">
+        <button className="start-button" onClick={() => navigate(`/game/${sessionId}`)}>
           START
-        </NavLink>
+        </button>
       </div>
       <AnimatePresence>
         {isCopied && (

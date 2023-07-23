@@ -54,17 +54,14 @@ function Homepage() {
       name: sessionName,
       isPublic: true,
       status: "waiting",
-      players: [currentUser._id]
+      players: []
     };
 
     dispatch(addSessionAsync(newSession)).then((session) => {
-      let payload = {
-        session: session.payload.session,
-        userId: currentUser._id
-      };
-      dispatch(setSession(payload));
+      joinSession(session.payload.session);
       setModalOpen(false);
-    });
+    })
+
   };
 
   const handleCloseModal = () => {
@@ -77,10 +74,9 @@ function Homepage() {
       session.status === "waiting" &&
       !session.players.includes(currentUser._id)
     ) {
-      dispatch(addPlayerAsync({ session, player: currentUser._id }));
       let payload = { session: session, userId: currentUser._id };
       dispatch(setSession(payload));
-      console.log(currentSessionId);
+      dispatch(addPlayerAsync({ session, player: currentUser._id }));
     }
   };
 

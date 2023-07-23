@@ -1,4 +1,4 @@
-import { createSlice, createSelector } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import { REQUEST_STATE } from "../utils";
 import {
   getUsersAsync,
@@ -8,7 +8,6 @@ import {
 } from "./thunks";
 
 const INITIAL_STATE = {
-  // list: [],
   _id: "",
   oauthProvider: "",
   email: "",

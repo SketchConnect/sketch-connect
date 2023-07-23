@@ -99,8 +99,35 @@ const addPlayer = async (sessionId, playerId) => {
     if (!response.ok) {
       throw new Error(data?.message);
     }
+
+    return data;
   } catch (error) {
     console.error("Error adding player to session:", error);
+    throw error;
+  }
+};
+
+const finalImage = async (sessionId, image) => {
+  try {
+    let formData = new FormData();
+    formData.append("img", image);
+    formData.append("folder", "drawings/complete");
+    formData.append("quadrantNumber", "");
+    const response = await fetch(
+      `https://sketch-connect-be.onrender.com/sessions/${sessionId}/upload-drawing`,
+      {
+        method: "PATCH",
+        body: formData
+      }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data?.message);
+    }
+  } catch (error) {
+    console.error("Error final image to session:", error);
     throw error;
   }
 };
@@ -110,7 +137,8 @@ const services = {
   addSession,
   deleteSession,
   updateStatus,
-  addPlayer
+  addPlayer,
+  finalImage
 };
 
 export default services;
