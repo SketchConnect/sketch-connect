@@ -183,4 +183,29 @@ router.patch("/:id/upload-drawing", async (req, res) => {
   }
 });
 
+/**
+ * GET /:id/quadrant-:number
+ * Fetches the URL of a quadrant's drawing image from Google Cloud Storage.
+ *
+ * URL parameters:
+ * - id (string): The ID of the session.
+ * - number (int): The quadrant number.
+ *
+ * Returns:
+ * - A JSON object with a single property, url, containing the signed URL of the image.
+ */
+router.get("/:id/quadrant-:number", async (req, res) => {
+  try {
+    const imageUploadService = new ImageUploadService();
+    const url = await imageUploadService.getQuadrantImageUrl(
+      req.params.id,
+      req.params.number
+    );
+
+    return res.status(200).send({ url: url });
+  } catch (err) {
+    return res.status(500).send(err);
+  }
+});
+
 export default router;
