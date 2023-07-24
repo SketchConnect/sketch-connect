@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
 import ExportPopup from "./ExportPopup";
+import { useSelector, useDispatch } from "react-redux";
 
 const Canvas = () => {
   const canvasRef = useRef(null);
@@ -10,10 +10,7 @@ const Canvas = () => {
   const [isErasing, setIsErasing] = useState(false);
   const [previousColor, setPreviousColor] = useState("#000000");
   const [showExportPopup, setShowExportPopup] = useState(false);
-
-  const session = useSelector((state) => state.session);
-  const user = useSelector((state) => state.user);
-  const quadrant = session.players.indexOf(user._id) + 1;
+  const currentUser = useSelector((state) => state.user);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -106,82 +103,156 @@ const Canvas = () => {
   };
 
   const drawLines = (ctx, width, height) => {
+
+    useEffect(() => {
+      fetch("https://sketch-connect-be.onrender.com/sessions/${sessionId}", {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      })
+        .then(session => {
+          if (!session.ok) {
+            throw new Error(`HTTP error! status: ${session.status}`);
+          }
+          return session.json();
+        })
+        .then(data => console.log(data))
+        .catch(error => console.error('Error:', error));
+    });
+
     ctx.strokeStyle = "#FF0000";
     ctx.lineWidth = 1;
     ctx.setLineDash([5, 5]);
 
-    switch(quadrant) {
+
+    // switch statement - based on what player number 
+    // redux store for getsession/id - session object has array of players and match id == list of players in session
+
+    // based on the switch - take appropriate quadrant image from bucket. (ask michelle)
+    // extracting strip of image and overlaying it on next canvas.
+
+
+    switch (session.players.indexOf(currentUser._id)) {
+
+      case 0:
+        // Vertical line
+        ctx.beginPath();
+        ctx.moveTo(width - 0.35 * getInchesAsPixels(), 0);
+        ctx.lineTo(width - 0.35 * getInchesAsPixels(), height);
+        ctx.stroke();
+
+        // Horizontal line
+        ctx.beginPath();
+        ctx.moveTo(0, height - 0.35 * getInchesAsPixels());
+        ctx.lineTo(width, height - 0.35 * getInchesAsPixels());
+        ctx.stroke();
+
+        ctx.setLineDash([]);
+        break;
+
       case 1:
-        // Vertical line
-        ctx.beginPath();
-        ctx.moveTo(0.35 * getInchesAsPixels(), 0);
-        ctx.lineTo(0.35 * getInchesAsPixels(), height);
-        ctx.stroke();
+
+        fetch("https://sketch-connect-be.onrender.com/sessions/${sessionId}/quadrant-1", {
+          method: 'GET'
+        })
+          .then(image => {
+            const sourceX = width - 0.35 * getInchesAsPixels();  // Starting X position on the source image
+            const sourceY = 0;  // Starting Y position on the source image
+            const sourceWidth = 100;  // Width of the section on the source image
+            const sourceHeight = 100;  // Height of the section on the source image
+
+            // Define the destination coordinates and dimensions
+            const destX = 0;
+            const destY = 0;
+            const destWidth = sourceWidth;
+            const destHeight = sourceHeight;
+
+            // Draw the section of the image onto the canvas
+            ctx.drawImage(img, sourceX, sourceY, sourceWidth, sourceHeight, destX, destY, destWidth, destHeight);
+          })
 
         // Horizontal line
         ctx.beginPath();
         ctx.moveTo(0, height - 0.35 * getInchesAsPixels());
         ctx.lineTo(width, height - 0.35 * getInchesAsPixels());
         ctx.stroke();
+
+        ctx.setLineDash([]);
         break;
+
       case 2:
+        fetch("https://sketch-connect-be.onrender.com/sessions/${sessionId}/quadrant-1", {
+          method: 'GET'
+        })
+        .then(image => {
+          const sourceX = 0;  // Starting X position on the source image
+          const sourceY = height - 0.35 * getInchesAsPixels();  // Starting Y position on the source image
+          const sourceWidth = 100;  // Width of the section on the source image
+          const sourceHeight = 100;  // Height of the section on the source image
+
+          // Define the destination coordinates and dimensions
+          const destX = 0;
+          const destY = 0;
+          const destWidth = sourceWidth;
+          const destHeight = sourceHeight;
+
+          // Draw the section of the image onto the canvas
+          ctx.drawImage(img, sourceX, sourceY, sourceWidth, sourceHeight, destX, destY, destWidth, destHeight);
+        })
+
         // Vertical line
         ctx.beginPath();
         ctx.moveTo(width - 0.35 * getInchesAsPixels(), 0);
         ctx.lineTo(width - 0.35 * getInchesAsPixels(), height);
         ctx.stroke();
 
-        // Horizontal line
-        ctx.beginPath();
-        ctx.moveTo(0, height - 0.35 * getInchesAsPixels());
-        ctx.lineTo(width, height - 0.35 * getInchesAsPixels());
-        ctx.stroke();
+        ctx.setLineDash([]);
         break;
+
       case 3:
-        // Vertical line
-        ctx.beginPath();
-        ctx.moveTo(width - 0.35 * getInchesAsPixels(), 0);
-        ctx.lineTo(width - 0.35 * getInchesAsPixels(), height);
-        ctx.stroke();
+        fetch("https://sketch-connect-be.onrender.com/sessions/${sessionId}/quadrant-3", {
+          method: 'GET'
+        })
+        .then(image => {
+          const sourceX = width - 0.35 * getInchesAsPixels();  // Starting X position on the source image
+          const sourceY = 0;  // Starting Y position on the source image
+          const sourceWidth = 100;  // Width of the section on the source image
+          const sourceHeight = 100;  // Height of the section on the source image
 
-        // Horizontal line
-        ctx.beginPath();
-        ctx.moveTo(0, 0.35 * getInchesAsPixels());
-        ctx.lineTo(width, 0.35 * getInchesAsPixels());
-        ctx.stroke();
+          // Define the destination coordinates and dimensions
+          const destX = 0;
+          const destY = 0;
+          const destWidth = sourceWidth;
+          const destHeight = sourceHeight;
+
+          // Draw the section of the image onto the canvas
+          ctx.drawImage(img, sourceX, sourceY, sourceWidth, sourceHeight, destX, destY, destWidth, destHeight);
+        })
+
+        fetch("https://sketch-connect-be.onrender.com/sessions/${sessionId}/quadrant-2", {
+          method: 'GET'
+        })
+        .then(image => {
+          const sourceX = 0;  // Starting X position on the source image
+          const sourceY = height - 0.35 * getInchesAsPixels();  // Starting Y position on the source image
+          const sourceWidth = 100;  // Width of the section on the source image
+          const sourceHeight = 100;  // Height of the section on the source image
+
+          // Define the destination coordinates and dimensions
+          const destX = 0;
+          const destY = 0;
+          const destWidth = sourceWidth;
+          const destHeight = sourceHeight;
+
+          // Draw the section of the image onto the canvas
+          ctx.drawImage(img, sourceX, sourceY, sourceWidth, sourceHeight, destX, destY, destWidth, destHeight);
+        })
+        // no lines
+
         break;
-      case 4:
-        // Vertical line
-        ctx.beginPath();
-        ctx.moveTo(0.35 * getInchesAsPixels(), 0);
-        ctx.lineTo(0.35 * getInchesAsPixels(), height);
-        ctx.stroke();
-        
-        // Horizontal line
-        ctx.beginPath();
-        ctx.moveTo(0, 0.35 * getInchesAsPixels());
-        ctx.lineTo(width, 0.35 * getInchesAsPixels());
-        ctx.stroke();
-        break;
-      default: 
-        console.log("uh oh, no quadrant is detected!")
     }
 
-    /*
-    // Vertical line
-    ctx.beginPath();
-    ctx.moveTo(0.35 * getInchesAsPixels(), 0);
-    ctx.lineTo(0.35 * getInchesAsPixels(), height);
-    ctx.stroke();
-
-    // Horizontal line
-    ctx.beginPath();
-    ctx.moveTo(0, 0.35 * getInchesAsPixels());
-    ctx.lineTo(width, 0.35 * getInchesAsPixels());
-    ctx.stroke();
-    */
-
-    ctx.setLineDash([]);
   };
 
   const getInchesAsPixels = () => {
