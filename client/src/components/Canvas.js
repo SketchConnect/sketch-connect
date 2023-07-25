@@ -104,22 +104,20 @@ const Canvas = () => {
 
   const drawLines = (ctx, width, height) => {
 
-    useEffect(() => {
       fetch("https://sketch-connect-be.onrender.com/sessions/${sessionId}", {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
         }
       })
-        .then(session => {
-          if (!session.ok) {
+        .then(result => {
+          if (!result.ok) {
             throw new Error(`HTTP error! status: ${session.status}`);
           }
-          return session.json();
+          const session = result.json();
         })
         .then(data => console.log(data))
         .catch(error => console.error('Error:', error));
-    });
 
     ctx.strokeStyle = "#FF0000";
     ctx.lineWidth = 1;
@@ -169,7 +167,7 @@ const Canvas = () => {
             const destHeight = sourceHeight;
 
             // Draw the section of the image onto the canvas
-            ctx.drawImage(img, sourceX, sourceY, sourceWidth, sourceHeight, destX, destY, destWidth, destHeight);
+            ctx.drawImage(image, sourceX, sourceY, sourceWidth, sourceHeight, destX, destY, destWidth, destHeight);
           })
 
         // Horizontal line
