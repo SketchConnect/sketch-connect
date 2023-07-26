@@ -15,7 +15,7 @@ const CompletePage = () => {
   let link = useRef();
 
   useEffect(() => {
-    console.log(current._id)
+    console.log(current);
     fetch(`https://sketch-connect-be.onrender.com/sessions/${current._id}`, {
       method: "GET"
     })

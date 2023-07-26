@@ -4,6 +4,8 @@ import { useSelector, useDispatch } from "react-redux";
 import "./WaitingPage.css";
 import { useParams } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
+import { clearSessionId } from "../redux/session/reducer";
+import { keyframes } from "@emotion/react";
 
 function WaitingPage() {
   const { sessionId } = useParams();
@@ -58,7 +60,7 @@ function WaitingPage() {
         <button
           className="start-button"
           onClick={() => {
-            if (currentSession.quadrants[0] === currentUser) {
+            if (currentSession.players[0] === currentUser) {
               navigate(`/game/turn/${sessionId}`);
             } else {
               navigate(`/game/${sessionId}`);
