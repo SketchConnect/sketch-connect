@@ -1,13 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import "./WaitingPage.css";
 import { useParams } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { clearSessionId } from "../redux/session/reducer";
 
 function WaitingPage() {
-  const dispatch = useDispatch();
   const { sessionId } = useParams();
   const navigate = useNavigate();
   const [isCopied, setIsCopied] = useState(false);
@@ -16,19 +14,6 @@ function WaitingPage() {
 
   const players = currentSession.players;
   const playerCount = players.length;
-
-  // When the component mounts, clear the session ID
-  useEffect(() => {
-    return () => {
-      dispatch(clearSessionId());
-    };
-  }, []);
-
-  useEffect(() => {
-    if (currentSession._id === "") {
-      navigate("/");
-    }
-  }, [currentSession.id]);
 
   let imageSource;
   if (playerCount === 1) {
