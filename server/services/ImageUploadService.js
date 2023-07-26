@@ -36,8 +36,8 @@ class ImageUploadService {
           try {
             const extension = path.extname(req.file.originalname);
             const quadrantNumber = req.body.quadrantNumber;
-            let folder = "";
-            let fileName = "";
+            let folder;
+            let fileName;
 
             if (req.body.folder === "drawings/quadrants") {
               folder = `${req.body.folder}/${req.params.id}`;
@@ -66,6 +66,41 @@ class ImageUploadService {
         }
       });
     });
+  }
+
+  async getSignedUrl(file) {
+    const [exists] = await file.exists();
+
+    if (exists) {
+      const expirationDate = new Date();
+      expirationDate.setHours(expirationDate.getHours() + 1);
+
+      const [url] = await file.getSignedUrl({
+        action: "read",
+        expires: expirationDate
+      });
+
+      return url;
+    } else {
+      return null;
+    }
+  }
+
+  async getQuadrantImageUrl(sessionId, quadrantNumber) {
+    const pngFile = this.bucket.file(
+      `drawings/quadrants/${sessionId}/${quadrantNumber}.png`
+    );
+    const jpgFile = this.bucket.file(
+      `drawings/quadrants/${sessionId}/${quadrantNumber}.jpg`
+    );
+
+    let url = await this.getSignedUrl(pngFile);
+
+    if (!url) {
+      url = await this.getSignedUrl(jpgFile);
+    }
+
+    return url;
   }
 }
 
