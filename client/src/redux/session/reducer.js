@@ -43,9 +43,6 @@ const sessionSlice = createSlice({
       state.quadrant = action.payload.session.quadrant;
       state.finalImage = action.payload.session.finalImage;
       state.name = action.payload.session.name;
-    },
-    clearSessionId: (state) => {
-      state._id = "";
     }
   },
   extraReducers: (builder) => {

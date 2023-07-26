@@ -127,64 +127,52 @@ const Canvas = () => {
     console.log("Sharing on social media");
   };
 
-  const fetchAndDrawImage = async (
-    url,
-    sourceX,
-    sourceY,
-    destX,
-    destY
-) => {
+  const fetchAndDrawImage = async (url, sourceX, sourceY, destX, destY) => {
     try {
-        const response = await fetch(url);
-        const data = await response.json(); // assuming the response is JSON that contains the URL of the image
-        
-        const image = new Image();
-        image.crossOrigin = "anonymous";
-        // let's assume `data.url` contains the URL of the image
-        image.src = data.url;
-        
-        image.onload = () => {
-            const sourceWidth = image.naturalWidth;
-            const sourceHeight = image.naturalHeight;
+      const response = await fetch(url);
+      const data = await response.json(); // assuming the response is JSON that contains the URL of the image
 
-            const widthScale = contextRef.current.canvas.width / image.naturalWidth;
-            const heightScale = contextRef.current.canvas.height / image.naturalHeight;
+      const image = new Image();
+      image.crossOrigin = "anonymous";
+      // let's assume `data.url` contains the URL of the image
+      image.src = data.url;
 
-            const destWidth = sourceWidth * widthScale;
-            const destHeight = sourceHeight * heightScale;
+      image.onload = () => {
+        const sourceWidth = image.naturalWidth;
+        const sourceHeight = image.naturalHeight;
 
-            if (contextRef.current) {
-                contextRef.current.drawImage(
-                    image,
-                    sourceX,
-                    sourceY,
-                    sourceWidth,
-                    sourceHeight,
-                    destX,
-                    destY,
-                    destWidth,
-                    destHeight
-                );
-            }
-        };
+        const widthScale = contextRef.current.canvas.width / image.naturalWidth;
+        const heightScale =
+          contextRef.current.canvas.height / image.naturalHeight;
 
-        image.onerror = err => {
-            console.error("Failed to load image: ", err);
-            for (let prop in err) {
-                console.log(`${prop}: ${err[prop]}`);
-            }
-        };
+        const destWidth = sourceWidth * widthScale;
+        const destHeight = sourceHeight * heightScale;
 
+        if (contextRef.current) {
+          contextRef.current.drawImage(
+            image,
+            sourceX,
+            sourceY,
+            sourceWidth,
+            sourceHeight,
+            destX,
+            destY,
+            destWidth,
+            destHeight
+          );
+        }
+      };
+
+      image.onerror = (err) => {
+        console.error("Failed to load image: ", err);
+        for (let prop in err) {
+          console.log(`${prop}: ${err[prop]}`);
+        }
+      };
     } catch (err) {
-        console.error("Error: ", err);
+      console.error("Error: ", err);
     }
-};
-
-
-
-
-     
-  
+  };
 
   const drawLines = (ctx, width, height) => {
     ctx.strokeStyle = "#FF0000";

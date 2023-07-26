@@ -13,16 +13,16 @@ const GamePage = () => {
   const players = currentSession.players;
   const user = useSelector((state) => state.user._id);
   const currPlayer = players.indexOf(user);
-  
+
   const navigate = useNavigate();
 
   useEffect(() => {
     setTimeout(() => {
-        if (user === players[3]) {
-          navigate(`/complete/${currentSession._id}`);
-        } else {
-          navigate(`/game/${currentSession._id}`);
-        }
+      if (user === players[3]) {
+        navigate(`/complete/${currentSession._id}`);
+      } else {
+        navigate(`/game/${currentSession._id}`);
+      }
     }, "10000");
   }, []);
 
@@ -44,7 +44,7 @@ const GamePage = () => {
         </div>
         <div className="curr-player">
           <img src={"/assets/images/players/" + imageSource} alt="lobby" />
-          <h2>Player {currPlayer+1}/4</h2>
+          <h2>Player {currPlayer + 1}/4</h2>
         </div>
         <div className="countdown">
           <h2>Time Remaining:</h2>
