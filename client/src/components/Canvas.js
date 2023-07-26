@@ -11,13 +11,35 @@ const Canvas = () => {
   const [previousColor, setPreviousColor] = useState("#000000");
   const [showExportPopup, setShowExportPopup] = useState(false);
   const currentUser = useSelector((state) => state.user);
+  const sessionId = useSelector((state) => state.session._id);
+  const [session, setSession] = useState(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
     contextRef.current = ctx;
-    drawLines(ctx, canvas.width, canvas.height);
+
+    const fetchSession = async () => {
+      const response = await fetch(
+        `https://sketch-connect-be.onrender.com/sessions/${sessionId}`
+      );
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const sessionData = await response.json();
+      setSession(sessionData);
+    };
+
+    fetchSession();
   }, []);
+
+  useEffect(() => {
+    if (session) {
+      const canvas = canvasRef.current;
+      const ctx = canvas.getContext("2d");
+      drawLines(ctx, canvas.width, canvas.height, session);
+    }
+  }, [session]);
 
   const handleColorChange = (e) => {
     const color = e.target.value;
@@ -79,7 +101,10 @@ const Canvas = () => {
     const canvas = canvasRef.current;
     const context = contextRef.current;
     context.clearRect(0, 0, canvas.width, canvas.height);
-    drawLines(context, canvas.width, canvas.height);
+
+    if (session) {
+      drawLines(context, canvas.width, canvas.height);
+    }
   };
 
   const handleExportClick = () => {
@@ -102,37 +127,48 @@ const Canvas = () => {
     console.log("Sharing on social media");
   };
 
+  const fetchAndDrawImage = async (
+    url,
+    sourceX,
+    sourceY,
+    destX,
+    destY,
+    sourceWidth = 100,
+    sourceHeight = 100
+  ) => {
+    try {
+      const response = await fetch(url);
+      const blob = await response.blob();
+      const imgBitmap = await createImageBitmap(blob);
+
+      contextRef.current.drawImage(
+        imgBitmap,
+        sourceX,
+        sourceY,
+        sourceWidth,
+        sourceHeight,
+        destX,
+        destY,
+        sourceWidth,
+        sourceHeight
+      );
+    } catch (err) {
+      console.error("Error:", err);
+    }
+  };
+
   const drawLines = (ctx, width, height) => {
-
-      fetch("https://sketch-connect-be.onrender.com/sessions/${sessionId}", {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        }
-      })
-        .then(result => {
-          if (!result.ok) {
-            throw new Error(`HTTP error! status: ${session.status}`);
-          }
-          const session = result.json();
-        })
-        .then(data => console.log(data))
-        .catch(error => console.error('Error:', error));
-
     ctx.strokeStyle = "#FF0000";
     ctx.lineWidth = 1;
     ctx.setLineDash([5, 5]);
 
-
-    // switch statement - based on what player number 
+    // switch statement - based on what player number
     // redux store for getsession/id - session object has array of players and match id == list of players in session
 
     // based on the switch - take appropriate quadrant image from bucket. (ask michelle)
     // extracting strip of image and overlaying it on next canvas.
 
-
     switch (session.players.indexOf(currentUser._id)) {
-
       case 0:
         // Vertical line
         ctx.beginPath();
@@ -150,25 +186,13 @@ const Canvas = () => {
         break;
 
       case 1:
-
-        fetch("https://sketch-connect-be.onrender.com/sessions/${sessionId}/quadrant-1", {
-          method: 'GET'
-        })
-          .then(image => {
-            const sourceX = width - 0.35 * getInchesAsPixels();  // Starting X position on the source image
-            const sourceY = 0;  // Starting Y position on the source image
-            const sourceWidth = 100;  // Width of the section on the source image
-            const sourceHeight = 100;  // Height of the section on the source image
-
-            // Define the destination coordinates and dimensions
-            const destX = 0;
-            const destY = 0;
-            const destWidth = sourceWidth;
-            const destHeight = sourceHeight;
-
-            // Draw the section of the image onto the canvas
-            ctx.drawImage(image, sourceX, sourceY, sourceWidth, sourceHeight, destX, destY, destWidth, destHeight);
-          })
+        fetchAndDrawImage(
+          `https://sketch-connect-be.onrender.com/sessions/${sessionId}/quadrant-1`,
+          width - 0.35 * getInchesAsPixels(),
+          0,
+          0,
+          0
+        );
 
         // Horizontal line
         ctx.beginPath();
@@ -180,24 +204,13 @@ const Canvas = () => {
         break;
 
       case 2:
-        fetch("https://sketch-connect-be.onrender.com/sessions/${sessionId}/quadrant-1", {
-          method: 'GET'
-        })
-        .then(image => {
-          const sourceX = 0;  // Starting X position on the source image
-          const sourceY = height - 0.35 * getInchesAsPixels();  // Starting Y position on the source image
-          const sourceWidth = 100;  // Width of the section on the source image
-          const sourceHeight = 100;  // Height of the section on the source image
-
-          // Define the destination coordinates and dimensions
-          const destX = 0;
-          const destY = 0;
-          const destWidth = sourceWidth;
-          const destHeight = sourceHeight;
-
-          // Draw the section of the image onto the canvas
-          ctx.drawImage(img, sourceX, sourceY, sourceWidth, sourceHeight, destX, destY, destWidth, destHeight);
-        })
+        fetchAndDrawImage(
+          `https://sketch-connect-be.onrender.com/sessions/${sessionId}/quadrant-1`,
+          0,
+          height - 0.35 * getInchesAsPixels(),
+          0,
+          0
+        );
 
         // Vertical line
         ctx.beginPath();
@@ -209,48 +222,22 @@ const Canvas = () => {
         break;
 
       case 3:
-        fetch("https://sketch-connect-be.onrender.com/sessions/${sessionId}/quadrant-3", {
-          method: 'GET'
-        })
-        .then(image => {
-          const sourceX = width - 0.35 * getInchesAsPixels();  // Starting X position on the source image
-          const sourceY = 0;  // Starting Y position on the source image
-          const sourceWidth = 100;  // Width of the section on the source image
-          const sourceHeight = 100;  // Height of the section on the source image
-
-          // Define the destination coordinates and dimensions
-          const destX = 0;
-          const destY = 0;
-          const destWidth = sourceWidth;
-          const destHeight = sourceHeight;
-
-          // Draw the section of the image onto the canvas
-          ctx.drawImage(img, sourceX, sourceY, sourceWidth, sourceHeight, destX, destY, destWidth, destHeight);
-        })
-
-        fetch("https://sketch-connect-be.onrender.com/sessions/${sessionId}/quadrant-2", {
-          method: 'GET'
-        })
-        .then(image => {
-          const sourceX = 0;  // Starting X position on the source image
-          const sourceY = height - 0.35 * getInchesAsPixels();  // Starting Y position on the source image
-          const sourceWidth = 100;  // Width of the section on the source image
-          const sourceHeight = 100;  // Height of the section on the source image
-
-          // Define the destination coordinates and dimensions
-          const destX = 0;
-          const destY = 0;
-          const destWidth = sourceWidth;
-          const destHeight = sourceHeight;
-
-          // Draw the section of the image onto the canvas
-          ctx.drawImage(img, sourceX, sourceY, sourceWidth, sourceHeight, destX, destY, destWidth, destHeight);
-        })
-        // no lines
-
+        fetchAndDrawImage(
+          `https://sketch-connect-be.onrender.com/sessions/${sessionId}/quadrant-3`,
+          width - 0.35 * getInchesAsPixels(),
+          0,
+          0,
+          0
+        );
+        fetchAndDrawImage(
+          `https://sketch-connect-be.onrender.com/sessions/${sessionId}/quadrant-2`,
+          0,
+          height - 0.35 * getInchesAsPixels(),
+          0,
+          0
+        );
         break;
     }
-
   };
 
   const getInchesAsPixels = () => {
