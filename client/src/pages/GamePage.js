@@ -18,12 +18,12 @@ const GamePage = () => {
 
   useEffect(() => {
     setTimeout(() => {
-      if (user === players[3]) {
-        navigate(`/complete/${currentSession._id}`);
-      } else {
-        navigate(`/game/${currentSession._id}`);
-      }
-    }, "10000");
+        if (user === players[3]) {
+          navigate(`/complete/${currentSession._id}`);
+        } else {
+          navigate(`/game/${currentSession._id}`);
+        }
+    }, 10100);
   }, []);
 
   let imageSource;
