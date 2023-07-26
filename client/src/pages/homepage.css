@@ -7,7 +7,27 @@
   flex-direction: column;
   justify-content: flex-start;
   color: white;
-  z-index: 1;
+  z-index: 2;
+  overflow: auto;
+  direction: rtl;
+}
+
+.left-pane::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+.left-pane::-webkit-scrollbar-track {
+  margin-top: 30px;
+  margin-bottom: 30px;
+  border-radius: 10px;
+}
+
+/* Handle */
+.left-pane::-webkit-scrollbar-thumb {
+  background: #c86733;
+  border-radius: 10px;
+
 }
 
 .avatar {
@@ -113,6 +133,7 @@ button {
   cursor: pointer;
   padding: 0;
   width: 90%;
+  direction: ltr;
 }
 
 .session-button:hover {
