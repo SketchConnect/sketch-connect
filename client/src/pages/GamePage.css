@@ -1,0 +1,35 @@
+.game-container {
+  display: flex;
+  color: #253674;
+}
+
+.game-info {
+  flex: 1;
+  padding: 75px 10px 70px 70px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.drawing-space {
+  flex: 3;
+  padding: 20px;
+}
+
+.curr-player {
+  display: flex;
+  align-items: center;
+}
+
+.curr-player h2 {
+  margin-left: 20px;
+}
+
+.curr-player img {
+  width: 100px;
+  height: 100px;
+}
+
+.drawing-space {
+  padding: 70px 70px 70px 10px;
+}

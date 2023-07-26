@@ -10,11 +10,6 @@ h1 {
   align-items: center;
 }
 
-.timer-wrapper {
-  display: flex;
-  justify-content: center;
-}
-
 .time-wrapper {
   position: relative;
   width: 80px;

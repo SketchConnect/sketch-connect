@@ -249,8 +249,7 @@ const Canvas = () => {
       style={{
         display: "flex",
         justifyContent: "center",
-        alignItems: "center",
-        height: "100vh"
+        alignItems: "center"
       }}
     >
       <div style={{ position: "relative" }}>
