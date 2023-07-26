@@ -5,7 +5,7 @@
 
 .game-info {
   flex: 1;
-  padding: 75px 10px 70px 70px;
+  padding: 70px 10px 70px 70px;
   display: flex;
   flex-direction: column;
   gap: 30px;
