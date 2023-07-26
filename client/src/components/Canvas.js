@@ -251,7 +251,7 @@ const Canvas = () => {
         ctx.setLineDash([]);
         break;
 
-      case 68:
+      case 3:
         fetchAndDrawImage(
           `https://sketch-connect-be.onrender.com/sessions/${sessionId}/quadrant-2`,
           width - 0.35 * getInchesAsPixels(),
