@@ -3,8 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import Canvas from "../components/Canvas";
 import Timer from "../components/Timer";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
-import { useNavigate } from "react-router-dom";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import "./GamePage.css";
 
 const GamePage = () => {

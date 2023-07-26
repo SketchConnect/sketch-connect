@@ -23,7 +23,6 @@ function Header() {
 
   const handleMenu = () => {
     setOpened(!opened);
-    console.log(user.profilePic);
   };
 
   const handleClose = () => {

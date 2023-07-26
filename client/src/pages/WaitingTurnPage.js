@@ -12,24 +12,23 @@ function WaitingTurnPage() {
     let delay = 0;
 
     fetch(
-      `https://sketch-connect-be.onrender.com/sessions/${currentSession._id}`,
+      `https://sketch-connect-be.onrender.com/sessions/${currentSession._id}`, 
       {
         method: "GET"
       }
-    )
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("HTTP error " + response.status);
-        }
-        return response.json();
-      })
-      .then((response) => {
-        let currentTurn = response.body.quadrants.length();
-        let userIndex = response.players.indexOf(user);
+    ).then((response) => {
+      if (!response.ok) {
+        throw new Error("HTTP error " + response.status);
+      }
+      return response.json();
+    })
+    .then((response) => {
+      let currentTurn = response.quadrants.length;
+      let userIndex = response.players.indexOf(user);
 
-        if (currentTurn > userIndex) {
-          delay = 10100 * (4 - currentTurn);
-          setTimeout(() => {
+      if (currentTurn > userIndex) {
+        delay = 10100 * (4 - currentTurn);
+        setTimeout(() => {
             navigate(`/complete/${currentSession._id}`);
           }, delay);
         } else if (currentTurn < userIndex) {

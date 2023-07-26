@@ -165,9 +165,6 @@ const Canvas = () => {
 
       image.onerror = (err) => {
         console.error("Failed to load image: ", err);
-        for (let prop in err) {
-          console.log(`${prop}: ${err[prop]}`);
-        }
       };
     } catch (err) {
       console.error("Error: ", err);
@@ -184,7 +181,6 @@ const Canvas = () => {
 
     // based on the switch - take appropriate quadrant image from bucket. (ask michelle)
     // extracting strip of image and overlaying it on next canvas.
-    console.log(session.players.indexOf(currentUser._id));
 
     switch (session.players.indexOf(currentUser._id)) {
       case 0:
