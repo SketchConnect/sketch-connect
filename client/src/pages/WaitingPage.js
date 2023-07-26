@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import "./WaitingPage.css";
-import { useParams } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { keyframes } from "@emotion/react";
+import { useInterval } from "../util/useInterval";
 
 function WaitingPage() {
   const { sessionId } = useParams();
@@ -13,8 +12,22 @@ function WaitingPage() {
   const currentSession = useSelector((state) => state.session);
   const currentUser = useSelector((state) => state.user._id);
 
-  const players = currentSession.players;
-  const playerCount = players.length;
+  const [playerCount, setPlayerCount] = useState(0);
+
+  useInterval(async () => {
+    fetch(`https://sketch-connect-be.onrender.com/sessions/${currentSession._id}`, {
+      method: "GET"
+    })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("HTTP error " + response.status);
+      }
+      return response.json();
+    })
+    .then((response) => {
+      setPlayerCount(response.players.length)
+    })
+  }, 1000);
 
   let imageSource;
   if (playerCount === 1) {
