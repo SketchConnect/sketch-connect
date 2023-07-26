@@ -56,10 +56,11 @@ function WaitingPage() {
         </button>
         <button className="start-button" 
           onClick={() => {
-            if (currentSession.quadrants[0] === currentUser) {
+            // if (currentSession.quadrants[0] === currentUser) {
               navigate(`/game/turn/${sessionId}`)
-            } else {
-              navigate(`/game/${sessionId}`)}}}>
+            // } else {
+              // navigate(`/game/${sessionId}`)}
+            }}>
           START
         </button>
       </div>

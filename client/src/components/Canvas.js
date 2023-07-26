@@ -132,30 +132,59 @@ const Canvas = () => {
     sourceX,
     sourceY,
     destX,
-    destY,
-    sourceWidth = 100,
-    sourceHeight = 100
-  ) => {
+    destY
+) => {
     try {
-      const response = await fetch(url);
-      const blob = await response.blob();
-      const imgBitmap = await createImageBitmap(blob);
+        const response = await fetch(url);
+        const data = await response.json(); // assuming the response is JSON that contains the URL of the image
+        
+        const image = new Image();
+        image.crossOrigin = "anonymous";
+        // let's assume `data.url` contains the URL of the image
+        image.src = data.url;
+        
+        image.onload = () => {
+            const sourceWidth = image.naturalWidth;
+            const sourceHeight = image.naturalHeight;
 
-      contextRef.current.drawImage(
-        imgBitmap,
-        sourceX,
-        sourceY,
-        sourceWidth,
-        sourceHeight,
-        destX,
-        destY,
-        sourceWidth,
-        sourceHeight
-      );
+            const widthScale = contextRef.current.canvas.width / image.naturalWidth;
+            const heightScale = contextRef.current.canvas.height / image.naturalHeight;
+
+            const destWidth = sourceWidth * widthScale;
+            const destHeight = sourceHeight * heightScale;
+
+            if (contextRef.current) {
+                contextRef.current.drawImage(
+                    image,
+                    sourceX,
+                    sourceY,
+                    sourceWidth,
+                    sourceHeight,
+                    destX,
+                    destY,
+                    destWidth,
+                    destHeight
+                );
+            }
+        };
+
+        image.onerror = err => {
+            console.error("Failed to load image: ", err);
+            for (let prop in err) {
+                console.log(`${prop}: ${err[prop]}`);
+            }
+        };
+
     } catch (err) {
-      console.error("Error:", err);
+        console.error("Error: ", err);
     }
-  };
+};
+
+
+
+
+     
+  
 
   const drawLines = (ctx, width, height) => {
     ctx.strokeStyle = "#FF0000";
@@ -167,6 +196,7 @@ const Canvas = () => {
 
     // based on the switch - take appropriate quadrant image from bucket. (ask michelle)
     // extracting strip of image and overlaying it on next canvas.
+    console.log(session.players.indexOf(currentUser._id));
 
     switch (session.players.indexOf(currentUser._id)) {
       case 0:
@@ -187,7 +217,7 @@ const Canvas = () => {
 
       case 1:
         fetchAndDrawImage(
-          `https://sketch-connect-be.onrender.com/sessions/${sessionId}/quadrant-1`,
+          `https://sketch-connect-be.onrender.com/sessions/${sessionId}/quadrant-0`,
           width - 0.35 * getInchesAsPixels(),
           0,
           0,
@@ -205,7 +235,7 @@ const Canvas = () => {
 
       case 2:
         fetchAndDrawImage(
-          `https://sketch-connect-be.onrender.com/sessions/${sessionId}/quadrant-1`,
+          `https://sketch-connect-be.onrender.com/sessions/${sessionId}/quadrant-0`,
           0,
           height - 0.35 * getInchesAsPixels(),
           0,
@@ -221,16 +251,16 @@ const Canvas = () => {
         ctx.setLineDash([]);
         break;
 
-      case 3:
+      case 68:
         fetchAndDrawImage(
-          `https://sketch-connect-be.onrender.com/sessions/${sessionId}/quadrant-3`,
+          `https://sketch-connect-be.onrender.com/sessions/${sessionId}/quadrant-2`,
           width - 0.35 * getInchesAsPixels(),
           0,
           0,
           0
         );
         fetchAndDrawImage(
-          `https://sketch-connect-be.onrender.com/sessions/${sessionId}/quadrant-2`,
+          `https://sketch-connect-be.onrender.com/sessions/${sessionId}/quadrant-1`,
           0,
           height - 0.35 * getInchesAsPixels(),
           0,
