@@ -16,6 +16,7 @@ const GamePage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    console.log(currentSession)
     setTimeout(() => {
         if (user === players[3]) {
           navigate(`/complete/${currentSession._id}`);
