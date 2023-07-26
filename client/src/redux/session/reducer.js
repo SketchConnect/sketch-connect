@@ -39,10 +39,13 @@ const sessionSlice = createSlice({
       state._id = action.payload.session._id;
       state.isPublic = action.payload.session.isPublic;
       state.status = action.payload.session.status;
-      state.players = action.payload.session.players
+      state.players = action.payload.session.players;
       state.quadrant = action.payload.session.quadrant;
       state.finalImage = action.payload.session.finalImage;
       state.name = action.payload.session.name;
+    },
+    clearSessionId: (state) => {
+      state._id = "";
     }
   },
   extraReducers: (builder) => {
@@ -112,6 +115,7 @@ const sessionSlice = createSlice({
   }
 });
 
-export const { resetSession, setSession } = sessionSlice.actions;
+export const { resetSession, setSession, clearSessionId } =
+  sessionSlice.actions;
 
 export default sessionSlice.reducer;

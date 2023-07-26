@@ -4,15 +4,32 @@ import { useSelector, useDispatch } from "react-redux";
 import "./WaitingPage.css";
 import { useParams } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
+import { clearSessionId } from "../redux/session/reducer";
+import { keyframes } from "@emotion/react";
 
 function WaitingPage() {
+  const dispatch = useDispatch();
   const { sessionId } = useParams();
   const navigate = useNavigate();
   const [isCopied, setIsCopied] = useState(false);
   const currentSession = useSelector((state) => state.session);
   const currentUser = useSelector((state) => state.user._id);
+
   const players = currentSession.players;
   const playerCount = players.length;
+
+  // When the component mounts, clear the session ID
+  useEffect(() => {
+    return () => {
+      dispatch(clearSessionId());
+    };
+  }, []);
+
+  useEffect(() => {
+    if (currentSession._id === "") {
+      navigate("/");
+    }
+  }, [currentSession.id]);
 
   let imageSource;
   if (playerCount === 1) {
@@ -54,13 +71,16 @@ function WaitingPage() {
         <button className="invite-button" onClick={handleShareClick}>
           INVITE
         </button>
-        <button className="start-button" 
+        <button
+          className="start-button"
           onClick={() => {
-            // if (currentSession.quadrants[0] === currentUser) {
-              navigate(`/game/turn/${sessionId}`)
-            // } else {
-              // navigate(`/game/${sessionId}`)}
-            }}>
+            if (currentSession.players[0] === currentUser) {
+              navigate(`/game/turn/${sessionId}`);
+            } else {
+              navigate(`/game/${sessionId}`);
+            }
+          }}
+        >
           START
         </button>
       </div>
