@@ -23,7 +23,7 @@ const GamePage = () => {
         } else {
           navigate(`/game/${currentSession._id}`);
         }
-    }, "10000000000");
+    }, "10000");
   }, []);
 
   let imageSource;
