@@ -71,8 +71,8 @@ function Homepage() {
   const joinSession = (session) => {
     console.log("the user that wants to join the game is ", currentUser._id);
     if (
-      session.status === "waiting" &&
-      !session.players.includes(currentUser._id)
+      session.status === "waiting" 
+      //!session.players.includes(currentUser._id)
     ) {
       let payload = { session: session, userId: currentUser._id };
       dispatch(setSession(payload));

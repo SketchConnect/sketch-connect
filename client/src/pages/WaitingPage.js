@@ -10,6 +10,7 @@ function WaitingPage() {
   const navigate = useNavigate();
   const [isCopied, setIsCopied] = useState(false);
   const currentSession = useSelector((state) => state.session);
+  const currentUser = useSelector((state) => state.user._id);
   const players = currentSession.players;
   const playerCount = players.length;
 
@@ -53,10 +54,12 @@ function WaitingPage() {
         <button className="invite-button" onClick={handleShareClick}>
           INVITE
         </button>
-        <button
-          className="start-button"
-          onClick={() => navigate(`/game/${sessionId}`)}
-        >
+        <button className="start-button" 
+          onClick={() => {
+            if (currentSession.quadrants[0] === currentUser) {
+              navigate(`/game/turn/${sessionId}`)
+            } else {
+              navigate(`/game/${sessionId}`)}}}>
           START
         </button>
       </div>
