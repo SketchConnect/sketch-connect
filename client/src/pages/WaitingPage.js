@@ -4,14 +4,31 @@ import { useSelector, useDispatch } from "react-redux";
 import "./WaitingPage.css";
 import { useParams } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
+import { clearSessionId } from "../redux/session/reducer";
 
 function WaitingPage() {
+  const dispatch = useDispatch();
   const { sessionId } = useParams();
   const navigate = useNavigate();
   const [isCopied, setIsCopied] = useState(false);
   const currentSession = useSelector((state) => state.session);
+  const currentUser = useSelector((state) => state.user._id);
+
   const players = currentSession.players;
   const playerCount = players.length;
+
+  // When the component mounts, clear the session ID
+  useEffect(() => {
+    return () => {
+      dispatch(clearSessionId());
+    };
+  }, []);
+
+  useEffect(() => {
+    if (currentSession._id === "") {
+      navigate("/");
+    }
+  }, [currentSession.id]);
 
   let imageSource;
   if (playerCount === 1) {
@@ -27,9 +44,8 @@ function WaitingPage() {
   // TODO: the link is copied but the logic to join the session is not fully working
   const handleShareClick = async () => {
     try {
-      console.log("hi");
       await navigator.clipboard.writeText(
-        `https://sketchconnect.vercel.app/waiting/${currentSession._id}`
+        `${process.env.REACT_APP_FE_URL}/waiting/${currentSession._id}`
       );
       setIsCopied(true);
       setTimeout(() => {
@@ -54,7 +70,16 @@ function WaitingPage() {
         <button className="invite-button" onClick={handleShareClick}>
           INVITE
         </button>
-        <button className="start-button" onClick={() => navigate(`/game/${sessionId}`)}>
+        <button
+          className="start-button"
+          onClick={() => {
+            if (currentSession.quadrants[0] === currentUser) {
+              navigate(`/game/turn/${sessionId}`);
+            } else {
+              navigate(`/game/${sessionId}`);
+            }
+          }}
+        >
           START
         </button>
       </div>

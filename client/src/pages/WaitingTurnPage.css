@@ -1,0 +1,8 @@
+.waiting-text {
+    font-family: "Chelsea Market", cursive;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 300px);
+    width: auto;
+}
