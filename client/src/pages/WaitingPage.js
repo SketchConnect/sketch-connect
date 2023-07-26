@@ -27,9 +27,8 @@ function WaitingPage() {
   // TODO: the link is copied but the logic to join the session is not fully working
   const handleShareClick = async () => {
     try {
-      console.log("hi");
       await navigator.clipboard.writeText(
-        `https://sketchconnect.vercel.app/waiting/${currentSession._id}`
+        `${process.env.REACT_APP_FE_URL}/waiting/${currentSession._id}`
       );
       setIsCopied(true);
       setTimeout(() => {
@@ -54,7 +53,10 @@ function WaitingPage() {
         <button className="invite-button" onClick={handleShareClick}>
           INVITE
         </button>
-        <button className="start-button" onClick={() => navigate(`/game/${sessionId}`)}>
+        <button
+          className="start-button"
+          onClick={() => navigate(`/game/${sessionId}`)}
+        >
           START
         </button>
       </div>
