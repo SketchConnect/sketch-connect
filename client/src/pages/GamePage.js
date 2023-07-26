@@ -1,14 +1,28 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Canvas from "../components/Canvas";
 import Timer from "../components/Timer";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
+import { useNavigate } from "react-router-dom";
 import "./GamePage.css";
 
 const GamePage = () => {
   const currentSession = useSelector((state) => state.session);
   const players = currentSession.players;
-  const currPlayer = 1; // temp for fe - TODO grab player id index
+  const user = useSelector((state) => state.user._id);
+  const currPlayer = players.indexOf(user); // temp for fe - TODO grab player id index
+  
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    setTimeout(() => {
+        if (user === players[3]) {
+          navigate(`/complete/${currentSession._id}`);
+        } else {
+          navigate(`/game/${currentSession._id}`);
+        }
+    }, "10000");
+  }, []);
 
   let imageSource;
   if (currPlayer === 1) {
@@ -20,7 +34,6 @@ const GamePage = () => {
   } else {
     imageSource = "p4.png";
   }
-
   return (
     <div className="game-container">
       <div className="game-info">
