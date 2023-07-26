@@ -4,7 +4,6 @@ import { useSelector, useDispatch } from "react-redux";
 import "./WaitingPage.css";
 import { useParams } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { clearSessionId } from "../redux/session/reducer";
 import { keyframes } from "@emotion/react";
 
 function WaitingPage() {
