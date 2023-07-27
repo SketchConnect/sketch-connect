@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Canvas from "../components/Canvas";
 import Timer from "../components/Timer";
@@ -12,18 +12,51 @@ const GamePage = () => {
   const players = currentSession.players;
   const user = useSelector((state) => state.user._id);
   const currPlayer = players.indexOf(user);
-
   const navigate = useNavigate();
+
+  const canvasRef = useRef(null);
 
   useEffect(() => {
     setTimeout(() => {
-        if (user === players[3]) {
-          navigate(`/complete/${currentSession._id}`);
-        } else {
-          navigate(`/game/${currentSession._id}`);
-        }
+      if (canvasRef.current) {
+        canvasRef.current.captureDrawing();
+      }
+
+      if (user === players[3]) {
+        navigate(`/complete/${currentSession._id}`);
+      } else {
+        navigate(`/game/${currentSession._id}`);
+      }
     }, 10100);
   }, []);
+
+  const handleCapture = useCallback(
+    (blob) => {
+      const formData = new FormData();
+      const image = new File([blob], "image.png", {
+        type: "image/png"
+      });
+      formData.append("img", image);
+      formData.append("folder", "drawings/quadrants");
+      formData.append("quadrantNumber", currPlayer.toString());
+
+      fetch(
+        `https://sketch-connect-be.onrender.com/sessions/${sessionId}/upload-drawing`,
+        {
+          method: "PATCH",
+          body: formData
+        }
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data.url);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+    [sessionId, currPlayer]
+  );
 
   let imageSource;
   if (currPlayer === 0) {
@@ -60,7 +93,7 @@ const GamePage = () => {
         </div>
       </div>
       <div className="drawing-space">
-        <Canvas />
+        <Canvas ref={canvasRef} onCapture={handleCapture} />
       </div>
     </div>
   );

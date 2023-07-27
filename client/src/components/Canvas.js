@@ -1,8 +1,14 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, {
+  forwardRef,
+  useImperativeHandle,
+  useRef,
+  useEffect,
+  useState
+} from "react";
 import ExportPopup from "./ExportPopup";
 import { useSelector, useDispatch } from "react-redux";
 
-const Canvas = () => {
+const Canvas = forwardRef((props, ref) => {
   const canvasRef = useRef(null);
   const contextRef = useRef(null);
   const [brushColor, setBrushColor] = useState("#000000");
@@ -114,6 +120,14 @@ const Canvas = () => {
   const handleCloseExportPopup = () => {
     setShowExportPopup(false);
   };
+
+  useImperativeHandle(ref, () => ({
+    captureDrawing: () => {
+      canvasRef.current.toBlob((blob) => {
+        props.onCapture(blob);
+      });
+    }
+  }));
 
   const handleDownloadImage = () => {
     const canvas = canvasRef.current;
@@ -354,6 +368,6 @@ const Canvas = () => {
       </div>
     </div>
   );
-};
+});
 
 export default Canvas;
