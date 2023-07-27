@@ -149,4 +149,36 @@ router.patch("/:id", async (req, res) => {
   }
 });
 
+/**
+ * PATCH /:id/add-session
+ * Adds session to user by updating existing user object.
+ *
+ * URL parameters:
+ * - id (string): The ID of the user to update.
+ *
+ * Request body parameters:
+ * - "sessionId", value: the session id to be added to the sessions array of the user
+ */
+router.patch("/:id/add-session", async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const { sessionId } = req.body;
+
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { $addToSet: { sessions: sessionId } },
+      { new: true }
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({ error: "User not found." });
+    }
+
+    return res.status(200).json(updatedUser);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Server error." });
+  }
+});
+
 export default router;
