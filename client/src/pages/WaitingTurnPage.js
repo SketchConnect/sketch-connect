@@ -10,54 +10,38 @@ function WaitingTurnPage() {
   let [drawn, setDrawn] = useState(false);
 
   useEffect(() => {
-    let currentTurn = currentSession.quadrants.length;
-    let userIndex = currentSession.players.indexOf(user);
-    let delay = 0;
+    const interval = setInterval(() => {
+      fetch(
+        `https://sketch-connect-be.onrender.com/sessions/${currentSession._id}`, 
+        {
+          method: "GET"
+        }
+      )
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("HTTP error " + response.status);
+        }
+        return response.json();
+      })
+      .then((response) => {
+        if (response.quadrants.length === response.players.length) {
+          clearInterval(interval);
+          navigate(`/complete/${currentSession._id}`);
+        }
+  
+        let currentTurn = response.quadrants.length;
+        let userIndex = response.players.indexOf(user);
 
-    if (drawn) {
-      delay = 10000 * (4 - currentTurn);
-    } else {
-      delay = 10000 * (userIndex - currentTurn);
-    }
+        console.log("currentTurn: ", currentTurn, "userIndex: ", userIndex)
+        if (currentTurn === userIndex) {
+          clearInterval(interval);
+          setDrawn(true);
+          navigate(`/game/turn/${currentSession._id}`);
+        }
+      })
+    }, 1000);
 
-    const timer = setTimeout(() => {
-      const interval = setInterval(() => {
-        fetch(
-          `https://sketch-connect-be.onrender.com/sessions/${currentSession._id}`, 
-          {
-            method: "GET"
-          }
-        )
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error("HTTP error " + response.status);
-          }
-          return response.json();
-        })
-        .then((response) => {
-          if (response.quadrants.length === response.players.length) {
-            clearInterval(interval)
-            clearTimeout(timer);
-            navigate(`/complete/${currentSession._id}`);
-          }
-    
-          let currentTurn = response.quadrants.length;
-          let userIndex = response.players.indexOf(user);
-
-          console.log("currentTurn: ", currentTurn, "userIndex: ", userIndex)
-          if (currentTurn === userIndex) {
-            clearInterval(interval)
-            clearTimeout(timer);
-            setDrawn(true);
-            navigate(`/game/turn/${currentSession._id}`);
-          }
-        })
-      }, 1000);
-
-      return () => clearInterval(interval);
-    }, delay);
-
-    return () => clearTimeout(timer);
+    return () => clearInterval(interval);
   }, [drawn]);
 
   /*
