@@ -232,5 +232,45 @@ router.get("/:id/finalImage", async (req, res) => {
     return res.status(500).send(err);
   }
 });
+/**
+ * PATCH /sessions/:id/status
+ * Updates a session's status
+ *
+ * URL parameter:
+ * - id (string): The ID of the session to update.
+ *
+ * Request body parameters:
+ * - status (string): The new status of the session. One of "waiting", "ongoing", "completed", or "cancelled".
+ *
+ * Returns:
+ * - A 200 status code if update was successful, along with the updated session.
+ * - If the session is not found, returns a 404 status code.
+ * - If the status provided is not valid, returns a 400 status code.
+ **/
+router.patch("/:id/status", async (req, res) => {
+  const { status } = req.body;
+  const validStatuses = ["waiting", "ongoing", "completed", "cancelled"];
+
+  if (!validStatuses.includes(status)) {
+    return res.status(400).send({ error: "Invalid status" });
+  }
+
+  try {
+    const session = await Session.findByIdAndUpdate(
+      req.params.id,
+      { status: status },
+      { new: true }
+    );
+
+    if (session) {
+      res.status(200).send({ session });
+    } else {
+      res.status(404).send({ error: "Session not found" });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ error });
+  }
+});
 
 export default router;
