@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import "./WaitingPage.css";
 import { motion, AnimatePresence } from "framer-motion";
 import { useInterval } from "../util/useInterval";
+import { updateStatusAsync } from "../redux/session/thunks";
 
 function WaitingPage() {
   const { sessionId } = useParams();
@@ -11,6 +12,7 @@ function WaitingPage() {
   const [isCopied, setIsCopied] = useState(false);
   const currentSession = useSelector((state) => state.session);
   const currentUser = useSelector((state) => state.user._id);
+  const dispatch = useDispatch();
 
   const [playerCount, setPlayerCount] = useState(0);
 
@@ -26,6 +28,9 @@ function WaitingPage() {
     })
     .then((response) => {
       setPlayerCount(response.players.length)
+      if (response.status === "ongoing") {
+        startGame();
+      }
     })
   }, 1000);
 
@@ -55,6 +60,23 @@ function WaitingPage() {
     }
   };
 
+  const handleStartClick = async () => {
+    try {
+      dispatch(updateStatusAsync({sessionId: sessionId, status: "ongoing"}));
+      startGame();
+    } catch (err) {
+      console.error("Fail to start session")
+    }
+  }
+
+  const startGame = () => {
+    if (currentSession.players[0] === currentUser) {
+      navigate(`/game/turn/${sessionId}`);
+    } else {
+      navigate(`/game/${sessionId}`);
+    }
+  }
+
   return (
     <div className="lobby-container">
       <h2 className="lobby-header">
@@ -71,13 +93,7 @@ function WaitingPage() {
         </button>
         <button
           className="start-button"
-          onClick={() => {
-            if (currentSession.players[0] === currentUser) {
-              navigate(`/game/turn/${sessionId}`);
-            } else {
-              navigate(`/game/${sessionId}`);
-            }
-          }}
+          onClick={handleStartClick}
         >
           START
         </button>

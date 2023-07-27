@@ -17,6 +17,7 @@ const GamePage = () => {
   const canvasRef = useRef(null);
 
   useEffect(() => {
+    console.log(currentSession)
     setTimeout(() => {
       if (canvasRef.current) {
         canvasRef.current.captureDrawing();

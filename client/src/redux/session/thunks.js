@@ -29,22 +29,21 @@ export const deleteSessionAsync = createAsyncThunk(
 
 export const updateStatusAsync = createAsyncThunk(
   UPDATE_STATUS,
-  async (sessionId) => {
-    return await sessionService.updateStatus(sessionId);
+  async ({ sessionId, status }) => {
+    return await sessionService.updateStatus(sessionId, status);
   }
 );
 
 export const addPlayerAsync = createAsyncThunk(
   ADD_PLAYER,
   async ({ session, player }) => {
-    // TODO: change to player._id
     return await sessionService.addPlayer(session._id, player);
   }
 );
 
 export const finalImageAsync = createAsyncThunk(
   FINAL_IMAGE,
-  async ({sessionId, image}) => {
+  async ({ sessionId, image }) => {
     return await sessionService.finalImage(sessionId, image);
   }
 )

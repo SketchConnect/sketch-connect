@@ -27,12 +27,12 @@ function WaitingTurnPage() {
       let userIndex = response.players.indexOf(user);
 
       if (currentTurn > userIndex) {
-        delay = 10100 * (4 - currentTurn);
+        delay = 10150 * (4 - currentTurn);
         setTimeout(() => {
             navigate(`/complete/${currentSession._id}`);
           }, delay);
         } else if (currentTurn < userIndex) {
-          delay = 10100 * (userIndex - currentTurn);
+          delay = 10150 * (userIndex - currentTurn);
           setTimeout(() => {
             navigate(`/game/turn/${currentSession._id}`);
           }, delay);

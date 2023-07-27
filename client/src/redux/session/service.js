@@ -60,13 +60,13 @@ const deleteSession = async (sessionId) => {
 const updateStatus = async (sessionId, status) => {
   try {
     const response = await fetch(
-      `https://sketch-connect-be.onrender.com/sessions/${sessionId}`,
+      `https://sketch-connect-be.onrender.com/sessions/${sessionId}/status`,
       {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({ status })
+        body: JSON.stringify({ status: status })
       }
     );
 
