@@ -11,6 +11,22 @@ const getSessions = async () => {
   }
 };
 
+const getSession = async (sessionId) => {
+  try {
+    const res = await fetch(
+      `https://sketch-connect-be.onrender.com/sessions/${sessionId}`,
+      {
+        method: "GET"
+      }
+    );
+
+    return res.json();
+  } catch (error) {
+    console.error("Error getting session:", error);
+    throw error;
+  }
+};
+
 const addSession = async (session) => {
   try {
     const response = await fetch(
@@ -159,6 +175,7 @@ const quadrantImage = async (sessionId, image, quadrantNumber) => {
 
 const services = {
   getSessions,
+  getSession,
   addSession,
   deleteSession,
   updateStatus,

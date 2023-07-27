@@ -2,6 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import sessionService from "./service";
 import {
   GET_SESSIONS,
+  GET_SESSION,
   ADD_SESSION,
   DELETE_SESSION,
   UPDATE_STATUS,
@@ -13,6 +14,13 @@ import {
 export const getSessionsAsync = createAsyncThunk(GET_SESSIONS, async () => {
   return await sessionService.getSessions();
 });
+
+export const getSessionAsync = createAsyncThunk(
+  GET_SESSION,
+  async (sessionId) => {
+    return await sessionService.getSession(sessionId);
+  }
+);
 
 export const addSessionAsync = createAsyncThunk(
   ADD_SESSION,
@@ -47,11 +55,11 @@ export const finalImageAsync = createAsyncThunk(
   async ({ sessionId, image }) => {
     return await sessionService.finalImage(sessionId, image);
   }
-)
+);
 
 export const quadrantImageAsync = createAsyncThunk(
   QUADRANT_IMAGE,
   async ({ sessionId, image, quadrantNumber }) => {
-    return await sessionService.quadrantImage(sessionId, image, quadrantNumber)
+    return await sessionService.quadrantImage(sessionId, image, quadrantNumber);
   }
-)
+);

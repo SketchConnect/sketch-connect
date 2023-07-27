@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import "./WaitingPage.css";
 import { motion, AnimatePresence } from "framer-motion";
 import { useInterval } from "../util/useInterval";
-import { updateStatusAsync } from "../redux/session/thunks";
+import { updateStatusAsync, getSessionAsync } from "../redux/session/thunks";
 import { setSession } from "../redux/session/reducer";
 
 function WaitingPage() {
@@ -17,23 +17,16 @@ function WaitingPage() {
 
   const [playerCount, setPlayerCount] = useState(0);
 
+  useEffect(() => {
+    dispatch(getSessionAsync(sessionId));
+  }, [sessionId, dispatch]);
+
   useInterval(async () => {
-    fetch(`https://sketch-connect-be.onrender.com/sessions/${currentSession._id}`, {
-      method: "GET"
-    })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error("HTTP error " + response.status);
-      }
-      return response.json();
-    })
-    .then((response) => {
-      setPlayerCount(response.players.length)
-      if (response.status === "ongoing") {
-        dispatch(setSession({ session: response }))
-        startGame();
-      }
-    })
+    setPlayerCount(currentSession.players.length);
+    if (currentSession.status === "ongoing") {
+      dispatch(setSession({ session: currentSession }));
+      startGame();
+    }
   }, 1000);
 
   let imageSource;
@@ -64,12 +57,12 @@ function WaitingPage() {
 
   const handleStartClick = async () => {
     try {
-      dispatch(updateStatusAsync({sessionId: sessionId, status: "ongoing"}));
+      dispatch(updateStatusAsync({ sessionId: sessionId, status: "ongoing" }));
       startGame();
     } catch (err) {
-      console.error("Fail to start session")
+      console.error("Fail to start session");
     }
-  }
+  };
 
   const startGame = () => {
     if (currentSession.players[0] === currentUser) {
@@ -77,7 +70,7 @@ function WaitingPage() {
     } else {
       navigate(`/game/${sessionId}`);
     }
-  }
+  };
 
   return (
     <div className="lobby-container">
@@ -93,10 +86,7 @@ function WaitingPage() {
         <button className="invite-button" onClick={handleShareClick}>
           INVITE
         </button>
-        <button
-          className="start-button"
-          onClick={handleStartClick}
-        >
+        <button className="start-button" onClick={handleStartClick}>
           START
         </button>
       </div>

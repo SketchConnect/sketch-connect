@@ -5,7 +5,8 @@ import {
   deleteSessionAsync,
   updateStatusAsync,
   getSessionsAsync,
-  addPlayerAsync
+  addPlayerAsync,
+  getSessionAsync
 } from "./thunks";
 
 const INITIAL_STATE = {
@@ -56,6 +57,23 @@ const sessionSlice = createSlice({
         state.sessions = action.payload;
       })
       .addCase(getSessionsAsync.rejected, (state, action) => {
+        state.getSessions = REQUEST_STATE.REJECTED;
+        state.error = action.error;
+      })
+      .addCase(getSessionAsync.pending, (state) => {
+        state.getSessions = REQUEST_STATE.PENDING;
+        state.error = null;
+      })
+      .addCase(getSessionAsync.fulfilled, (state, action) => {
+        state.getSessions = REQUEST_STATE.FULFILLED;
+        state._id = action.payload._id;
+        state.isPublic = action.payload.isPublic;
+        state.status = action.payload.status;
+        state.players = action.payload.players;
+        state.quadrants = action.payload.quadrants;
+        state.finalImage = action.payload.finalImage;
+      })
+      .addCase(getSessionAsync.rejected, (state, action) => {
         state.getSessions = REQUEST_STATE.REJECTED;
         state.error = action.error;
       })
