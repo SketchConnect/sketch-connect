@@ -5,6 +5,7 @@ import "./WaitingPage.css";
 import { motion, AnimatePresence } from "framer-motion";
 import { useInterval } from "../util/useInterval";
 import { updateStatusAsync } from "../redux/session/thunks";
+import { setSession } from "../redux/session/reducer";
 
 function WaitingPage() {
   const { sessionId } = useParams();
@@ -29,6 +30,7 @@ function WaitingPage() {
     .then((response) => {
       setPlayerCount(response.players.length)
       if (response.status === "ongoing") {
+        dispatch(setSession({ session: response }))
         startGame();
       }
     })

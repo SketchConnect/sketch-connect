@@ -6,7 +6,8 @@ import {
   DELETE_SESSION,
   UPDATE_STATUS,
   ADD_PLAYER,
-  FINAL_IMAGE
+  FINAL_IMAGE,
+  QUADRANT_IMAGE
 } from "../utils";
 
 export const getSessionsAsync = createAsyncThunk(GET_SESSIONS, async () => {
@@ -45,5 +46,12 @@ export const finalImageAsync = createAsyncThunk(
   FINAL_IMAGE,
   async ({ sessionId, image }) => {
     return await sessionService.finalImage(sessionId, image);
+  }
+)
+
+export const quadrantImageAsync = createAsyncThunk(
+  QUADRANT_IMAGE,
+  async ({ sessionId, image, quadrantNumber }) => {
+    return await sessionService.quadrantImage(sessionId, image, quadrantNumber)
   }
 )

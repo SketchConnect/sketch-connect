@@ -163,7 +163,8 @@ const services = {
   deleteSession,
   updateStatus,
   addPlayer,
-  finalImage
+  finalImage,
+  quadrantImage
 };
 
 export default services;
