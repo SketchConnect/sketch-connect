@@ -5,6 +5,14 @@ import { useSelector, useDispatch } from "react-redux";
 import { resetSession } from "../redux/session/reducer";
 import { finalImageAsync } from "../redux/session/thunks";
 import { useNavigate } from "react-router-dom";
+import {
+  EmailShareButton,
+  EmailIcon,
+  TwitterShareButton,
+  TwitterIcon,
+  PinterestShareButton,
+  PinterestIcon
+} from "react-share";
 
 const CompletePage = () => {
   let navigate = useNavigate();
@@ -14,6 +22,7 @@ const CompletePage = () => {
   let canvas = useRef();
   let link = useRef();
   let playerPerGame = 3;
+  let finalImageSrc = "https://sketchconnect.vercel.app/assets/images/logo.png"; // TODO assign to combined drawing
 
   useEffect(() => {
     fetch(`https://sketch-connect-be.onrender.com/sessions/${current._id}`, {
@@ -100,7 +109,30 @@ const CompletePage = () => {
           >
             Download
           </button>
-          <button id="share-btn">Share</button>
+          <div className="socials-share">
+            <div id="share-btn">Share 👇</div>
+            <div className="social-btns">
+              <EmailShareButton
+                url={finalImageSrc}
+                subject="Checkout our SketchConnect masterpiece! 🎨🧩🪄"
+              >
+                <EmailIcon size={50} round />
+              </EmailShareButton>
+              <TwitterShareButton
+                url={finalImageSrc}
+                title="Checkout our SketchConnect masterpiece! 🎨🧩🪄"
+              >
+                <TwitterIcon size={50} round />
+              </TwitterShareButton>
+              <PinterestShareButton
+                url={finalImageSrc}
+                media={finalImageSrc}
+                description="Checkout our SketchConnect masterpiece! 🎨🧩🪄"
+              >
+                <PinterestIcon size={50} round />
+              </PinterestShareButton>
+            </div>
+          </div>
         </div>
 
         <div className="buttons-bottom" onClick={() => navigate("/")}>
