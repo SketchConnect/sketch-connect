@@ -141,15 +141,22 @@ const Canvas = forwardRef((props, ref) => {
     console.log("Sharing on social media");
   };
 
-  const fetchAndDrawImage = async (url, sourceX, sourceY, destX, destY) => {
+  const fetchAndDrawImage = async (
+    url,
+    index,
+    sourceX,
+    sourceY,
+    destX,
+    destY
+  ) => {
     try {
       const response = await fetch(url);
-      const data = await response.json(); // assuming the response is JSON that contains the URL of the image
+      const session = await response.json();
 
       const image = new Image();
       image.crossOrigin = "anonymous";
-      // let's assume `data.url` contains the URL of the image
-      image.src = data.url;
+
+      image.src = session.quadrants[index];
 
       image.onload = () => {
         const sourceWidth = image.naturalWidth;
@@ -215,7 +222,8 @@ const Canvas = forwardRef((props, ref) => {
 
       case 1:
         fetchAndDrawImage(
-          `https://sketch-connect-be.onrender.com/sessions/${sessionId}/quadrant-0`,
+          `https://sketch-connect-be.onrender.com/sessions/${sessionId}`,
+          0,
           width - 0.35 * getInchesAsPixels(),
           0,
           0,
@@ -233,7 +241,8 @@ const Canvas = forwardRef((props, ref) => {
 
       case 2:
         fetchAndDrawImage(
-          `https://sketch-connect-be.onrender.com/sessions/${sessionId}/quadrant-0`,
+          `https://sketch-connect-be.onrender.com/sessions/${sessionId}`,
+          0,
           0,
           height - 0.35 * getInchesAsPixels(),
           0,
@@ -251,14 +260,16 @@ const Canvas = forwardRef((props, ref) => {
 
       case 3:
         fetchAndDrawImage(
-          `https://sketch-connect-be.onrender.com/sessions/${sessionId}/quadrant-2`,
+          `https://sketch-connect-be.onrender.com/sessions/${sessionId}`,
+          2,
           width - 0.35 * getInchesAsPixels(),
           0,
           0,
           0
         );
         fetchAndDrawImage(
-          `https://sketch-connect-be.onrender.com/sessions/${sessionId}/quadrant-1`,
+          `https://sketch-connect-be.onrender.com/sessions/${sessionId}`,
+          1,
           0,
           height - 0.35 * getInchesAsPixels(),
           0,
