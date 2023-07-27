@@ -184,55 +184,6 @@ router.patch("/:id/upload-drawing", async (req, res) => {
 });
 
 /**
- * GET /:id/quadrant-:number
- * Fetches the URL of a quadrant's drawing image from Google Cloud Storage.
- *
- * URL parameters:
- * - id (string): The ID of the session.
- * - number (int): The quadrant number.
- *
- * Returns:
- * - A JSON object with a single property, url, containing the signed URL of the image.
- */
-router.get("/:id/quadrant-:number", async (req, res) => {
-  try {
-    const imageUploadService = new ImageUploadService();
-    const url = await imageUploadService.getQuadrantImageUrl(
-      req.params.id,
-      req.params.number
-    );
-
-    return res.status(200).send({ url: url });
-  } catch (err) {
-    return res.status(500).send(err);
-  }
-});
-
-/**
- * GET /:id/finalImage
- * Fetches the URL of the final image from Google Cloud Storage.
- *
- * URL parameters:
- * - id (string): The ID of the session.
- *
- * Returns:
- * - A JSON object with a single property, url, containing the signed URL of the image.
- */
-
-router.get("/:id/finalImage", async (req, res) => {
-  try {
-    const session = await Session.findById(req.params.id);
-
-    if (session) {
-      res.status(200).send(session.finalImage);
-    } else {
-      res.status(400).send({ error: "Final image not found" });
-    }
-  } catch (err) {
-    return res.status(500).send(err);
-  }
-});
-/**
  * PATCH /sessions/:id/status
  * Updates a session's status
  *
