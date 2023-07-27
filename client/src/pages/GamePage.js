@@ -70,7 +70,7 @@ const GamePage = () => {
       )
         .then((response) => response.json())
         .then((data) => {
-          console.log("AHHHHHH", data.url);
+          console.log(data.url);
           
         })
         .catch((error) => {

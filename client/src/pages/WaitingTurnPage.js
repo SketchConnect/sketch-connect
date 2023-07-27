@@ -32,7 +32,6 @@ function WaitingTurnPage() {
         let currentTurn = response.quadrants.length;
         let userIndex = response.players.indexOf(user);
 
-        console.log("currentTurn: ", currentTurn, "userIndex: ", userIndex)
         if (currentTurn === userIndex) {
           clearInterval(interval);
           setDrawn(true);
@@ -43,44 +42,6 @@ function WaitingTurnPage() {
 
     return () => clearInterval(interval);
   }, [drawn]);
-
-  /*
-  useEffect(() => {
-    let delay = 0;
-
-    fetch(
-      `https://sketch-connect-be.onrender.com/sessions/${currentSession._id}`, 
-      {
-        method: "GET"
-      }
-    ).then((response) => {
-      if (!response.ok) {
-        throw new Error("HTTP error " + response.status);
-      }
-      return response.json();
-    })
-    .then((response) => {
-      if (response.status === "completed") {
-        navigate(`/complete/${currentSession._id}`);
-      }
-
-      let currentTurn = response.quadrants.length;
-      let userIndex = response.players.indexOf(user);
-
-      if (currentTurn > userIndex) {
-        delay = 10200 * (4 - currentTurn);
-        setTimeout(() => {
-            navigate(`/complete/${currentSession._id}`);
-          }, delay);
-        } else if (currentTurn < userIndex) {
-          delay = 10200 * (userIndex - currentTurn);
-          setTimeout(() => {
-            navigate(`/game/turn/${currentSession._id}`);
-          }, delay);
-        }
-      });
-  }, []);
-  */
 
   return (
     <div className="waiting-text">
