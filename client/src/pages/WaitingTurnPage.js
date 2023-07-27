@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./WaitingTurnPage.css";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -7,21 +7,21 @@ function WaitingTurnPage() {
   const currentSession = useSelector((state) => state.session);
   const user = useSelector((state) => state.user._id);
   const navigate = useNavigate();
+  let [drawn, setDrawn] = useState(false);
 
   useEffect(() => {
     let currentTurn = currentSession.quadrants.length;
     let userIndex = currentSession.players.indexOf(user);
     let delay = 0;
 
-    if (currentTurn > userIndex) {
+    if (drawn) {
       delay = 10000 * (4 - currentTurn);
-    } else if (currentTurn < userIndex) {
+    } else {
       delay = 10000 * (userIndex - currentTurn);
     }
 
     const timer = setTimeout(() => {
       const interval = setInterval(() => {
-        console.log("fetching session")
         fetch(
           `https://sketch-connect-be.onrender.com/sessions/${currentSession._id}`, 
           {
@@ -35,7 +35,8 @@ function WaitingTurnPage() {
           return response.json();
         })
         .then((response) => {
-          if (response.status === "completed") {
+          if (response.quadrants.length === response.players.length) {
+            clearInterval(interval)
             clearTimeout(timer);
             navigate(`/complete/${currentSession._id}`);
           }
@@ -43,8 +44,11 @@ function WaitingTurnPage() {
           let currentTurn = response.quadrants.length;
           let userIndex = response.players.indexOf(user);
 
+          console.log("currentTurn: ", currentTurn, "userIndex: ", userIndex)
           if (currentTurn === userIndex) {
+            clearInterval(interval)
             clearTimeout(timer);
+            setDrawn(true);
             navigate(`/game/turn/${currentSession._id}`);
           }
         })
@@ -54,7 +58,7 @@ function WaitingTurnPage() {
     }, delay);
 
     return () => clearTimeout(timer);
-  }, []);
+  }, [drawn]);
 
   /*
   useEffect(() => {

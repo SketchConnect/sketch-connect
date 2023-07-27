@@ -13,6 +13,7 @@ const CompletePage = () => {
   // let [quadrants, setQuadrants] = useState([]);
   let canvas = useRef();
   let link = useRef();
+  let playerPerGame = 3;
 
   useEffect(() => {
     fetch(`https://sketch-connect-be.onrender.com/sessions/${current._id}`, {
@@ -50,13 +51,13 @@ const CompletePage = () => {
       let loadedCount = 0;
 
       const loadImages = () => {
-        for (let i = 0; i < 4; i++) {
+        for (let i = 0; i < playerPerGame; i++) {
           images[i] = new Image();
           images[i].crossOrigin = "anonymous";
           images[i].src = quadrants[i];
           images[i].onload = function () {
             loadedCount++;
-            if (loadedCount === 4) {
+            if (loadedCount === playerPerGame) {
               drawImages();
               resolve();
             }
@@ -69,7 +70,7 @@ const CompletePage = () => {
         let imageWidth = canvas.current.width / 2;
         let imageHeight = canvas.current.height / 2;
 
-        for (let i = 0; i < 4; i++) {
+        for (let i = 0; i < playerPerGame; i++) {
           let x = (i % 2) * imageWidth;
           let y = Math.floor(i / 2) * imageHeight;
           context.drawImage(images[i], x, y, imageWidth, imageHeight);
@@ -115,15 +116,6 @@ const CompletePage = () => {
         </div>
       </div>
       <canvas className="drawing-container" ref={canvas}></canvas>
-      {/*
-<div className="drawing-container">
-        {quadrants?.map((quadrant) => {
-          return (
-            <img id="drawing" src={quadrant} alt="drawing" key={quadrant}></img>
-          )
-        })}
-      </div>
-  */}
     </div>
   );
 };
