@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import "./WaitingPage.css";
 import { motion, AnimatePresence } from "framer-motion";
 import { useInterval } from "../util/useInterval";
-import { updateStatusAsync, getSessionAsync } from "../redux/session/thunks";
+import {
+  updateStatusAsync,
+  getSessionAsync,
+  addPlayerAsync
+} from "../redux/session/thunks";
 import { setSession } from "../redux/session/reducer";
 
 function WaitingPage() {
@@ -14,6 +18,7 @@ function WaitingPage() {
   const currentSession = useSelector((state) => state.session);
   const currentUser = useSelector((state) => state.user._id);
   const dispatch = useDispatch();
+  const location = useLocation();
 
   const [playerCount, setPlayerCount] = useState(0);
 
@@ -28,6 +33,25 @@ function WaitingPage() {
       startGame();
     }
   }, 1000);
+
+  useEffect(() => {
+    console.log("Checking fromHomePage:", location.state?.fromHomePage);
+    if (currentSession._id && location.state?.fromHomePage !== true) {
+      console.log("join via link");
+      if (currentUser && !currentSession.players.includes(currentUser)) {
+        console.log(
+          "adding: " + currentUser + " to session: " + currentSession._id
+        );
+        dispatch(
+          addPlayerAsync({ session: currentSession, player: currentUser })
+        );
+      } else if (!currentUser) {
+        navigate("/login", { state: { from: `/waiting/${sessionId}` } });
+      } else {
+        console.log("already in the session");
+      }
+    }
+  }, [currentUser, currentSession._id]);
 
   let imageSource;
   if (playerCount === 1) {
