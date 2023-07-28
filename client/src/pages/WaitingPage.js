@@ -35,20 +35,14 @@ function WaitingPage() {
   }, 1000);
 
   useEffect(() => {
-    console.log("Checking fromHomePage:", location.state?.fromHomePage);
     if (currentSession._id && location.state?.fromHomePage !== true) {
       console.log("join via link");
       if (currentUser && !currentSession.players.includes(currentUser)) {
-        console.log(
-          "adding: " + currentUser + " to session: " + currentSession._id
-        );
         dispatch(
           addPlayerAsync({ session: currentSession, player: currentUser })
         );
       } else if (!currentUser) {
         navigate("/login", { state: { from: `/waiting/${sessionId}` } });
-      } else {
-        console.log("already in the session");
       }
     }
   }, [currentUser, currentSession._id]);

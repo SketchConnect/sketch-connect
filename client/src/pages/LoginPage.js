@@ -28,7 +28,6 @@ const LoginPage = () => {
 
   useEffect(() => {
     if (currentUser._id !== "") {
-      console.log("from", from);
       navigate(from);
     }
   }, [currentUser]);
