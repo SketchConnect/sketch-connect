@@ -5,22 +5,10 @@ import { useNavigate } from "react-router-dom";
 import "./Timer.css";
 
 const Timer = ({ remainingTime }) => {
-  const currentSession = useSelector((state) => state.session._id);
   const currentTime = useRef(remainingTime);
   const prevTime = useRef(null);
   const isNewTimeFirstTick = useRef(false);
   const [lastRerender, setOneLastRerender] = useState(0);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (remainingTime === 0) {
-      navigate(`/complete/${currentSession.id}`);
-    }
-    return () => {
-      // Cleanup function to cancel any ongoing tasks or subscriptions
-      // Perform any necessary cleanup here
-    };
-  }, [lastRerender]);
 
   if (currentTime.current !== remainingTime) {
     isNewTimeFirstTick.current = true;

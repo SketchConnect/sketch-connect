@@ -6,6 +6,7 @@ import { useState } from "react";
 import { UserAuth } from "../context/AuthContext";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
+import { resetSession } from "../redux/session/reducer";
 
 function Header() {
   const { logOut } = UserAuth();
@@ -22,7 +23,6 @@ function Header() {
 
   const handleMenu = () => {
     setOpened(!opened);
-    console.log(user.profilePic);
   };
 
   const handleClose = () => {
@@ -41,7 +41,11 @@ function Header() {
   return (
     <header className="new-header">
       <div className="nav-left">
-        <NavLink to="/" className="nav-link">
+        <NavLink
+          to="/"
+          className="nav-link"
+          onClick={() => dispatch(resetSession())}
+        >
           Home
         </NavLink>
         <NavLink to="/about" className="nav-link">

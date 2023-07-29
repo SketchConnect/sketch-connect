@@ -1,7 +1,14 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, {
+  forwardRef,
+  useImperativeHandle,
+  useRef,
+  useEffect,
+  useState
+} from "react";
 import ExportPopup from "./ExportPopup";
+import { useSelector, useDispatch } from "react-redux";
 
-const Canvas = () => {
+const Canvas = forwardRef((props, ref) => {
   const canvasRef = useRef(null);
   const contextRef = useRef(null);
   const [brushColor, setBrushColor] = useState("#000000");
@@ -9,13 +16,36 @@ const Canvas = () => {
   const [isErasing, setIsErasing] = useState(false);
   const [previousColor, setPreviousColor] = useState("#000000");
   const [showExportPopup, setShowExportPopup] = useState(false);
+  const currentUser = useSelector((state) => state.user);
+  const sessionId = useSelector((state) => state.session._id);
+  const [session, setSession] = useState(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
     contextRef.current = ctx;
-    drawLines(ctx, canvas.width, canvas.height);
+
+    const fetchSession = async () => {
+      const response = await fetch(
+        `https://sketch-connect-be.onrender.com/sessions/${sessionId}`
+      );
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const sessionData = await response.json();
+      setSession(sessionData);
+    };
+
+    fetchSession();
   }, []);
+
+  useEffect(() => {
+    if (session) {
+      const canvas = canvasRef.current;
+      const ctx = canvas.getContext("2d");
+      drawLines(ctx, canvas.width, canvas.height, session);
+    }
+  }, [session]);
 
   const handleColorChange = (e) => {
     const color = e.target.value;
@@ -77,7 +107,10 @@ const Canvas = () => {
     const canvas = canvasRef.current;
     const context = contextRef.current;
     context.clearRect(0, 0, canvas.width, canvas.height);
-    drawLines(context, canvas.width, canvas.height);
+
+    if (session) {
+      drawLines(context, canvas.width, canvas.height);
+    }
   };
 
   const handleExportClick = () => {
@@ -87,6 +120,14 @@ const Canvas = () => {
   const handleCloseExportPopup = () => {
     setShowExportPopup(false);
   };
+
+  useImperativeHandle(ref, () => ({
+    captureDrawing: () => {
+      canvasRef.current.toBlob((blob) => {
+        props.onCapture(blob);
+      });
+    }
+  }));
 
   const handleDownloadImage = () => {
     const canvas = canvasRef.current;
@@ -100,24 +141,142 @@ const Canvas = () => {
     console.log("Sharing on social media");
   };
 
+  const fetchAndDrawImage = async (
+    url,
+    index,
+    sourceX,
+    sourceY,
+    destX,
+    destY
+  ) => {
+    try {
+      const response = await fetch(url);
+      const session = await response.json();
+
+      const image = new Image();
+      image.crossOrigin = "anonymous";
+
+      image.src = session.quadrants[index];
+
+      image.onload = () => {
+        const sourceWidth = image.naturalWidth;
+        const sourceHeight = image.naturalHeight;
+
+        const widthScale = contextRef.current.canvas.width / image.naturalWidth;
+        const heightScale =
+          contextRef.current.canvas.height / image.naturalHeight;
+
+        const destWidth = sourceWidth * widthScale;
+        const destHeight = sourceHeight * heightScale;
+
+        if (contextRef.current) {
+          contextRef.current.drawImage(
+            image,
+            sourceX,
+            sourceY,
+            sourceWidth,
+            sourceHeight,
+            destX,
+            destY,
+            destWidth,
+            destHeight
+          );
+        }
+      };
+
+      image.onerror = (err) => {
+        console.error("Failed to load image: ", err);
+      };
+    } catch (err) {
+      console.error("Error: ", err);
+    }
+  };
+
   const drawLines = (ctx, width, height) => {
     ctx.strokeStyle = "#FF0000";
     ctx.lineWidth = 1;
     ctx.setLineDash([5, 5]);
 
-    // Vertical line
-    ctx.beginPath();
-    ctx.moveTo(width - 0.35 * getInchesAsPixels(), 0);
-    ctx.lineTo(width - 0.35 * getInchesAsPixels(), height);
-    ctx.stroke();
+    // switch statement - based on what player number
+    // redux store for getsession/id - session object has array of players and match id == list of players in session
 
-    // Horizontal line
-    ctx.beginPath();
-    ctx.moveTo(0, height - 0.35 * getInchesAsPixels());
-    ctx.lineTo(width, height - 0.35 * getInchesAsPixels());
-    ctx.stroke();
+    // based on the switch - take appropriate quadrant image from bucket. (ask michelle)
+    // extracting strip of image and overlaying it on next canvas.
 
-    ctx.setLineDash([]);
+    switch (session.players.indexOf(currentUser._id)) {
+      case 0:
+        // Vertical line
+        ctx.beginPath();
+        ctx.moveTo(width - 0.35 * getInchesAsPixels(), 0);
+        ctx.lineTo(width - 0.35 * getInchesAsPixels(), height);
+        ctx.stroke();
+
+        // Horizontal line
+        ctx.beginPath();
+        ctx.moveTo(0, height - 0.35 * getInchesAsPixels());
+        ctx.lineTo(width, height - 0.35 * getInchesAsPixels());
+        ctx.stroke();
+
+        ctx.setLineDash([]);
+        break;
+
+      case 1:
+        fetchAndDrawImage(
+          `https://sketch-connect-be.onrender.com/sessions/${sessionId}`,
+          0,
+          width - 0.35 * getInchesAsPixels(),
+          0,
+          0,
+          0
+        );
+
+        // Horizontal line
+        ctx.beginPath();
+        ctx.moveTo(0, height - 0.35 * getInchesAsPixels());
+        ctx.lineTo(width, height - 0.35 * getInchesAsPixels());
+        ctx.stroke();
+
+        ctx.setLineDash([]);
+        break;
+
+      case 2:
+        fetchAndDrawImage(
+          `https://sketch-connect-be.onrender.com/sessions/${sessionId}`,
+          0,
+          0,
+          height - 0.35 * getInchesAsPixels(),
+          0,
+          0
+        );
+
+        // Vertical line
+        ctx.beginPath();
+        ctx.moveTo(width - 0.35 * getInchesAsPixels(), 0);
+        ctx.lineTo(width - 0.35 * getInchesAsPixels(), height);
+        ctx.stroke();
+
+        ctx.setLineDash([]);
+        break;
+
+      case 3:
+        fetchAndDrawImage(
+          `https://sketch-connect-be.onrender.com/sessions/${sessionId}`,
+          2,
+          width - 0.35 * getInchesAsPixels(),
+          0,
+          0,
+          0
+        );
+        fetchAndDrawImage(
+          `https://sketch-connect-be.onrender.com/sessions/${sessionId}`,
+          1,
+          0,
+          height - 0.35 * getInchesAsPixels(),
+          0,
+          0
+        );
+        break;
+    }
   };
 
   const getInchesAsPixels = () => {
@@ -129,8 +288,7 @@ const Canvas = () => {
       style={{
         display: "flex",
         justifyContent: "center",
-        alignItems: "center",
-        height: "100vh"
+        alignItems: "center"
       }}
     >
       <div style={{ position: "relative" }}>
@@ -221,6 +379,6 @@ const Canvas = () => {
       </div>
     </div>
   );
-};
+});
 
 export default Canvas;

@@ -64,11 +64,21 @@
 }
 
 .drawing-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: center;
+  align-content: center;
   width: 70%;
   height: 100%;
 }
 
 #drawing {
+  height: 50%;
   border-width: 4px;
   border-color: #253674;
+}
+
+.social-btns > * {
+  margin: 0 3px;
 }

@@ -7,13 +7,58 @@
   flex-direction: column;
   justify-content: flex-start;
   color: white;
-  z-index: 1;
+  z-index: 2;
+  overflow: auto;
+  direction: rtl;
+}
+
+.left-pane::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+.left-pane::-webkit-scrollbar-track {
+  margin-top: 30px;
+  margin-bottom: 30px;
+  border-radius: 10px;
+}
+
+/* Handle */
+.left-pane::-webkit-scrollbar-thumb {
+  background: #c86733;
+  border-radius: 10px;
+
+}
+
+.avatar {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: 30px;
+}
+
+#user-name {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  font-size: 25px;
+  margin: 15px 0px;
+}
+
+#line-break {
+  display: flex;
+  justify-content: center;
+  border-top: 5px solid white;
+  border-radius: 10px;
+  margin: 10px 20px;
 }
 
 #join-session {
   margin: 0;
-  padding: 31px 45px 38px;
-  font-size: 34px;
+  padding: 10px 30px 30px;
+  font-size: 28px;
+  text-align: center;
 }
 
 .session {
@@ -76,8 +121,8 @@ button {
 
 .session-button {
   font-family: "Chelsea Market", cursive;
-  margin-left: 20px;
-  margin-right: 20px;
+  margin-left: 5%;
+  margin-right: 5%;
   padding: 0px 45px 15px;
   display: flex;
   flex-direction: row;
@@ -87,11 +132,13 @@ button {
   outline: none;
   cursor: pointer;
   padding: 0;
+  width: 90%;
+  direction: ltr;
 }
 
 .session-button:hover {
   background-color: lightblue;
-  border-radius: 10rem;
+
 }
 
 .session-button:hover .session-text {

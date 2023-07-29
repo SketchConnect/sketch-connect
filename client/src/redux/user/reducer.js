@@ -1,9 +1,13 @@
-import { createSlice, createSelector } from "@reduxjs/toolkit";
-import { REQUEST_STATE } from '../utils';
-import { getUsersAsync, addUserAsync, deleteUserAsync, updateUserAsync } from './thunks';
+import { createSlice } from "@reduxjs/toolkit";
+import { REQUEST_STATE } from "../utils";
+import {
+  getUsersAsync,
+  addUserAsync,
+  deleteUserAsync,
+  updateUserAsync
+} from "./thunks";
 
 const INITIAL_STATE = {
-  // list: [],
   _id: "",
   oauthProvider: "",
   email: "",
@@ -17,12 +21,12 @@ const INITIAL_STATE = {
 };
 
 const userSlice = createSlice({
-  name: 'user',
+  name: "user",
   initialState: INITIAL_STATE,
   reducers: {
     resetUser: (state) => {
       state._id = "";
-      state.oauthProvider = ""
+      state.oauthProvider = "";
       state.email = "";
       state.name = "";
       state.sessions = [];
@@ -82,7 +86,9 @@ const userSlice = createSlice({
       .addCase(updateUserAsync.fulfilled, (state, action) => {
         state.updateUser = REQUEST_STATE.FULFILLED;
         const updatedUser = action.payload;
-        const updatedIndex = state.list.findIndex((user) => user._id === updatedUser._id);
+        const updatedIndex = state.list.findIndex(
+          (user) => user._id === updatedUser._id
+        );
         if (updatedIndex !== -1) {
           state.list[updatedIndex] = updatedUser;
         }
@@ -94,5 +100,5 @@ const userSlice = createSlice({
   }
 });
 
-export const {resetUser, setUser} = userSlice.actions;
+export const { resetUser, setUser } = userSlice.actions;
 export default userSlice.reducer;

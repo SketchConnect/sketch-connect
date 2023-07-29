@@ -5,7 +5,8 @@ import {
   deleteSessionAsync,
   updateStatusAsync,
   getSessionsAsync,
-  addPlayerAsync
+  addPlayerAsync,
+  getSessionAsync
 } from "./thunks";
 
 const INITIAL_STATE = {
@@ -39,16 +40,10 @@ const sessionSlice = createSlice({
       state._id = action.payload.session._id;
       state.isPublic = action.payload.session.isPublic;
       state.status = action.payload.session.status;
-      if (Array.isArray(action.payload.session.players)) {
-        state.players = [
-          ...action.payload.session.players,
-          action.payload.userId
-        ];
-      } else {
-        state.players = [action.payload.session.players, action.payload.userId];
-      }
-      state.quadrants = action.payload.session.quadrants;
+      state.players = action.payload.session.players;
+      state.quadrant = action.payload.session.quadrant;
       state.finalImage = action.payload.session.finalImage;
+      state.name = action.payload.session.name;
     }
   },
   extraReducers: (builder) => {
@@ -62,6 +57,23 @@ const sessionSlice = createSlice({
         state.sessions = action.payload;
       })
       .addCase(getSessionsAsync.rejected, (state, action) => {
+        state.getSessions = REQUEST_STATE.REJECTED;
+        state.error = action.error;
+      })
+      .addCase(getSessionAsync.pending, (state) => {
+        state.getSessions = REQUEST_STATE.PENDING;
+        state.error = null;
+      })
+      .addCase(getSessionAsync.fulfilled, (state, action) => {
+        state.getSessions = REQUEST_STATE.FULFILLED;
+        state._id = action.payload._id;
+        state.isPublic = action.payload.isPublic;
+        state.status = action.payload.status;
+        state.players = action.payload.players;
+        state.quadrants = action.payload.quadrants;
+        state.finalImage = action.payload.finalImage;
+      })
+      .addCase(getSessionAsync.rejected, (state, action) => {
         state.getSessions = REQUEST_STATE.REJECTED;
         state.error = action.error;
       })
@@ -109,7 +121,7 @@ const sessionSlice = createSlice({
       })
       .addCase(addPlayerAsync.fulfilled, (state, action) => {
         state.addPlayer = REQUEST_STATE.FULFILLED;
-        state.players = state.players.push(action.payload);
+        state.players = [...state.players, action.payload.id];
       })
       .addCase(addPlayerAsync.rejected, (state, action) => {
         state.addPlayer = REQUEST_STATE.REJECTED;

@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
-import ImageCard from './ImageCard';
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
+import ImageCard from "./ImageCard";
 
 function HallOfFame() {
   const [showPopup, setShowPopup] = useState(false);
-  const [selectedImage, setSelectedImage] = useState('');
+  const [selectedImage, setSelectedImage] = useState("");
+  const currentUser = useSelector((state) => state.user);
+  const sessionIds = currentUser.sessions;
 
   const handleImageClick = (image) => {
     setSelectedImage(image);
@@ -16,24 +19,15 @@ function HallOfFame() {
 
   const closePopup = () => {
     setShowPopup(false);
-    setSelectedImage('');
+    setSelectedImage("");
   };
 
   return (
     <div className="hall-of-fame">
       {/* Image cards */}
-      <ImageCard
-        image="image1.jpg"
-        onClick={() => handleImageClick('image1.jpg')}
-      />
-      <ImageCard
-        image="image2.jpg"
-        onClick={() => handleImageClick('image2.jpg')}
-      />
-      <ImageCard
-        image="image3.jpg"
-        onClick={() => handleImageClick('image3.jpg')}
-      />
+      {sessionIds.map((id, index) => (
+        <ImageCard sessionId={id} />
+      ))}
 
       {/* Popup */}
       {showPopup && (
