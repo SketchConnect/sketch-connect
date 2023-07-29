@@ -249,4 +249,29 @@ router.patch("/:id/status", async (req, res) => {
   }
 });
 
+/**
+ * GET /:id/finalImage
+ * Fetches the URL of the final image from Google Cloud Storage.
+ *
+ * URL parameters:
+ * - id (string): The ID of the session.
+ *
+ * Returns:
+ * - A JSON object with a single property, url, containing the signed URL of the image.
+ */
+
+router.get("/:id/finalImage", async (req, res) => {
+  try {
+    const session = await Session.findById(req.params.id);
+
+    if (session) {
+      res.status(200).send(session.finalImage);
+    } else {
+      res.status(400).send({ error: "Final image not found" });
+    }
+  } catch (err) {
+    return res.status(500).send(err);
+  }
+});
+
 export default router;
