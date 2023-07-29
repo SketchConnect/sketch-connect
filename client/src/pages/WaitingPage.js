@@ -40,22 +40,25 @@ function WaitingPage() {
   }, [currentUser, currentSession._id]);
 
   useInterval(async () => {
-    fetch(`https://sketch-connect-be.onrender.com/sessions/${currentSession._id}`, {
-      method: "GET"
-    })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error("HTTP error " + response.status);
+    fetch(
+      `https://sketch-connect-be.onrender.com/sessions/${currentSession._id}`,
+      {
+        method: "GET"
       }
-      return response.json();
-    })
-    .then((response) => {
-      setPlayerCount(response.players.length)
-      if (response.status === "ongoing") {
-        dispatch(setSession({ session: response }))
-        startGame();
-      }
-    })
+    )
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("HTTP error " + response.status);
+        }
+        return response.json();
+      })
+      .then((response) => {
+        setPlayerCount(response.players.length);
+        if (response.status === "ongoing") {
+          dispatch(setSession({ session: response }));
+          startGame();
+        }
+      });
   }, 1000);
 
   let imageSource;
@@ -69,12 +72,9 @@ function WaitingPage() {
     imageSource = "player4.png";
   }
 
-  // TODO: the link is copied but the logic to join the session is not fully working
   const handleShareClick = async () => {
     try {
-      await navigator.clipboard.writeText(
-        `${process.env.REACT_APP_FE_URL}/waiting/${currentSession._id}`
-      );
+      await navigator.clipboard.writeText(window.location.href);
       setIsCopied(true);
       setTimeout(() => {
         setIsCopied(false);
