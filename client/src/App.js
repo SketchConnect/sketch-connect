@@ -1,5 +1,11 @@
 import React, { useState, useEffect, useLayoutEffect } from "react";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+  useLocation
+} from "react-router-dom";
 import "./App.css";
 import Header from "./components/Header";
 import Homepage from "./pages/homepage";
@@ -14,7 +20,18 @@ import { Modal } from "@mui/material";
 import Warning from "./components/Warning";
 
 import { AuthContextProvider } from "./context/AuthContext";
+import { useSelector } from "react-redux";
 
+const ProtectedRoute = ({ children }) => {
+  const currentUser = useSelector((state) => state.user._id);
+  const location = useLocation();
+
+  return currentUser ? (
+    children
+  ) : (
+    <Navigate to="/login" state={{ from: location }} />
+  );
+};
 function useWindowSize() {
   const [size, setSize] = useState(0);
   useLayoutEffect(() => {
@@ -73,14 +90,63 @@ function App() {
         <AuthContextProvider>
           <Header />
           <Routes>
-            <Route path="/" element={<Homepage />} />
-            <Route path="/about" element={<AboutPage />} />
-            <Route path="/waiting/:sessionId" element={<WaitingPage />} />
-            <Route path="/game/turn/:sessionId" element={<GamePage />} />
-            <Route path="/game/:sessionId" element={<WaitingTurnPage />} />
+            <Route
+              path="/"
+              element={
+                <ProtectedRoute>
+                  <Homepage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/about"
+              element={
+                <ProtectedRoute>
+                  <AboutPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/waiting/:sessionId"
+              element={
+                <ProtectedRoute>
+                  <WaitingPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/game/turn/:sessionId"
+              element={
+                <ProtectedRoute>
+                  <GamePage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/game/:sessionId"
+              element={
+                <ProtectedRoute>
+                  <WaitingTurnPage />
+                </ProtectedRoute>
+              }
+            />
             <Route path="/login" element={<LoginPage />} />
-            <Route path="/dashboard" element={<DashboardPage />} />
-            <Route path="/complete/:sessionId" element={<CompletePage />} />
+            <Route
+              path="/dashboard"
+              element={
+                <ProtectedRoute>
+                  <DashboardPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/complete/:sessionId"
+              element={
+                <ProtectedRoute>
+                  <CompletePage />
+                </ProtectedRoute>
+              }
+            />
           </Routes>
         </AuthContextProvider>
       </BrowserRouter>

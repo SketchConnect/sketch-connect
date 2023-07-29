@@ -1,13 +1,21 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./LoginPage.css";
 import { UserAuth } from "../context/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 // import user from "../redux/user/reducer";
 import { useSelector } from "react-redux";
 
 const LoginPage = () => {
   const { googleSignIn } = UserAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+  const [from, setFrom] = useState("/");
+
+  useEffect(() => {
+    if (location.state && location.state.from) {
+      setFrom(location.state.from);
+    }
+  }, [location]);
 
   const handleGoogleSignIn = async () => {
     try {
@@ -20,7 +28,7 @@ const LoginPage = () => {
 
   useEffect(() => {
     if (currentUser._id !== "") {
-      navigate("/");
+      navigate(from);
     }
   }, [currentUser]);
 
