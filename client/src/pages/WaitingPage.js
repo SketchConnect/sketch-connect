@@ -26,14 +26,6 @@ function WaitingPage() {
     dispatch(getSessionAsync(sessionId));
   }, [sessionId, dispatch]);
 
-  useInterval(async () => {
-    setPlayerCount(currentSession.players.length);
-    if (currentSession.status === "ongoing") {
-      dispatch(setSession({ session: currentSession }));
-      startGame();
-    }
-  }, 1000);
-
   useEffect(() => {
     if (currentSession._id && location.state?.fromHomePage !== true) {
       console.log("join via link");
@@ -46,6 +38,25 @@ function WaitingPage() {
       }
     }
   }, [currentUser, currentSession._id]);
+
+  useInterval(async () => {
+    fetch(`https://sketch-connect-be.onrender.com/sessions/${currentSession._id}`, {
+      method: "GET"
+    })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("HTTP error " + response.status);
+      }
+      return response.json();
+    })
+    .then((response) => {
+      setPlayerCount(response.players.length)
+      if (response.status === "ongoing") {
+        dispatch(setSession({ session: response }))
+        startGame();
+      }
+    })
+  }, 1000);
 
   let imageSource;
   if (playerCount === 1) {
