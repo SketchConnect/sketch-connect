@@ -25,7 +25,9 @@ const CompletePage = () => {
   let finalImageSrc = "https://sketchconnect.vercel.app/assets/images/logo.png"; // TODO assign to combined drawing
 
   useEffect(() => {
-    dispatch(updateStatusAsync({ sessionId: current._id, status: "completed" }));
+    dispatch(
+      updateStatusAsync({ sessionId: current._id, status: "completed" })
+    );
 
     fetch(`https://sketch-connect-be.onrender.com/sessions/${current._id}`, {
       method: "GET"
@@ -83,7 +85,7 @@ const CompletePage = () => {
 
       const drawImages = () => {
         canvas.current.width = 1600;
-        canvas.current.height = 1600;
+        canvas.current.height = 1200;
         let imageWidth = canvas.current.width / 2;
         let imageHeight = canvas.current.height / 2;
 
