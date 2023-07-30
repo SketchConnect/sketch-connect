@@ -17,6 +17,7 @@ const INITIAL_STATE = {
   quadrants: [],
   finalImage: "",
   sessions: [],
+  topic: "",
   getSessions: REQUEST_STATE.IDLE,
   addSession: REQUEST_STATE.IDLE,
   deleteSession: REQUEST_STATE.IDLE,
@@ -35,6 +36,7 @@ const sessionSlice = createSlice({
       state.status = "waiting";
       state.quadrants = [];
       state.finalImage = "";
+      state.topic = "";
     },
     setSession: (state, action) => {
       state._id = action.payload.session._id;
@@ -44,6 +46,7 @@ const sessionSlice = createSlice({
       state.quadrant = action.payload.session.quadrant;
       state.finalImage = action.payload.session.finalImage;
       state.name = action.payload.session.name;
+      state.topic = action.payload.session.topic;
     }
   },
   extraReducers: (builder) => {
@@ -72,6 +75,7 @@ const sessionSlice = createSlice({
         state.players = action.payload.players;
         state.quadrants = action.payload.quadrants;
         state.finalImage = action.payload.finalImage;
+        state.topic = action.payload.topic;
       })
       .addCase(getSessionAsync.rejected, (state, action) => {
         state.getSessions = REQUEST_STATE.REJECTED;

@@ -9,6 +9,7 @@ import { setSession } from "../redux/session/reducer";
 import Modal from "../components/Modal";
 import { motion } from "framer-motion";
 import { Avatar } from "@mantine/core";
+import topicJson from "./topics.json";
 
 function Homepage() {
   const currentSessionId = useSelector((state) => state.session._id);
@@ -19,6 +20,8 @@ function Homepage() {
   const [sessionName, setSessionName] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const topics = topicJson.topics;
 
   useEffect(() => {
     fetch("https://sketch-connect-be.onrender.com/sessions", {
@@ -56,7 +59,8 @@ function Homepage() {
       name: sessionName,
       isPublic: true,
       status: "waiting",
-      players: []
+      players: [],
+      topic: topics[Math.floor(Math.random() * topics.length)]
     };
 
     dispatch(addSessionAsync(newSession)).then((session) => {
