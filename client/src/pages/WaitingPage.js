@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import "./WaitingPage.css";
+import Loading from "../components/Loading";
 import { motion, AnimatePresence } from "framer-motion";
 import { useInterval } from "../util/useInterval";
 import {
@@ -22,19 +23,26 @@ function WaitingPage() {
   const location = useLocation();
 
   const [playerCount, setPlayerCount] = useState(0);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     dispatch(getSessionAsync(sessionId));
   }, [sessionId, dispatch]);
 
-  
   useEffect(() => {
     const cleanupFunction = async () => {
       //console.log('Leaving route:', location.pathname);
       if (currentSession._id) {
-        dispatch(removePlayerAsync({ session: currentSession, player: currentUser }));
+        dispatch(
+          removePlayerAsync({ session: currentSession, player: currentUser })
+        );
         if (currentSession.players.length === 0) {
-          dispatch(updateStatusAsync({ sessionId: currentSession._id, status: "cancelled" }));
+          dispatch(
+            updateStatusAsync({
+              sessionId: currentSession._id,
+              status: "cancelled"
+            })
+          );
         }
       }
     };
@@ -70,6 +78,7 @@ function WaitingPage() {
       })
       .then((response) => {
         setPlayerCount(response.players.length);
+        setLoading(false);
         if (response.status === "ongoing") {
           dispatch(setSession({ session: response }));
           startGame();
@@ -117,6 +126,9 @@ function WaitingPage() {
     }
   };
 
+  if (loading) {
+    return <Loading />;
+  }
   return (
     <div className="lobby-container">
       <h2 className="lobby-header">
