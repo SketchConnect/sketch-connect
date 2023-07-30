@@ -22,7 +22,14 @@ const Canvas = forwardRef((props, ref) => {
 
   useEffect(() => {
     const canvas = canvasRef.current;
+    canvas.style.width = `${canvas.width}px`;
+    canvas.style.height = `${canvas.height}px`;
+    const scale = window.devicePixelRatio;
+    canvas.width *= scale;
+    canvas.height *= scale;
+
     const ctx = canvas.getContext("2d");
+    ctx.scale(scale, scale);
     contextRef.current = ctx;
 
     const fetchSession = async () => {
@@ -295,7 +302,7 @@ const Canvas = forwardRef((props, ref) => {
         <canvas
           ref={canvasRef}
           width={800}
-          height={600}
+          height={800}
           style={{ border: "1px solid #000" }}
           onMouseDown={handleMouseDown}
         />

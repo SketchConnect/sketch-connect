@@ -38,18 +38,22 @@ const CompletePage = () => {
         return make_base(response.quadrants);
       })
       .then(() => {
-        canvas.current.toBlob((blob) => {
-          const sessionId = current._id;
-          const image = new File([blob], "image.png", {
-            type: "image/png"
-          });
-          dispatch(finalImageAsync({ sessionId, image }));
-        }, "image/png");
+        canvas.current.toBlob(
+          (blob) => {
+            const sessionId = current._id;
+            const image = new File([blob], "image.png", {
+              type: "image/png"
+            });
+            dispatch(finalImageAsync({ sessionId, image }));
+          },
+          "image/png",
+          1
+        );
       })
       .then(() => {
         dispatch(resetSession());
       })
-      .catch((err) => console.log(`Failed to fetch session: ${err}`));
+      .catch((err) => console.log("Failed to fetch session: ", err));
   }, [dispatch]);
 
   const make_base = (quadrants) => {
@@ -76,6 +80,8 @@ const CompletePage = () => {
       };
 
       const drawImages = () => {
+        canvas.current.width = 1600;
+        canvas.current.height = 1600;
         let imageWidth = canvas.current.width / 2;
         let imageHeight = canvas.current.height / 2;
 
@@ -93,7 +99,11 @@ const CompletePage = () => {
   const downloadImage = (session) => {
     let link = document.createElement("a");
     link.download = `${session.name}.png`;
-    link.href = canvas.current.toDataURL();
+    try {
+      link.href = canvas.current.toDataURL();
+    } catch (err) {
+      console.error("Failed to download image: ", err);
+    }
     link.click();
   };
 
