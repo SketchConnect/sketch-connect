@@ -21,7 +21,7 @@ const CompletePage = () => {
   // let [quadrants, setQuadrants] = useState([]);
   let canvas = useRef();
   let link = useRef();
-  let playerPerGame = 2;
+  let playerPerGame = current.players.length;
   let finalImageSrc = "https://sketchconnect.vercel.app/assets/images/logo.png"; // TODO assign to combined drawing
 
   useEffect(() => {
