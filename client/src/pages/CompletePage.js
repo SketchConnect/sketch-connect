@@ -3,7 +3,7 @@ import "./page.css";
 import "./CompletePage.css";
 import { useSelector, useDispatch } from "react-redux";
 import { resetSession } from "../redux/session/reducer";
-import { finalImageAsync } from "../redux/session/thunks";
+import { finalImageAsync, updateStatusAsync } from "../redux/session/thunks";
 import { useNavigate } from "react-router-dom";
 import {
   EmailShareButton,
@@ -21,10 +21,12 @@ const CompletePage = () => {
   // let [quadrants, setQuadrants] = useState([]);
   let canvas = useRef();
   let link = useRef();
-  let playerPerGame = 3;
+  let playerPerGame = 2;
   let finalImageSrc = "https://sketchconnect.vercel.app/assets/images/logo.png"; // TODO assign to combined drawing
 
   useEffect(() => {
+    dispatch(updateStatusAsync({ sessionId: current._id, status: "completed" }));
+
     fetch(`https://sketch-connect-be.onrender.com/sessions/${current._id}`, {
       method: "GET"
     })
