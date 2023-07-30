@@ -27,6 +27,11 @@ const SessionSchema = new Schema({
   name: {
     type: String,
     required: true
+  },
+  topic: {
+    type: String,
+    default: "",
+    required: true
   }
 });
 
