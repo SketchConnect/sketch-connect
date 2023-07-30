@@ -84,6 +84,7 @@ router.delete("/:id", async (req, res) => {
  * - isPublic (boolean): Determines if the session is public.
  * - status (string): The current status of the session. One of "waiting", "ongoing", "completed", or "cancelled".
  * - players (string array): Initializes the players array with host ID.
+ * - topic (string): A random topic for the game generated in the front-end.
  *
  * Returns:
  * - A JSON object of newly created session.
