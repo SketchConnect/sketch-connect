@@ -4,6 +4,7 @@ import "./CompletePage.css";
 import { useSelector, useDispatch } from "react-redux";
 import { resetSession } from "../redux/session/reducer";
 import { finalImageAsync, updateStatusAsync } from "../redux/session/thunks";
+import { addSessionToUserAsync } from "../redux/user/thunks";
 import { useNavigate } from "react-router-dom";
 import {
   EmailShareButton,
@@ -16,22 +17,40 @@ import {
 
 const CompletePage = () => {
   let navigate = useNavigate();
-  const current = useSelector((state) => state.session);
+  const currentSession = useSelector((state) => state.session);
+  const currentUser = useSelector((state) => state.user);
+  console.log(
+    "the current user id in the completion page is_______",
+    currentUser._id
+  );
+  console.log(
+    "the current session id in the completion page is_______",
+    currentSession
+  );
   const dispatch = useDispatch();
   // let [quadrants, setQuadrants] = useState([]);
   let canvas = useRef();
   let link = useRef();
-  let playerPerGame = current.players.length;
+  let playerPerGame = currentSession.players.length;
   let finalImageSrc = "https://sketchconnect.vercel.app/assets/images/logo.png"; // TODO assign to combined drawing
 
   useEffect(() => {
     dispatch(
-      updateStatusAsync({ sessionId: current._id, status: "completed" })
+      addSessionToUserAsync({
+        userId: currentUser._id,
+        sessionId: currentSession._id
+      })
+    );
+    dispatch(
+      updateStatusAsync({ sessionId: currentSession._id, status: "completed" })
     );
 
-    fetch(`https://sketch-connect-be.onrender.com/sessions/${current._id}`, {
-      method: "GET"
-    })
+    fetch(
+      `https://sketch-connect-be.onrender.com/sessions/${currentSession._id}`,
+      {
+        method: "GET"
+      }
+    )
       .then((response) => {
         if (!response.ok) {
           throw new Error("HTTP error " + response.status);
@@ -44,7 +63,7 @@ const CompletePage = () => {
       .then(() => {
         canvas.current.toBlob(
           (blob) => {
-            const sessionId = current._id;
+            const sessionId = currentSession._id;
             const image = new File([blob], "image.png", {
               type: "image/png"
             });
@@ -54,11 +73,14 @@ const CompletePage = () => {
           1
         );
       })
+      // .then (() => {
+      //   dispatch(addSessionToUserAsync(currentUser._id, currentSession._id));
+      // })
       .then(() => {
         dispatch(resetSession());
       })
       .catch((err) => console.log("Failed to fetch session: ", err));
-  }, [dispatch]);
+  }, [currentSession._id, currentUser._id, dispatch]);
 
   const make_base = (quadrants) => {
     return new Promise((resolve, reject) => {
@@ -119,7 +141,7 @@ const CompletePage = () => {
           <button
             id="download-btn"
             ref={link}
-            onClick={() => downloadImage(current)}
+            onClick={() => downloadImage(currentSession)}
           >
             Download
           </button>

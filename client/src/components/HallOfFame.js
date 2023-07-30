@@ -26,7 +26,9 @@ function HallOfFame() {
     <div className="hall-of-fame">
       {/* Image cards */}
       {sessionIds.map((id, index) => (
-        <ImageCard sessionId={id} />
+        <li key={id}>
+          <ImageCard sessionId={id} />
+        </li>
       ))}
 
       {/* Popup */}
