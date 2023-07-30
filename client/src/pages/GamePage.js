@@ -15,6 +15,8 @@ const GamePage = () => {
   const user = useSelector((state) => state.user._id);
   const currPlayer = players.indexOf(user);
   const dispatch = useDispatch();
+  const currentTopic = currentSession.topic;
+  console.log("The current topic is --------", currentTopic);
 
   const navigate = useNavigate();
 
@@ -97,6 +99,7 @@ const GamePage = () => {
       <div className="game-info">
         <div>
           <h2>Session ID: {sessionId}</h2>
+          <h2>Topic: {currentSession.topic}</h2>
         </div>
         <div className="curr-player">
           <img src={"/assets/images/players/" + imageSource} alt="lobby" />
