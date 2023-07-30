@@ -7,7 +7,8 @@ import { useInterval } from "../util/useInterval";
 import {
   updateStatusAsync,
   getSessionAsync,
-  addPlayerAsync
+  addPlayerAsync,
+  removePlayerAsync
 } from "../redux/session/thunks";
 import { setSession } from "../redux/session/reducer";
 
@@ -26,7 +27,16 @@ function WaitingPage() {
     dispatch(getSessionAsync(sessionId));
   }, [sessionId, dispatch]);
 
+  
   useEffect(() => {
+    const cleanupFunction = async () => {
+      //console.log('Leaving route:', location.pathname);
+      if (currentSession._id) {
+        dispatch(removePlayerAsync({ session: currentSession, player: currentUser }));
+      }
+    };
+
+    //console.log('Entering route:', location.pathname);
     if (currentSession._id && location.state?.fromHomePage !== true) {
       console.log("join via link");
       if (currentUser && !currentSession.players.includes(currentUser)) {
@@ -37,7 +47,10 @@ function WaitingPage() {
         navigate("/login", { state: { from: `/waiting/${sessionId}` } });
       }
     }
-  }, [currentUser, currentSession._id]);
+
+    // Return the cleanup function to perform the "leaving route" action
+    return cleanupFunction;
+  }, [location, currentUser, currentSession._id]);
 
   useInterval(async () => {
     fetch(
