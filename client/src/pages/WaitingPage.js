@@ -3,6 +3,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import "./WaitingPage.css";
 import { motion, AnimatePresence } from "framer-motion";
+import { io } from "socket.io-client";
 import { useInterval } from "../util/useInterval";
 import {
   updateStatusAsync,
@@ -21,6 +22,7 @@ function WaitingPage() {
   const location = useLocation();
 
   const [playerCount, setPlayerCount] = useState(0);
+  const socket = io("http://localhost:5050");
 
   useEffect(() => {
     dispatch(getSessionAsync(sessionId));
@@ -39,24 +41,41 @@ function WaitingPage() {
     }
   }, [currentUser, currentSession._id]);
 
-  useInterval(async () => {
-    fetch(`https://sketch-connect-be.onrender.com/sessions/${currentSession._id}`, {
-      method: "GET"
-    })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error("HTTP error " + response.status);
-      }
-      return response.json();
-    })
-    .then((response) => {
-      setPlayerCount(response.players.length)
-      if (response.status === "ongoing") {
-        dispatch(setSession({ session: response }))
-        startGame();
-      }
-    })
-  }, 1000);
+  useEffect(() => {
+    socket.emit("join", sessionId);
+
+    socket.on("playersArrayUpdate", (updatedDocument) => {
+      setPlayerCount(updatedDocument.players.length);
+    });
+
+    socket.on("sessionStarted", (updatedDocument) => {
+      dispatch(setSession({ session: updatedDocument }));
+      startGame();
+    });
+
+    return () => {
+      socket.emit("leave", sessionId);
+    };
+  }, [sessionId]);
+
+  // useInterval(async () => {
+  //   fetch(`https://sketch-connect-be.onrender.com/sessions/${currentSession._id}`, {
+  //     method: "GET"
+  //   })
+  //   .then((response) => {
+  //     if (!response.ok) {
+  //       throw new Error("HTTP error " + response.status);
+  //     }
+  //     return response.json();
+  //   })
+  //   .then((response) => {
+  //     setPlayerCount(response.players.length)
+  //     if (response.status === "ongoing") {
+  //       dispatch(setSession({ session: response }))
+  //       startGame();
+  //     }
+  //   })
+  // }, 1000);
 
   let imageSource;
   if (playerCount === 1) {

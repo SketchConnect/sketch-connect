@@ -6,6 +6,7 @@ import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import { useNavigate, useParams } from "react-router-dom";
 import "./GamePage.css";
 import { quadrantImageAsync, updateStatusAsync } from "../redux/session/thunks";
+import { io } from "socket.io-client";
 
 const GamePage = () => {
   const { sessionId } = useParams();
@@ -21,34 +22,36 @@ const GamePage = () => {
 
   useEffect(() => {
     fetch(
-      `https://sketch-connect-be.onrender.com/sessions/${currentSession._id}`, 
+      `https://sketch-connect-be.onrender.com/sessions/${currentSession._id}`,
       {
         method: "GET"
       }
     )
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error("HTTP error " + response.status);
-      }
-      return response.json();
-    })
-    .then((response) => {
-      if (response.status === "completed") {
-        navigate(`/complete/${currentSession._id}`);
-      }
-
-      setTimeout(() => {
-        if (canvasRef.current) {
-          canvasRef.current.captureDrawing();
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("HTTP error " + response.status);
         }
-        if (user === players[3]) {
-          dispatch(updateStatusAsync({sessionId: sessionId, status: "completed"}));
+        return response.json();
+      })
+      .then((response) => {
+        if (response.status === "completed") {
           navigate(`/complete/${currentSession._id}`);
-        } else {
-          navigate(`/game/${currentSession._id}`);
         }
-      }, 10100);
-    })
+
+        setTimeout(() => {
+          if (canvasRef.current) {
+            canvasRef.current.captureDrawing();
+          }
+          if (user === players[3]) {
+            dispatch(
+              updateStatusAsync({ sessionId: sessionId, status: "completed" })
+            );
+            navigate(`/complete/${currentSession._id}`);
+          } else {
+            navigate(`/game/${currentSession._id}`);
+          }
+        }, 10100);
+      });
   }, []);
 
   const handleCapture = useCallback(
@@ -71,7 +74,6 @@ const GamePage = () => {
         .then((response) => response.json())
         .then((data) => {
           console.log(data.url);
-          
         })
         .catch((error) => {
           console.error(error);
