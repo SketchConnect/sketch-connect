@@ -96,6 +96,8 @@ function Homepage() {
             value={sessionName}
             onChange={(e) => setSessionName(e.target.value)}
             placeholder="Session name"
+            minLength="1"
+            maxlength = "20"
             required
           />
           <motion.button
