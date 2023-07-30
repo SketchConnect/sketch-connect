@@ -123,6 +123,32 @@ const addPlayer = async (sessionId, playerId) => {
   }
 };
 
+const removePlayer = async (sessionId, playerId) => {
+  try {
+    const response = await fetch(
+      `https://sketch-connect-be.onrender.com/sessions/${sessionId}/remove-player`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ id: playerId })
+      }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data?.message);
+    }
+
+    return data;
+  } catch (error) {
+    console.error("Error removing player to session:", error);
+    throw error;
+  }
+}
+
 const finalImage = async (sessionId, image) => {
   try {
     let formData = new FormData();
@@ -180,6 +206,7 @@ const services = {
   deleteSession,
   updateStatus,
   addPlayer,
+  removePlayer,
   finalImage,
   quadrantImage
 };
