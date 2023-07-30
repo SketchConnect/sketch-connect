@@ -14,6 +14,8 @@ const GamePage = () => {
   const user = useSelector((state) => state.user._id);
   const currPlayer = players.indexOf(user);
   const dispatch = useDispatch();
+  const currentTopic = currentSession.topic;
+  console.log("The current topic is --------", currentTopic);
 
   const navigate = useNavigate();
 
@@ -21,34 +23,36 @@ const GamePage = () => {
 
   useEffect(() => {
     fetch(
-      `https://sketch-connect-be.onrender.com/sessions/${currentSession._id}`, 
+      `https://sketch-connect-be.onrender.com/sessions/${currentSession._id}`,
       {
         method: "GET"
       }
     )
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error("HTTP error " + response.status);
-      }
-      return response.json();
-    })
-    .then((response) => {
-      if (response.status === "completed") {
-        navigate(`/complete/${currentSession._id}`);
-      }
-
-      setTimeout(() => {
-        if (canvasRef.current) {
-          canvasRef.current.captureDrawing();
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("HTTP error " + response.status);
         }
-        if (user === players[3]) {
-          dispatch(updateStatusAsync({sessionId: sessionId, status: "completed"}));
+        return response.json();
+      })
+      .then((response) => {
+        if (response.status === "completed") {
           navigate(`/complete/${currentSession._id}`);
-        } else {
-          navigate(`/game/${currentSession._id}`);
         }
-      }, 10100);
-    })
+
+        setTimeout(() => {
+          if (canvasRef.current) {
+            canvasRef.current.captureDrawing();
+          }
+          if (user === players[3]) {
+            dispatch(
+              updateStatusAsync({ sessionId: sessionId, status: "completed" })
+            );
+            navigate(`/complete/${currentSession._id}`);
+          } else {
+            navigate(`/game/${currentSession._id}`);
+          }
+        }, 10100);
+      });
   }, []);
 
   const handleCapture = useCallback(
@@ -71,7 +75,6 @@ const GamePage = () => {
         .then((response) => response.json())
         .then((data) => {
           console.log(data.url);
-          
         })
         .catch((error) => {
           console.error(error);
@@ -95,6 +98,7 @@ const GamePage = () => {
       <div className="game-info">
         <div>
           <h2>Session ID: {sessionId}</h2>
+          <h2>Topic: {currentSession.topic}</h2>
         </div>
         <div className="curr-player">
           <img src={"/assets/images/players/" + imageSource} alt="lobby" />
