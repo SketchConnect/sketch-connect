@@ -124,7 +124,6 @@ const addPlayer = async (sessionId, playerId) => {
 };
 
 const removePlayer = async (sessionId, playerId) => {
-  console.log("remove player called")
   try {
     const response = await fetch(
       `https://sketch-connect-be.onrender.com/sessions/${sessionId}/remove-player`,

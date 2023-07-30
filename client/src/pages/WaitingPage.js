@@ -33,6 +33,9 @@ function WaitingPage() {
       //console.log('Leaving route:', location.pathname);
       if (currentSession._id) {
         dispatch(removePlayerAsync({ session: currentSession, player: currentUser }));
+        if (currentSession.players.length === 0) {
+          dispatch(updateStatusAsync({ sessionId: currentSession._id, status: "cancelled" }));
+        }
       }
     };
 
