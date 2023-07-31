@@ -61,13 +61,16 @@ const deleteUser = async (userId) => {
 
 const updateUser = async (userId, updatedUser) => {
   try {
-    const response = await fetch(`https://sketch-connect-be.onrender.com/users/${userId}`, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(updatedUser)
-    });
+    const response = await fetch(
+      `https://sketch-connect-be.onrender.com/users/${userId}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(updatedUser)
+      }
+    );
     const updatedUserResponse = await response.json();
     return updatedUserResponse;
   } catch (error) {
@@ -76,10 +79,32 @@ const updateUser = async (userId, updatedUser) => {
   }
 };
 
+const addSession = async (userId, sessionId) => {
+  try {
+    const response = await fetch(`/api/${userId}/add-session`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ sessionId })
+    });
+
+    if (!response.ok) {
+      throw new Error("HTTP status " + response.status);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};
+
 const service = {
   getUsers,
   addUser,
   deleteUser,
-  updateUser
+  updateUser,
+  addSession
 };
 export default service;
