@@ -80,21 +80,21 @@ function Homepage() {
       let payload = { session: session, userId: currentUser._id };
       dispatch(setSession(payload));
 
-      fetch(`/api/${currentUser._id}/add-session`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ sessionId: session._id })
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          console.log("Success:", data);
-          dispatch(addPlayerAsync({ session, player: currentUser._id }));
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-        });
+      // fetch(`/api/${currentUser._id}/add-session`, {
+      //   method: "PATCH",
+      //   headers: {
+      //     "Content-Type": "application/json"
+      //   },
+      //   body: JSON.stringify({ sessionId: session._id })
+      // })
+      //   .then((response) => response.json())
+      //   .then((data) => {
+      //     console.log("Success:", data);
+      dispatch(addPlayerAsync({ session, player: currentUser._id }));
+      // })
+      // .catch((error) => {
+      //   console.error("Error:", error);
+      // });
     }
   };
 
