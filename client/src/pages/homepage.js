@@ -76,13 +76,25 @@ function Homepage() {
 
   const joinSession = (session) => {
     console.log("the user that wants to join the game is ", currentUser._id);
-    if (
-      session.status === "waiting"
-      //!session.players.includes(currentUser._id)
-    ) {
+    if (session.status === "waiting") {
       let payload = { session: session, userId: currentUser._id };
       dispatch(setSession(payload));
-      dispatch(addPlayerAsync({ session, player: currentUser._id }));
+
+      fetch(`/api/${currentUser._id}/add-session`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ sessionId: session._id })
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("Success:", data);
+          dispatch(addPlayerAsync({ session, player: currentUser._id }));
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
     }
   };
 
@@ -97,7 +109,7 @@ function Homepage() {
             onChange={(e) => setSessionName(e.target.value)}
             placeholder="Session name"
             minLength="1"
-            maxlength = "20"
+            maxlength="20"
             required
           />
           <motion.button
