@@ -20,7 +20,7 @@ const Instructions = () => {
         onMouseLeave={handleMouseLeave}
       >
         <div className="front">
-          <img src="/assets/images/elephant.png" alt="Image" />
+          <img src="/assets/images/instructions3.jpeg" alt="Image" />
         </div>
         <div className="back">
           <p className="instructions-text">
