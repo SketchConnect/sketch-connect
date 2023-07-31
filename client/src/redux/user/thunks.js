@@ -25,7 +25,7 @@ export const updateUserAsync = createAsyncThunk(
 );
 
 export const addSessionToPlayerAsync = createAsyncThunk(
-  "player/add",
+  actions.ADD_SESSION,
   async ({ userId, sessionId }) => {
     const response = await UserService.addSession(userId, sessionId);
     return { session: response, player: userId };
