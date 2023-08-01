@@ -2,8 +2,8 @@
 
 /* Add the styles from Instructions.css */
 .image-flip-container {
-  width: 500px; /* Adjust the width to your desired size */
-  height: 400px; /* Adjust the height to your desired size */
+  width: 450px; /* Adjust the width to your desired size */
+  height: 450px; /* Adjust the height to your desired size */
   perspective: 1000px;
   justify-content: center;
   align-items: center;
@@ -57,4 +57,8 @@
 .back p {
   font-size: 16px;
   text-align: center;
+}
+
+.instructions-text {
+  padding: 30px;
 }

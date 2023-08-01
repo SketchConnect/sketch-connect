@@ -2,15 +2,17 @@ import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import "./WaitingPage.css";
+import Loading from "../components/Loading";
 import { motion, AnimatePresence } from "framer-motion";
 import { useInterval } from "../util/useInterval";
 import {
   updateStatusAsync,
   getSessionAsync,
-  addPlayerAsync,
-  removePlayerAsync
+  addPlayerAsync
 } from "../redux/session/thunks";
 import { setSession } from "../redux/session/reducer";
+import { LOCATION } from "../util/constant";
+import { setLocation } from "../redux/app/reducer";
 
 function WaitingPage() {
   const { sessionId } = useParams();
@@ -22,38 +24,27 @@ function WaitingPage() {
   const location = useLocation();
 
   const [playerCount, setPlayerCount] = useState(0);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     dispatch(getSessionAsync(sessionId));
   }, [sessionId, dispatch]);
 
-  
   useEffect(() => {
-    const cleanupFunction = async () => {
-      //console.log('Leaving route:', location.pathname);
-      if (currentSession._id) {
-        dispatch(removePlayerAsync({ session: currentSession, player: currentUser }));
-        if (currentSession.players.length === 0) {
-          dispatch(updateStatusAsync({ sessionId: currentSession._id, status: "cancelled" }));
-        }
-      }
-    };
-
-    //console.log('Entering route:', location.pathname);
     if (currentSession._id && location.state?.fromHomePage !== true) {
       console.log("join via link");
+      dispatch(setLocation(LOCATION.WAITING));
+      dispatch(setSession(currentSession));
       if (currentUser && !currentSession.players.includes(currentUser)) {
         dispatch(
           addPlayerAsync({ session: currentSession, player: currentUser })
         );
       } else if (!currentUser) {
+        dispatch(setLocation(LOCATION.LOGIN));
         navigate("/login", { state: { from: `/waiting/${sessionId}` } });
       }
     }
-
-    // Return the cleanup function to perform the "leaving route" action
-    return cleanupFunction;
-  }, [location, currentUser, currentSession._id]);
+  }, [currentUser, currentSession._id]);
 
   useInterval(async () => {
     fetch(
@@ -70,6 +61,7 @@ function WaitingPage() {
       })
       .then((response) => {
         setPlayerCount(response.players.length);
+        setLoading(false);
         if (response.status === "ongoing") {
           dispatch(setSession({ session: response }));
           startGame();
@@ -109,14 +101,22 @@ function WaitingPage() {
     }
   };
 
-  const startGame = () => {
+  const startGame = async () => {
     if (currentSession.players[0] === currentUser) {
-      navigate(`/game/turn/${sessionId}`);
+      await dispatch(setLocation(LOCATION.GAME));
+      navigate(`/game/turn/${sessionId}`, {
+        state: { toGame: true }
+      });
     } else {
-      navigate(`/game/${sessionId}`);
+      navigate(`/game/${sessionId}`, {
+        state: { toGame: true }
+      });
     }
   };
 
+  if (loading) {
+    return <Loading />;
+  }
   return (
     <div className="lobby-container">
       <h2 className="lobby-header">
@@ -125,7 +125,11 @@ function WaitingPage() {
           : `Session ${sessionId} is waiting for players to join...`}
       </h2>
       <div>
-        <img src={"/assets/images/players/" + imageSource} alt="lobby" />
+        <img
+          src={"/assets/images/players/" + imageSource}
+          alt="lobby"
+          referrerPolicy="no-referrer"
+        />
       </div>
       <div className="button-container">
         <button className="invite-button" onClick={handleShareClick}>

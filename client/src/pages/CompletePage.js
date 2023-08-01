@@ -3,7 +3,11 @@ import "./page.css";
 import "./CompletePage.css";
 import { useSelector, useDispatch } from "react-redux";
 import { resetSession } from "../redux/session/reducer";
-import { finalImageAsync, updateStatusAsync } from "../redux/session/thunks";
+import {
+  finalImageAsync,
+  updateStatusAsync,
+  getSessionsAsync
+} from "../redux/session/thunks";
 import { addSessionToUserAsync } from "../redux/user/thunks";
 import { useNavigate } from "react-router-dom";
 import {
@@ -14,6 +18,9 @@ import {
   PinterestShareButton,
   PinterestIcon
 } from "react-share";
+import { addSessionToPlayerAsync } from "../redux/user/thunks";
+import { setLocation } from "../redux/app/reducer";
+import { LOCATION } from "../util/constant";
 
 const CompletePage = () => {
   let navigate = useNavigate();
@@ -171,7 +178,13 @@ const CompletePage = () => {
           </div>
         </div>
 
-        <div className="buttons-bottom" onClick={() => navigate("/")}>
+        <div
+          className="buttons-bottom"
+          onClick={() => {
+            dispatch(setLocation(LOCATION.HOME));
+            navigate("/");
+          }}
+        >
           <img
             id="newGame-btn"
             src={"/assets/images/puzzle-button.svg"}

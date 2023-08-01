@@ -10,6 +10,8 @@ import Modal from "../components/Modal";
 import { motion } from "framer-motion";
 import { Avatar } from "@mantine/core";
 import topicJson from "./topics.json";
+import { setLocation } from "../redux/app/reducer";
+import { LOCATION } from "../util/constant";
 
 function Homepage() {
   const currentSessionId = useSelector((state) => state.session._id);
@@ -41,6 +43,7 @@ function Homepage() {
 
   useEffect(() => {
     if (currentSessionId) {
+      dispatch(setLocation(LOCATION.WAITING));
       navigate(`/waiting/${currentSessionId}`, {
         state: { fromHomePage: true }
       });
@@ -97,7 +100,7 @@ function Homepage() {
             onChange={(e) => setSessionName(e.target.value)}
             placeholder="Session name"
             minLength="1"
-            maxlength = "20"
+            maxlength="20"
             required
           />
           <motion.button

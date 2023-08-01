@@ -6,6 +6,8 @@ import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import { useNavigate, useParams } from "react-router-dom";
 import "./GamePage.css";
 import { quadrantImageAsync, updateStatusAsync } from "../redux/session/thunks";
+import { setLocation } from "../redux/app/reducer";
+import { LOCATION } from "../util/constant";
 
 const GamePage = () => {
   const { sessionId } = useParams();
@@ -36,6 +38,7 @@ const GamePage = () => {
       })
       .then((response) => {
         if (response.status === "completed") {
+          dispatch(setLocation(LOCATION.COMPLETE));
           navigate(`/complete/${currentSession._id}`);
         }
 
@@ -47,8 +50,10 @@ const GamePage = () => {
             dispatch(
               updateStatusAsync({ sessionId: sessionId, status: "completed" })
             );
+            dispatch(setLocation(LOCATION.COMPLETE));
             navigate(`/complete/${currentSession._id}`);
           } else {
+            dispatch(setLocation(LOCATION.GAME));
             navigate(`/game/${currentSession._id}`);
           }
         }, 10100);
