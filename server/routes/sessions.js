@@ -150,20 +150,24 @@ router.patch("/:id/add-player", async (req, res) => {
  * - id (string): the ID of the user to be removed.
  *
  * Returns:
- * - The ID of the user removed
+ * - The session object with the user removed
  */
 router.patch("/:id/remove-player", async (req, res) => {
   try {
-    const result = await Session.updateOne(
-      { _id: req.params.id },
-      { $pull: { players: req.body.id } }
-    );
-    
-    if (result.nModified === 0) {
+    const session = await Session.findById(req.params.id);
+    if (!session) {
       return res.status(404).send({ error: "No session found with given id" });
     }
 
-    return res.status(200).send({ id: req.body.id });
+    session.players.pull(req.body.id);
+    await session.save();
+
+    if (session.players.length === 0) {
+      session.status = "cancelled";
+      await session.save();
+    }
+
+    return res.status(200).send({ session });
   } catch (error) {
     console.error(error);
     return res.status(500).send(error);
