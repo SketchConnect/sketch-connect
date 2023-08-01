@@ -62,6 +62,12 @@ const CompletePage = () => {
         );
       })
       .then(() => {
+        // console.log(JSON.stringify(current))
+        if (current.finalImage) {
+          console.log("FINAL IMG: " + current.finalImage); // TODO - test if it's grabbing the new url
+          finalImageSrc = current.finalImage;
+        }
+
         dispatch(resetSession());
       })
       .catch((err) => console.log("Failed to fetch session: ", err));
