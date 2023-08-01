@@ -3,7 +3,11 @@ import "./page.css";
 import "./CompletePage.css";
 import { useSelector, useDispatch } from "react-redux";
 import { resetSession } from "../redux/session/reducer";
-import { finalImageAsync, updateStatusAsync } from "../redux/session/thunks";
+import {
+  finalImageAsync,
+  updateStatusAsync,
+  getSessionAsync
+} from "../redux/session/thunks";
 import { useNavigate } from "react-router-dom";
 import {
   EmailShareButton,
@@ -27,7 +31,9 @@ const CompletePage = () => {
   let canvas = useRef();
   let link = useRef();
   let playerPerGame = current.players.length;
-  let finalImageSrc = "https://sketchconnect.vercel.app/assets/images/logo.png"; // TODO assign to combined drawing
+  const [finalImageSrc, setFinalImageSrc] = useState(
+    "https://sketchconnect.vercel.app/assets/images/logo.png"
+  );
 
   useEffect(() => {
     dispatch(
@@ -64,10 +70,9 @@ const CompletePage = () => {
         );
       })
       .then(() => {
-        // console.log(JSON.stringify(current))
+        dispatch(getSessionAsync(current._id));
         if (current.finalImage) {
-          console.log("FINAL IMG: " + current.finalImage); // TODO - test if it's grabbing the new url
-          finalImageSrc = current.finalImage;
+          setFinalImageSrc(current.finalImage);
         }
 
         dispatch(resetSession());
@@ -164,10 +169,13 @@ const CompletePage = () => {
           </div>
         </div>
 
-        <div className="buttons-bottom" onClick={() => {
-          dispatch(setLocation(LOCATION.HOME))
-          navigate("/");
-          }}>
+        <div
+          className="buttons-bottom"
+          onClick={() => {
+            dispatch(setLocation(LOCATION.HOME));
+            navigate("/");
+          }}
+        >
           <img
             id="newGame-btn"
             src={"/assets/images/puzzle-button.svg"}
