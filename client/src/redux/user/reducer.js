@@ -4,7 +4,8 @@ import {
   getUsersAsync,
   addUserAsync,
   deleteUserAsync,
-  updateUserAsync
+  updateUserAsync,
+  addSessionToPlayerAsync
 } from "./thunks";
 
 const INITIAL_STATE = {
@@ -17,6 +18,7 @@ const INITIAL_STATE = {
   getUsers: REQUEST_STATE.IDLE,
   addUser: REQUEST_STATE.IDLE,
   deleteUser: REQUEST_STATE.IDLE,
+  addSessionToPlayer: REQUEST_STATE.IDLE,
   error: null
 };
 
@@ -95,6 +97,13 @@ const userSlice = createSlice({
       })
       .addCase(updateUserAsync.rejected, (state, action) => {
         state.updateUser = REQUEST_STATE.REJECTED;
+        state.error = action.error;
+      })
+      .addCase(addSessionToPlayerAsync.fulfilled, (state, action) => {
+        state.addSessionToPlayer = REQUEST_STATE.FULFILLED;
+      })
+      .addCase(addSessionToPlayerAsync.rejected, (state, action) => {
+        state.addSessionToPlayer = REQUEST_STATE.REJECTED;
         state.error = action.error;
       });
   }

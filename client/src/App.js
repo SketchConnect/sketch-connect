@@ -18,6 +18,7 @@ import WaitingTurnPage from "./pages/WaitingTurnPage";
 import CompletePage from "./pages/CompletePage";
 import { Modal } from "@mui/material";
 import Warning from "./components/Warning";
+import Loading from "./components/Loading";
 
 import { AuthContextProvider } from "./context/AuthContext";
 import { useSelector } from "react-redux";
@@ -68,21 +69,7 @@ function App() {
   }, [width]);
 
   if (loading) {
-    return (
-      <div className="loading-overlay">
-        <img
-          src={"assets/images/logo.png"}
-          alt="loading"
-          className="loading-image"
-        />
-        <div className="loading-text">
-          <span>Loading</span>
-          <span className="loading-dots">.</span>
-          <span className="loading-dots">.</span>
-          <span className="loading-dots">.</span>
-        </div>
-      </div>
-    );
+    return <Loading />;
   }
   return (
     <div>

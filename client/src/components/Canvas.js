@@ -19,6 +19,7 @@ const Canvas = forwardRef((props, ref) => {
   const currentUser = useSelector((state) => state.user);
   const sessionId = useSelector((state) => state.session._id);
   const [session, setSession] = useState(null);
+  // const [canvasScale, setCanvasScale] = useState(1);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -31,6 +32,8 @@ const Canvas = forwardRef((props, ref) => {
     const ctx = canvas.getContext("2d");
     ctx.scale(scale, scale);
     contextRef.current = ctx;
+
+    // const canvasScale = scale;
 
     const fetchSession = async () => {
       const response = await fetch(
@@ -223,7 +226,6 @@ const Canvas = forwardRef((props, ref) => {
         ctx.moveTo(0, height - 0.35 * getInchesAsPixels());
         ctx.lineTo(width, height - 0.35 * getInchesAsPixels());
         ctx.stroke();
-
         ctx.setLineDash([]);
         break;
 

@@ -80,8 +80,7 @@ function Homepage() {
   const joinSession = (session) => {
     console.log("the user that wants to join the game is ", currentUser._id);
     if (
-      true
-      //session.status === "waiting"
+      session.status === "waiting"
       //!session.players.includes(currentUser._id)
     ) {
       let payload = { session: session, userId: currentUser._id };
@@ -101,7 +100,7 @@ function Homepage() {
             onChange={(e) => setSessionName(e.target.value)}
             placeholder="Session name"
             minLength="1"
-            maxlength = "20"
+            maxlength="20"
             required
           />
           <motion.button

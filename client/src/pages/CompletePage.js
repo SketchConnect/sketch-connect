@@ -13,12 +13,15 @@ import {
   PinterestShareButton,
   PinterestIcon
 } from "react-share";
+import { addSessionToPlayerAsync } from "../redux/user/thunks";
 import { setLocation } from "../redux/app/reducer";
 import { LOCATION } from "../util/constant";
 
 const CompletePage = () => {
   let navigate = useNavigate();
   const current = useSelector((state) => state.session);
+  const currentUser = useSelector((state) => state.user);
+
   const dispatch = useDispatch();
   // let [quadrants, setQuadrants] = useState([]);
   let canvas = useRef();
@@ -28,7 +31,11 @@ const CompletePage = () => {
 
   useEffect(() => {
     dispatch(
-      updateStatusAsync({ sessionId: current._id, status: "completed" })
+      updateStatusAsync({ sessionId: current._id, status: "completed" }),
+      addSessionToPlayerAsync({
+        userId: currentUser._id,
+        sessionId: current._id
+      })
     );
 
     fetch(`https://sketch-connect-be.onrender.com/sessions/${current._id}`, {
@@ -57,6 +64,12 @@ const CompletePage = () => {
         );
       })
       .then(() => {
+        // console.log(JSON.stringify(current))
+        if (current.finalImage) {
+          console.log("FINAL IMG: " + current.finalImage); // TODO - test if it's grabbing the new url
+          finalImageSrc = current.finalImage;
+        }
+
         dispatch(resetSession());
       })
       .catch((err) => console.error("Failed to fetch session: ", err));

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import "./WaitingPage.css";
+import Loading from "../components/Loading";
 import { motion, AnimatePresence } from "framer-motion";
 import { useInterval } from "../util/useInterval";
 import {
@@ -23,11 +24,12 @@ function WaitingPage() {
   const location = useLocation();
   
   const [playerCount, setPlayerCount] = useState(0);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     dispatch(getSessionAsync(sessionId));
   }, [sessionId, dispatch]);
-
+  
   useEffect(() => {
     if (currentSession._id && location.state?.fromHomePage !== true) {
       console.log("join via link");
@@ -57,7 +59,6 @@ function WaitingPage() {
       })
       .then((response) => {
         setPlayerCount(response.players.length);
-        dispatch(setSession({ session: response }));
         if (response.status === "ongoing") {
           startGame();
         }
@@ -109,6 +110,9 @@ function WaitingPage() {
     }
   };
 
+  if (loading) {
+    return <Loading />;
+  }
   return (
     <div className="lobby-container">
       <h2 className="lobby-header">

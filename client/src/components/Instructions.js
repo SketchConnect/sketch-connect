@@ -20,10 +20,17 @@ const Instructions = () => {
         onMouseLeave={handleMouseLeave}
       >
         <div className="front">
-          <img src="/assets/images/elephant.png" alt="Image" />
+          <img src="/assets/images/instructions3.jpeg" alt="Image" />
         </div>
         <div className="back">
-          <p>Instructions text</p>
+          <p className="instructions-text">
+            Welcome to 'SketchConnect,' the ultimate collaborative doodling game
+            for 4 players. Assigned to unique quadrants, each participant takes
+            turns drawing, only seeing a subset of previous players' work on
+            their aligned edges. Witness the magic of creativity and diversity
+            as the quadrants unite, creating a mesmerizing and (potentially)
+            seamless masterpiece.
+          </p>
         </div>
       </div>
     </div>
