@@ -3,8 +3,11 @@ import "./page.css";
 import "./CompletePage.css";
 import { useSelector, useDispatch } from "react-redux";
 import { resetSession } from "../redux/session/reducer";
-import { finalImageAsync, updateStatusAsync } from "../redux/session/thunks";
-import { addSessionToUserAsync } from "../redux/user/thunks";
+import {
+  finalImageAsync,
+  updateStatusAsync,
+  getSessionAsync
+} from "../redux/session/thunks";
 import { useNavigate } from "react-router-dom";
 import {
   EmailShareButton,
@@ -14,25 +17,23 @@ import {
   PinterestShareButton,
   PinterestIcon
 } from "react-share";
+import { addSessionToUserAsync } from "../redux/user/thunks";
+import { setLocation } from "../redux/app/reducer";
+import { LOCATION } from "../util/constant";
 
 const CompletePage = () => {
   let navigate = useNavigate();
   const currentSession = useSelector((state) => state.session);
   const currentUser = useSelector((state) => state.user);
-  console.log(
-    "the current user id in the completion page is_______",
-    currentUser._id
-  );
-  console.log(
-    "the current session id in the completion page is_______",
-    currentSession
-  );
+
   const dispatch = useDispatch();
   // let [quadrants, setQuadrants] = useState([]);
   let canvas = useRef();
   let link = useRef();
   let playerPerGame = currentSession.players.length;
-  let finalImageSrc = "https://sketchconnect.vercel.app/assets/images/logo.png"; // TODO assign to combined drawing
+  const [finalImageSrc, setFinalImageSrc] = useState(
+    "https://sketchconnect.vercel.app/assets/images/logo.png"
+  );
 
   useEffect(() => {
     dispatch(
@@ -73,13 +74,15 @@ const CompletePage = () => {
           1
         );
       })
-      // .then (() => {
-      //   dispatch(addSessionToUserAsync(currentUser._id, currentSession._id));
-      // })
       .then(() => {
+        dispatch(getSessionAsync(currentSession._id));
+        if (currentSession.finalImage) {
+          setFinalImageSrc(currentSession.finalImage);
+        }
+
         dispatch(resetSession());
       })
-      .catch((err) => console.log("Failed to fetch session: ", err));
+      .catch((err) => console.error("Failed to fetch session: ", err));
   }, [currentSession._id, currentUser._id, dispatch]);
 
   const make_base = (quadrants) => {
@@ -171,7 +174,13 @@ const CompletePage = () => {
           </div>
         </div>
 
-        <div className="buttons-bottom" onClick={() => navigate("/")}>
+        <div
+          className="buttons-bottom"
+          onClick={() => {
+            dispatch(setLocation(LOCATION.HOME));
+            navigate("/");
+          }}
+        >
           <img
             id="newGame-btn"
             src={"/assets/images/puzzle-button.svg"}
