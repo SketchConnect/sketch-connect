@@ -33,6 +33,8 @@ function WaitingPage() {
   useEffect(() => {
     if (currentSession._id && location.state?.fromHomePage !== true) {
       console.log("join via link");
+      dispatch(setLocation(LOCATION.WAITING));
+      dispatch(setSession(currentSession));
       if (currentUser && !currentSession.players.includes(currentUser)) {
         dispatch(
           addPlayerAsync({ session: currentSession, player: currentUser })
@@ -61,6 +63,7 @@ function WaitingPage() {
         setPlayerCount(response.players.length);
         setLoading(false);
         if (response.status === "ongoing") {
+          dispatch(setSession({ session: response }));
           startGame();
         }
       });
