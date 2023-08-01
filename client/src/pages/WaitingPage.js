@@ -29,7 +29,7 @@ function WaitingPage() {
   useEffect(() => {
     dispatch(getSessionAsync(sessionId));
   }, [sessionId, dispatch]);
-  
+
   useEffect(() => {
     if (currentSession._id && location.state?.fromHomePage !== true) {
       console.log("join via link");
@@ -59,6 +59,7 @@ function WaitingPage() {
       })
       .then((response) => {
         setPlayerCount(response.players.length);
+        setLoading(false);
         if (response.status === "ongoing") {
           startGame();
         }
