@@ -7,6 +7,9 @@ import { UserAuth } from "../context/AuthContext";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { resetSession } from "../redux/session/reducer";
+import { setLocation } from "../redux/app/reducer";
+import { LOCATION } from "../util/constant";
+import { removePlayerAsync, updateStatusAsync } from "../redux/session/thunks";
 
 function Header() {
   const { logOut } = UserAuth();
@@ -14,12 +17,26 @@ function Header() {
   const dispatch = useDispatch();
   const [opened, setOpened] = useState(false);
   const user = useSelector((state) => state.user);
+  const currentSession = useSelector((state) => state.session);
+  const currentUser = useSelector((state) => state.user._id);
+  const userLocation = useSelector((state) => state.app.location)
 
   useEffect(() => {
     if (!user || user._id === "") {
-      navigate("/login");
+      navigateTo(LOCATION.LOGIN);
     }
   }, [dispatch, user]);
+
+  const navigateTo = (destination) => {
+    if (userLocation === LOCATION.WAITING) {
+      dispatch(removePlayerAsync({ session: currentSession, player: currentUser }));
+      if (currentSession.players.length === 0) {
+        dispatch(updateStatusAsync({ sessionId: currentSession._id, status: "cancelled" }));
+      }
+    }
+    dispatch(setLocation(destination));
+    navigate(destination);
+  }
 
   const handleMenu = () => {
     setOpened(!opened);
@@ -44,11 +61,14 @@ function Header() {
         <NavLink
           to="/"
           className="nav-link"
-          onClick={() => dispatch(resetSession())}
+          onClick={() => {
+            dispatch(resetSession());
+            navigateTo(LOCATION.HOME);
+          }}
         >
           Home
         </NavLink>
-        <NavLink to="/about" className="nav-link">
+        <NavLink to="/about" className="nav-link" onClick={() => navigateTo(LOCATION.ABOUT)}>
           About Us
         </NavLink>
       </div>
@@ -58,7 +78,7 @@ function Header() {
       <div className="nav-right">
         {user && user._id !== "" ? (
           <>
-            <NavLink to="/dashboard" className="nav-link">
+            <NavLink to="/dashboard" className="nav-link" onClick={() => navigateTo(LOCATION.DASHBOARD)}>
               Hello, {user.name.split(" ")[0] || "Player"}
             </NavLink>
 
@@ -84,7 +104,10 @@ function Header() {
                   <NavLink
                     to="/dashboard"
                     className="nav-link"
-                    onClick={handleClose}
+                    onClick={() => {
+                      navigateTo(LOCATION.DASHBOARD);
+                      handleClose();
+                    }}
                   >
                     Dashboard
                   </NavLink>
@@ -97,7 +120,7 @@ function Header() {
             </Menu>
           </>
         ) : (
-          <NavLink to="/login" className="nav-link">
+          <NavLink to="/login" className="nav-link" onClick={() => navigateTo(LOCATION.LOGIN)}>
             Login
           </NavLink>
         )}

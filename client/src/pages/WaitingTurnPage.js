@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from "react";
 import "./WaitingTurnPage.css";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { setLocation } from "../redux/app/reducer";
+import { LOCATION } from "../util/constant";
 
 function WaitingTurnPage() {
   const currentSession = useSelector((state) => state.session);
   const user = useSelector((state) => state.user._id);
   const navigate = useNavigate();
   let [drawn, setDrawn] = useState(false);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -26,6 +29,7 @@ function WaitingTurnPage() {
       .then((response) => {
         if (response.quadrants.length === response.players.length) {
           clearInterval(interval);
+          dispatch(setLocation(LOCATION.COMPLETE));
           navigate(`/complete/${currentSession._id}`);
         }
   

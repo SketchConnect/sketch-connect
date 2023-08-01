@@ -10,6 +10,8 @@ import Modal from "../components/Modal";
 import { motion } from "framer-motion";
 import { Avatar } from "@mantine/core";
 import topicJson from "./topics.json";
+import { setLocation } from "../redux/app/reducer";
+import { LOCATION } from "../util/constant";
 
 function Homepage() {
   const currentSessionId = useSelector((state) => state.session._id);
@@ -41,6 +43,7 @@ function Homepage() {
 
   useEffect(() => {
     if (currentSessionId) {
+      dispatch(setLocation(LOCATION.WAITING))
       navigate(`/waiting/${currentSessionId}`, {
         state: { fromHomePage: true }
       });
@@ -77,7 +80,8 @@ function Homepage() {
   const joinSession = (session) => {
     console.log("the user that wants to join the game is ", currentUser._id);
     if (
-      session.status === "waiting"
+      true
+      //session.status === "waiting"
       //!session.players.includes(currentUser._id)
     ) {
       let payload = { session: session, userId: currentUser._id };

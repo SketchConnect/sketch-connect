@@ -56,7 +56,7 @@ function App() {
         console.log("Server is awake");
         setLoading(false);
       })
-      .catch((err) => console.log(`Failed to wake server: ${err}`));
+      .catch((err) => console.err(`Failed to wake server: ${err}`));
   }, []);
 
   useEffect(() => {

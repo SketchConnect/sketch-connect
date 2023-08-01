@@ -8,9 +8,10 @@ import {
   updateStatusAsync,
   getSessionAsync,
   addPlayerAsync,
-  removePlayerAsync
 } from "../redux/session/thunks";
 import { setSession } from "../redux/session/reducer";
+import { LOCATION } from "../util/constant";
+import { setLocation } from "../redux/app/reducer";
 
 function WaitingPage() {
   const { sessionId } = useParams();
@@ -20,26 +21,14 @@ function WaitingPage() {
   const currentUser = useSelector((state) => state.user._id);
   const dispatch = useDispatch();
   const location = useLocation();
-
+  
   const [playerCount, setPlayerCount] = useState(0);
 
   useEffect(() => {
     dispatch(getSessionAsync(sessionId));
   }, [sessionId, dispatch]);
 
-  
   useEffect(() => {
-    const cleanupFunction = async () => {
-      //console.log('Leaving route:', location.pathname);
-      if (currentSession._id) {
-        dispatch(removePlayerAsync({ session: currentSession, player: currentUser }));
-        if (currentSession.players.length === 0) {
-          dispatch(updateStatusAsync({ sessionId: currentSession._id, status: "cancelled" }));
-        }
-      }
-    };
-
-    //console.log('Entering route:', location.pathname);
     if (currentSession._id && location.state?.fromHomePage !== true) {
       console.log("join via link");
       if (currentUser && !currentSession.players.includes(currentUser)) {
@@ -47,13 +36,11 @@ function WaitingPage() {
           addPlayerAsync({ session: currentSession, player: currentUser })
         );
       } else if (!currentUser) {
+        dispatch(setLocation(LOCATION.LOGIN));
         navigate("/login", { state: { from: `/waiting/${sessionId}` } });
       }
     }
-
-    // Return the cleanup function to perform the "leaving route" action
-    return cleanupFunction;
-  }, [location, currentUser, currentSession._id]);
+  }, [currentUser, currentSession._id])
 
   useInterval(async () => {
     fetch(
@@ -70,8 +57,8 @@ function WaitingPage() {
       })
       .then((response) => {
         setPlayerCount(response.players.length);
+        dispatch(setSession({ session: response }));
         if (response.status === "ongoing") {
-          dispatch(setSession({ session: response }));
           startGame();
         }
       });
@@ -109,11 +96,16 @@ function WaitingPage() {
     }
   };
 
-  const startGame = () => {
+  const startGame = async () => {
     if (currentSession.players[0] === currentUser) {
-      navigate(`/game/turn/${sessionId}`);
+      await dispatch(setLocation(LOCATION.GAME))
+      navigate(`/game/turn/${sessionId}`, {
+        state: { toGame: true }
+      });
     } else {
-      navigate(`/game/${sessionId}`);
+      navigate(`/game/${sessionId}`, {
+        state: { toGame: true }
+      });
     }
   };
 
@@ -125,7 +117,7 @@ function WaitingPage() {
           : `Session ${sessionId} is waiting for players to join...`}
       </h2>
       <div>
-        <img src={"/assets/images/players/" + imageSource} alt="lobby" />
+        <img src={"/assets/images/players/" + imageSource} alt="lobby" referrerPolicy="no-referrer"/>
       </div>
       <div className="button-container">
         <button className="invite-button" onClick={handleShareClick}>

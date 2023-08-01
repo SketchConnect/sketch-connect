@@ -13,6 +13,8 @@ import {
   PinterestShareButton,
   PinterestIcon
 } from "react-share";
+import { setLocation } from "../redux/app/reducer";
+import { LOCATION } from "../util/constant";
 
 const CompletePage = () => {
   let navigate = useNavigate();
@@ -57,7 +59,7 @@ const CompletePage = () => {
       .then(() => {
         dispatch(resetSession());
       })
-      .catch((err) => console.log("Failed to fetch session: ", err));
+      .catch((err) => console.error("Failed to fetch session: ", err));
   }, [dispatch]);
 
   const make_base = (quadrants) => {
@@ -149,7 +151,10 @@ const CompletePage = () => {
           </div>
         </div>
 
-        <div className="buttons-bottom" onClick={() => navigate("/")}>
+        <div className="buttons-bottom" onClick={() => {
+          dispatch(setLocation(LOCATION.HOME))
+          navigate("/");
+          }}>
           <img
             id="newGame-btn"
             src={"/assets/images/puzzle-button.svg"}
