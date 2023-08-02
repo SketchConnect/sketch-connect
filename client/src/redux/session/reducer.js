@@ -4,7 +4,6 @@ import {
   addSessionAsync,
   deleteSessionAsync,
   updateStatusAsync,
-  getSessionsAsync,
   addPlayerAsync,
   getSessionAsync,
   removePlayerAsync
@@ -17,9 +16,8 @@ const INITIAL_STATE = {
   players: [],
   quadrants: [],
   finalImage: "",
-  sessions: [],
   topic: "",
-  getSessions: REQUEST_STATE.IDLE,
+  getSession: REQUEST_STATE.IDLE,
   addSession: REQUEST_STATE.IDLE,
   deleteSession: REQUEST_STATE.IDLE,
   updateStatus: REQUEST_STATE.IDLE,
@@ -36,6 +34,7 @@ const sessionSlice = createSlice({
       state._id = "";
       state.isPublic = true;
       state.status = "waiting";
+      state.players = [];
       state.quadrants = [];
       state.finalImage = "";
       state.topic = "";
@@ -53,24 +52,12 @@ const sessionSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(getSessionsAsync.pending, (state) => {
-        state.getSessions = REQUEST_STATE.PENDING;
-        state.error = null;
-      })
-      .addCase(getSessionsAsync.fulfilled, (state, action) => {
-        state.getSessions = REQUEST_STATE.FULFILLED;
-        state.sessions = action.payload;
-      })
-      .addCase(getSessionsAsync.rejected, (state, action) => {
-        state.getSessions = REQUEST_STATE.REJECTED;
-        state.error = action.error;
-      })
       .addCase(getSessionAsync.pending, (state) => {
-        state.getSessions = REQUEST_STATE.PENDING;
+        state.getSession = REQUEST_STATE.PENDING;
         state.error = null;
       })
       .addCase(getSessionAsync.fulfilled, (state, action) => {
-        state.getSessions = REQUEST_STATE.FULFILLED;
+        state.getSession = REQUEST_STATE.FULFILLED;
         state._id = action.payload._id;
         state.isPublic = action.payload.isPublic;
         state.status = action.payload.status;
@@ -80,7 +67,7 @@ const sessionSlice = createSlice({
         state.topic = action.payload.topic;
       })
       .addCase(getSessionAsync.rejected, (state, action) => {
-        state.getSessions = REQUEST_STATE.REJECTED;
+        state.getSession = REQUEST_STATE.REJECTED;
         state.error = action.error;
       })
       .addCase(addSessionAsync.pending, (state) => {
@@ -89,7 +76,6 @@ const sessionSlice = createSlice({
       })
       .addCase(addSessionAsync.fulfilled, (state, action) => {
         state.addSession = REQUEST_STATE.FULFILLED;
-        state.sessions = [...state.sessions, action.payload];
       })
       .addCase(addSessionAsync.rejected, (state, action) => {
         state.addSession = REQUEST_STATE.REJECTED;
@@ -101,9 +87,6 @@ const sessionSlice = createSlice({
       })
       .addCase(deleteSessionAsync.fulfilled, (state, action) => {
         state.deleteSession = REQUEST_STATE.FULFILLED;
-        state.sessions = state.sessions.filter(
-          (session) => session._id !== action.payload
-        );
       })
       .addCase(deleteSessionAsync.rejected, (state, action) => {
         state.deleteSession = REQUEST_STATE.REJECTED;
