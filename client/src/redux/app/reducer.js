@@ -16,7 +16,7 @@ const appSlice = createSlice({
     setLocation: (state, action) => {
       state.location = action.payload;
     }
-  },
+  }
 });
 
 export const { resetApp, setLocation } = appSlice.actions;

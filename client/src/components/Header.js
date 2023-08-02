@@ -19,7 +19,7 @@ function Header() {
   const user = useSelector((state) => state.user);
   const currentSession = useSelector((state) => state.session);
   const currentUser = useSelector((state) => state.user._id);
-  const userLocation = useSelector((state) => state.app.location)
+  const userLocation = useSelector((state) => state.app.location);
 
   useEffect(() => {
     if (!user || user._id === "") {
@@ -29,14 +29,21 @@ function Header() {
 
   const navigateTo = (destination) => {
     if (userLocation === LOCATION.WAITING) {
-      dispatch(removePlayerAsync({ session: currentSession, player: currentUser }));
+      dispatch(
+        removePlayerAsync({ session: currentSession, player: currentUser })
+      );
       if (currentSession.players.length === 0) {
-        dispatch(updateStatusAsync({ sessionId: currentSession._id, status: "cancelled" }));
+        dispatch(
+          updateStatusAsync({
+            sessionId: currentSession._id,
+            status: "cancelled"
+          })
+        );
       }
     }
     dispatch(setLocation(destination));
     navigate(destination);
-  }
+  };
 
   const handleMenu = () => {
     setOpened(!opened);
@@ -68,7 +75,11 @@ function Header() {
         >
           Home
         </NavLink>
-        <NavLink to="/about" className="nav-link" onClick={() => navigateTo(LOCATION.ABOUT)}>
+        <NavLink
+          to="/about"
+          className="nav-link"
+          onClick={() => navigateTo(LOCATION.ABOUT)}
+        >
           About Us
         </NavLink>
       </div>
@@ -78,7 +89,11 @@ function Header() {
       <div className="nav-right">
         {user && user._id !== "" ? (
           <>
-            <NavLink to="/dashboard" className="nav-link" onClick={() => navigateTo(LOCATION.DASHBOARD)}>
+            <NavLink
+              to="/dashboard"
+              className="nav-link"
+              onClick={() => navigateTo(LOCATION.DASHBOARD)}
+            >
               Hello, {user.name.split(" ")[0] || "Player"}
             </NavLink>
 
@@ -120,7 +135,11 @@ function Header() {
             </Menu>
           </>
         ) : (
-          <NavLink to="/login" className="nav-link" onClick={() => navigateTo(LOCATION.LOGIN)}>
+          <NavLink
+            to="/login"
+            className="nav-link"
+            onClick={() => navigateTo(LOCATION.LOGIN)}
+          >
             Login
           </NavLink>
         )}

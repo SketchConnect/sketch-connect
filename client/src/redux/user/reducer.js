@@ -5,7 +5,7 @@ import {
   addUserAsync,
   deleteUserAsync,
   updateUserAsync,
-  addSessionToPlayerAsync
+  addSessionToUserAsync
 } from "./thunks";
 
 const INITIAL_STATE = {
@@ -18,7 +18,7 @@ const INITIAL_STATE = {
   getUsers: REQUEST_STATE.IDLE,
   addUser: REQUEST_STATE.IDLE,
   deleteUser: REQUEST_STATE.IDLE,
-  addSessionToPlayer: REQUEST_STATE.IDLE,
+  addSessionToUser: REQUEST_STATE.IDLE,
   error: null
 };
 
@@ -99,15 +99,20 @@ const userSlice = createSlice({
         state.updateUser = REQUEST_STATE.REJECTED;
         state.error = action.error;
       })
-      .addCase(addSessionToPlayerAsync.fulfilled, (state, action) => {
-        state.addSessionToPlayer = REQUEST_STATE.FULFILLED;
+      .addCase(addSessionToUserAsync.pending, (state) => {
+        state.addSessionToUser = REQUEST_STATE.PENDING;
+        state.error = null;
       })
-      .addCase(addSessionToPlayerAsync.rejected, (state, action) => {
-        state.addSessionToPlayer = REQUEST_STATE.REJECTED;
+      .addCase(addSessionToUserAsync.fulfilled, (state, action) => {
+        state.addSessionToUser = REQUEST_STATE.FULFILLED;
+        state.status = action.payload;
+      })
+      .addCase(addSessionToUserAsync.rejected, (state, action) => {
+        state.addSessionToUser = REQUEST_STATE.REJECTED;
         state.error = action.error;
       });
   }
 });
 
-export const { resetUser, setUser } = userSlice.actions;
+export const { resetUser, setUser, addSessionToUser } = userSlice.actions;
 export default userSlice.reducer;

@@ -1,14 +1,22 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { getSessionAsync } from "../redux/session/thunks";
 
 function ImageCard({ sessionId }) {
-  const session = useSelector((state) => state.session);
-  const dispatch = useDispatch();
+  const [session, setSession] = useState(null);
 
   useEffect(() => {
-    dispatch(getSessionAsync(sessionId));
-  }, [sessionId, dispatch]);
+    // Replace 'your-endpoint-url' with the actual URL of your API endpoint
+    fetch(`https://sketch-connect-be.onrender.com/sessions/${sessionId}`, {
+      method: "GET"
+    })
+      .then((response) => response.json())
+      .then((data) => setSession(data))
+      .catch((error) => console.error("Error fetching data:", error));
+  }, []);
+
+  // Render null if session is null
+  if (!session) {
+    return null;
+  }
 
   return (
     <div className="image-card">

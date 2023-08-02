@@ -79,23 +79,28 @@ const updateUser = async (userId, updatedUser) => {
   }
 };
 
-const addSession = async (userId, sessionId) => {
+const addSessionToUser = async (userId, sessionId) => {
   try {
-    const response = await fetch(`/api/${userId}/add-session`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ sessionId })
-    });
+    const response = await fetch(
+      `https://sketch-connect-be.onrender.com/users/${userId}/add-session`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ sessionId: sessionId })
+      }
+    );
+
+    const data = await response.json();
 
     if (!response.ok) {
-      throw new Error("HTTP status " + response.status);
+      throw new Error(data?.message);
     }
 
-    return await response.json();
+    return data;
   } catch (error) {
-    console.error("Error:", error);
+    console.error("Error adding session to user:", error);
     throw error;
   }
 };
@@ -105,6 +110,6 @@ const service = {
   addUser,
   deleteUser,
   updateUser,
-  addSession
+  addSessionToUser
 };
 export default service;

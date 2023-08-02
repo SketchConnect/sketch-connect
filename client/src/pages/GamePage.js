@@ -53,7 +53,7 @@ const GamePage = () => {
             dispatch(setLocation(LOCATION.COMPLETE));
             navigate(`/complete/${currentSession._id}`);
           } else {
-            dispatch(setLocation(LOCATION.GAME))
+            dispatch(setLocation(LOCATION.GAME));
             navigate(`/game/${currentSession._id}`);
           }
         }, 10100);

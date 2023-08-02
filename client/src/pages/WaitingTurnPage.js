@@ -15,33 +15,33 @@ function WaitingTurnPage() {
   useEffect(() => {
     const interval = setInterval(() => {
       fetch(
-        `https://sketch-connect-be.onrender.com/sessions/${currentSession._id}`, 
+        `https://sketch-connect-be.onrender.com/sessions/${currentSession._id}`,
         {
           method: "GET"
         }
       )
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("HTTP error " + response.status);
-        }
-        return response.json();
-      })
-      .then((response) => {
-        if (response.quadrants.length === response.players.length) {
-          clearInterval(interval);
-          dispatch(setLocation(LOCATION.COMPLETE));
-          navigate(`/complete/${currentSession._id}`);
-        }
-  
-        let currentTurn = response.quadrants.length;
-        let userIndex = response.players.indexOf(user);
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("HTTP error " + response.status);
+          }
+          return response.json();
+        })
+        .then((response) => {
+          if (response.quadrants.length === response.players.length) {
+            clearInterval(interval);
+            dispatch(setLocation(LOCATION.COMPLETE));
+            navigate(`/complete/${currentSession._id}`);
+          }
 
-        if (currentTurn === userIndex) {
-          clearInterval(interval);
-          setDrawn(true);
-          navigate(`/game/turn/${currentSession._id}`);
-        }
-      })
+          let currentTurn = response.quadrants.length;
+          let userIndex = response.players.indexOf(user);
+
+          if (currentTurn === userIndex) {
+            clearInterval(interval);
+            setDrawn(true);
+            navigate(`/game/turn/${currentSession._id}`);
+          }
+        });
     }, 1000);
 
     return () => clearInterval(interval);

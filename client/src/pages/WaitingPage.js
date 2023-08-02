@@ -8,7 +8,7 @@ import { useInterval } from "../util/useInterval";
 import {
   updateStatusAsync,
   getSessionAsync,
-  addPlayerAsync,
+  addPlayerAsync
 } from "../redux/session/thunks";
 import { setSession } from "../redux/session/reducer";
 import { LOCATION } from "../util/constant";
@@ -22,7 +22,7 @@ function WaitingPage() {
   const currentUser = useSelector((state) => state.user._id);
   const dispatch = useDispatch();
   const location = useLocation();
-  
+
   const [playerCount, setPlayerCount] = useState(0);
   const [loading, setLoading] = useState(true);
 
@@ -48,7 +48,7 @@ function WaitingPage() {
         navigate("/login", { state: { from: `/waiting/${sessionId}` } });
       }
     }
-  }, [currentUser, currentSession._id])
+  }, [currentUser, currentSession._id]);
 
   useInterval(async () => {
     fetch(
@@ -107,7 +107,7 @@ function WaitingPage() {
 
   const startGame = async () => {
     if (currentSession.players[0] === currentUser) {
-      await dispatch(setLocation(LOCATION.GAME))
+      await dispatch(setLocation(LOCATION.GAME));
       navigate(`/game/turn/${sessionId}`, {
         state: { toGame: true }
       });
@@ -129,7 +129,11 @@ function WaitingPage() {
           : `Session ${sessionId} is waiting for players to join...`}
       </h2>
       <div>
-        <img src={"/assets/images/players/" + imageSource} alt="lobby" referrerPolicy="no-referrer"/>
+        <img
+          src={"/assets/images/players/" + imageSource}
+          alt="lobby"
+          referrerPolicy="no-referrer"
+        />
       </div>
       <div className="button-container">
         <button className="invite-button" onClick={handleShareClick}>

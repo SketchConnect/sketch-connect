@@ -4,9 +4,9 @@ import user from "./user/reducer";
 import app from "./app/reducer";
 
 const rootReducer = combineReducers({
-	session,
-	user,
-  app,
+  session,
+  user,
+  app
 });
 
 export default rootReducer;

@@ -3,5 +3,5 @@ export const actions = {
   ADD_USER: "users/addUser",
   DELETE_USER: "users/deleteUser",
   UPDATE_USER: "users/updateUser",
-  ADD_SESSION: "users/addSession"
+  ADD_SESSION_TO_USER: "users/addSessionToUser"
 };

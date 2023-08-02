@@ -25,9 +25,16 @@ function HallOfFame() {
   return (
     <div className="hall-of-fame">
       {/* Image cards */}
-      {sessionIds.map((id, index) => (
-        <ImageCard sessionId={id} />
-      ))}
+      {sessionIds.length > 0 &&
+        sessionIds.map((id, index) => {
+          // Check if id is not an empty string
+          if (id.trim() !== "") {
+            return (
+              <ImageCard key={id} sessionId={id} onClick={handleImageClick} />
+            );
+          }
+          return null; // If id is an empty string, skip rendering
+        })}
 
       {/* Popup */}
       {showPopup && (

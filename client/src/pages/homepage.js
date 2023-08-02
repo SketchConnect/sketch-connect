@@ -43,7 +43,7 @@ function Homepage() {
 
   useEffect(() => {
     if (currentSessionId) {
-      dispatch(setLocation(LOCATION.WAITING))
+      dispatch(setLocation(LOCATION.WAITING));
       navigate(`/waiting/${currentSessionId}`, {
         state: { fromHomePage: true }
       });
