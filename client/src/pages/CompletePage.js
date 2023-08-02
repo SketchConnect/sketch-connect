@@ -80,7 +80,7 @@ const CompletePage = () => {
           setFinalImageSrc(currentSession.finalImage);
         }
 
-        dispatch(resetSession());
+        //dispatch(resetSession());
       })
       .catch((err) => console.error("Failed to fetch session: ", err));
   }, [currentSession._id, currentUser._id, dispatch]);
