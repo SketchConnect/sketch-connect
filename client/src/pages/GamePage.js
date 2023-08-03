@@ -60,8 +60,51 @@ const GamePage = () => {
       });
   }, []);
 
+  const clearOverlappingImage = (startX, startY, width, height) => {
+    const canvas = canvasRef.current;
+    canvas.clearRect(startX, startY, width, height);
+  };
+
+  const getInchesAsPixels = () => {
+    return 96 * 2;
+  };
+
   const handleCapture = useCallback(
     (blob) => {
+      switch (currPlayer) {
+        case 0:
+          break;
+        case 1:
+          clearOverlappingImage(
+            0,
+            0,
+            canvasRef.current.width - 0.35 * getInchesAsPixels(),
+            canvasRef.current.height
+          );
+          break;
+        case 2:
+          clearOverlappingImage(
+            0,
+            0,
+            canvasRef.current.width,
+            canvasRef.current.height - 0.35 * getInchesAsPixels()
+          );
+          break;
+        case 3:
+          clearOverlappingImage(
+            0,
+            0,
+            canvasRef.current.width,
+            canvasRef.current.height - 0.35 * getInchesAsPixels()
+          );
+          clearOverlappingImage(
+            0,
+            0,
+            canvasRef.current.width - 0.35 * getInchesAsPixels(),
+            canvasRef.current.height
+          );
+          break;
+      }
       const formData = new FormData();
       const image = new File([blob], "image.png", {
         type: "image/png"
@@ -124,7 +167,7 @@ const GamePage = () => {
         </div>
       </div>
       <div className="drawing-space">
-        <Canvas ref={canvasRef} onCapture={handleCapture} />
+        <Canvas ref={canvasRef} onCapture={handleCapture()} />
       </div>
     </div>
   );

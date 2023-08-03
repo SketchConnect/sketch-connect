@@ -123,6 +123,12 @@ const Canvas = forwardRef((props, ref) => {
     }
   };
 
+  const clearOverlappingImage = (startX, startY, width, height) => {
+    const canvas = canvasRef.current;
+    const context = contextRef.current;
+    context.clearRect(startX, startY, width, height);
+  };
+
   const handleExportClick = () => {
     setShowExportPopup(true);
   };
