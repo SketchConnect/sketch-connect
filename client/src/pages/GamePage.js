@@ -167,7 +167,7 @@ const GamePage = () => {
         </div>
       </div>
       <div className="drawing-space">
-        <Canvas ref={canvasRef} onCapture={handleCapture()} />
+        <Canvas ref={canvasRef} onCapture={(blob) => handleCapture()} />
       </div>
     </div>
   );
