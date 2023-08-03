@@ -4,7 +4,6 @@ import { useSelector, useDispatch } from "react-redux";
 import "./WaitingPage.css";
 import { motion, AnimatePresence } from "framer-motion";
 import { io } from "socket.io-client";
-import { useInterval } from "../util/useInterval";
 import {
   updateStatusAsync,
   getSessionAsync,
@@ -22,7 +21,6 @@ function WaitingPage() {
   const location = useLocation();
 
   const [playerCount, setPlayerCount] = useState(0);
-  const socket = io("http://localhost:5050");
 
   useEffect(() => {
     dispatch(getSessionAsync(sessionId));
@@ -42,40 +40,33 @@ function WaitingPage() {
   }, [currentUser, currentSession._id]);
 
   useEffect(() => {
+    const socket = io("https://sketch-connect-be.onrender.com");
     socket.emit("join", sessionId);
 
-    socket.on("playersArrayUpdate", (updatedDocument) => {
-      setPlayerCount(updatedDocument.players.length);
-    });
+    const handleNumPlayersChanged = (session) => {
+      console.log(
+        `Received numPlayersChanged event: ${JSON.stringify(session)}`
+      );
+      setPlayerCount(session.playersLength);
+    };
 
-    socket.on("sessionStarted", (updatedDocument) => {
-      dispatch(setSession({ session: updatedDocument }));
+    const handleSessionStarted = (session) => {
+      console.log(`Received sessionStarted event: ${JSON.stringify(session)}`);
+      dispatch(setSession({ session: session }));
       startGame();
-    });
+    };
+
+    socket.on("numPlayersChanged", handleNumPlayersChanged);
+    socket.on("sessionStarted", handleSessionStarted);
+
+    // TODO: handle session cancelled
 
     return () => {
-      socket.emit("leave", sessionId);
+      socket.off("numPlayersChanged", handleNumPlayersChanged);
+      socket.off("sessionStarted", handleSessionStarted);
+      socket.disconnect();
     };
   }, [sessionId]);
-
-  // useInterval(async () => {
-  //   fetch(`https://sketch-connect-be.onrender.com/sessions/${currentSession._id}`, {
-  //     method: "GET"
-  //   })
-  //   .then((response) => {
-  //     if (!response.ok) {
-  //       throw new Error("HTTP error " + response.status);
-  //     }
-  //     return response.json();
-  //   })
-  //   .then((response) => {
-  //     setPlayerCount(response.players.length)
-  //     if (response.status === "ongoing") {
-  //       dispatch(setSession({ session: response }))
-  //       startGame();
-  //     }
-  //   })
-  // }, 1000);
 
   let imageSource;
   if (playerCount === 1) {
@@ -88,7 +79,6 @@ function WaitingPage() {
     imageSource = "player4.png";
   }
 
-  // TODO: the link is copied but the logic to join the session is not fully working
   const handleShareClick = async () => {
     try {
       await navigator.clipboard.writeText(

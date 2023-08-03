@@ -12,7 +12,12 @@ import users from "./routes/users.js";
 const PORT = process.env.PORT || 5050;
 const app = express();
 const server = createServer(app);
-const io = new Server(server);
+const io = new Server(server, {
+  cors: {
+    origin: "*",
+    methods: ["GET", "POST", "DELETE", "PUT", "PATCH", "OPTIONS", "HEAD"]
+  }
+});
 
 app.use(cors());
 app.use(express.json());
@@ -35,7 +40,6 @@ mongoose
 
     setupChangeStreams(io);
 
-    // Handle new socket connections
     io.on("connection", (socket) => {
       console.log(`New socket connected: ${socket.id}`);
 

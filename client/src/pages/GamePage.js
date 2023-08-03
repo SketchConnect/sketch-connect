@@ -15,45 +15,48 @@ const GamePage = () => {
   const user = useSelector((state) => state.user._id);
   const currPlayer = players.indexOf(user);
   const dispatch = useDispatch();
-  const currentTopic = currentSession.topic;
-  console.log("The current topic is --------", currentTopic);
 
   const navigate = useNavigate();
 
   const canvasRef = useRef(null);
 
   useEffect(() => {
-    fetch(
-      `https://sketch-connect-be.onrender.com/sessions/${currentSession._id}`,
-      {
-        method: "GET"
-      }
-    )
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("HTTP error " + response.status);
-        }
-        return response.json();
-      })
-      .then((response) => {
-        if (response.status === "completed") {
-          navigate(`/complete/${currentSession._id}`);
-        }
+    const socket = io("https://sketch-connect-be.onrender.com");
+    socket.emit("join", currentSession._id);
 
-        setTimeout(() => {
-          if (canvasRef.current) {
-            canvasRef.current.captureDrawing();
-          }
-          if (user === players[3]) {
-            dispatch(
-              updateStatusAsync({ sessionId: sessionId, status: "completed" })
-            );
-            navigate(`/complete/${currentSession._id}`);
-          } else {
-            navigate(`/game/${currentSession._id}`);
-          }
-        }, 10100);
-      });
+    socket.on("sessionCompleted", (data) => {
+      navigate(`/complete/${currentSession._id}`);
+    });
+
+    socket.on("quadrantsUpdated", (data) => {
+      if (data.status === "completed") {
+        navigate(`/complete/${currentSession._id}`);
+      }
+    });
+
+    setTimeout(() => {
+      if (canvasRef.current) {
+        canvasRef.current.captureDrawing();
+      }
+
+      if (user === players[3]) {
+        dispatch(
+          updateStatusAsync({
+            sessionId: currentSession._id,
+            status: "completed"
+          })
+        );
+        navigate(`/complete/${currentSession._id}`);
+      } else {
+        navigate(`/game/${currentSession._id}`);
+      }
+    }, 10100);
+
+    return () => {
+      socket.off("sessionCompleted");
+      socket.off("quadrantsUpdated");
+      socket.disconnect();
+    };
   }, []);
 
   const handleCapture = useCallback(
