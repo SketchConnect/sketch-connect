@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { setLocation } from "../redux/app/reducer";
 import { LOCATION } from "../util/constant";
-import { useSelector } from "react-redux";
 import io from "socket.io-client";
 
 function WaitingTurnPage() {
