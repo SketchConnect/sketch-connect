@@ -3,7 +3,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import "./WaitingPage.css";
 import { motion, AnimatePresence } from "framer-motion";
-import { useInterval } from "../util/useInterval";
+import { io } from "socket.io-client";
 import {
   updateStatusAsync,
   getSessionAsync,
@@ -39,24 +39,34 @@ function WaitingPage() {
     }
   }, [currentUser, currentSession._id]);
 
-  useInterval(async () => {
-    fetch(`https://sketch-connect-be.onrender.com/sessions/${currentSession._id}`, {
-      method: "GET"
-    })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error("HTTP error " + response.status);
-      }
-      return response.json();
-    })
-    .then((response) => {
-      setPlayerCount(response.players.length)
-      if (response.status === "ongoing") {
-        dispatch(setSession({ session: response }))
-        startGame();
-      }
-    })
-  }, 1000);
+  useEffect(() => {
+    const socket = io("https://sketch-connect-be.onrender.com");
+    socket.emit("join", sessionId);
+
+    const handleNumPlayersChanged = (session) => {
+      console.log(
+        `Received numPlayersChanged event: ${JSON.stringify(session)}`
+      );
+      setPlayerCount(session.playersLength);
+    };
+
+    const handleSessionStarted = (session) => {
+      console.log(`Received sessionStarted event: ${JSON.stringify(session)}`);
+      dispatch(setSession({ session: session }));
+      startGame();
+    };
+
+    socket.on("numPlayersChanged", handleNumPlayersChanged);
+    socket.on("sessionStarted", handleSessionStarted);
+
+    // TODO: handle session cancelled
+
+    return () => {
+      socket.off("numPlayersChanged", handleNumPlayersChanged);
+      socket.off("sessionStarted", handleSessionStarted);
+      socket.disconnect();
+    };
+  }, [sessionId]);
 
   let imageSource;
   if (playerCount === 1) {
@@ -69,7 +79,6 @@ function WaitingPage() {
     imageSource = "player4.png";
   }
 
-  // TODO: the link is copied but the logic to join the session is not fully working
   const handleShareClick = async () => {
     try {
       await navigator.clipboard.writeText(
