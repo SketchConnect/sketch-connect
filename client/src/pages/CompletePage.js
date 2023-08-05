@@ -8,7 +8,7 @@ import {
   updateStatusAsync,
   getSessionAsync
 } from "../redux/session/thunks";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   EmailShareButton,
   EmailIcon,
@@ -22,7 +22,8 @@ import { setLocation } from "../redux/app/reducer";
 import { LOCATION } from "../util/constant";
 
 const CompletePage = () => {
-  let navigate = useNavigate();
+  const { sessionId } = useParams();
+  const navigate = useNavigate();
   const currentSession = useSelector((state) => state.session);
   const currentUser = useSelector((state) => state.user);
 
@@ -47,7 +48,7 @@ const CompletePage = () => {
     );
 
     fetch(
-      `https://sketch-connect-be.onrender.com/sessions/${currentSession._id}`,
+      `https://sketch-connect-be.onrender.com/sessions/${sessionId}`,
       {
         method: "GET"
       }
@@ -65,7 +66,6 @@ const CompletePage = () => {
       .then(() => {
         canvas.current.toBlob(
           (blob) => {
-            const sessionId = currentSession._id;
             const image = new File([blob], "image.png", {
               type: "image/png"
             });
@@ -76,7 +76,7 @@ const CompletePage = () => {
         );
       })
       .then(() => {
-        dispatch(getSessionAsync(currentSession._id));
+        dispatch(getSessionAsync(sessionId));
         if (currentSession.finalImage) {
           setFinalImageSrc(currentSession.finalImage);
         }
@@ -84,7 +84,7 @@ const CompletePage = () => {
         //dispatch(resetSession());
       })
       .catch((err) => console.error("Failed to fetch session: ", err));
-  }, [currentSession._id, currentUser._id, dispatch]);
+  }, [sessionId, currentUser._id, dispatch]);
 
   const make_base = (quadrants) => {
     console.log("currentSession: ", currentSession)
@@ -103,7 +103,7 @@ const CompletePage = () => {
           images[i].onload = function () {
             loadedCount++;
             if (loadedCount === playerPerGame) {
-              drawImages();
+              drawImages(images);
               resolve();
             }
           };
@@ -111,7 +111,7 @@ const CompletePage = () => {
         }
       };
 
-      const drawImages = () => {
+      const drawImages = (images) => {
         canvas.current.width = 1600;
         canvas.current.height = 1200;
         let imageWidth = canvas.current.width / 2;
