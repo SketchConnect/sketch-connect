@@ -195,6 +195,7 @@ const Canvas = forwardRef((props, ref) => {
           height={600}
           style={{ ...getBorderStyle(), borderRight: "1px solid black", borderBottom: "1px solid black" }}
           onMouseDown={handleMouseDown}
+          onMouseOut={handleMouseUp}
         />
         <div
           style={{
