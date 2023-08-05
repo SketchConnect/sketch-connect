@@ -30,7 +30,7 @@ const CompletePage = () => {
   // let [quadrants, setQuadrants] = useState([]);
   let canvas = useRef();
   let link = useRef();
-  let playerPerGame = currentSession.players.length;
+  let playerPerGame = 4;
   const [finalImageSrc, setFinalImageSrc] = useState(
     "https://sketchconnect.vercel.app/assets/images/logo.png"
   );
@@ -59,6 +59,7 @@ const CompletePage = () => {
         return response.json();
       })
       .then((response) => {
+        console.log("response: ", response);
         return make_base(response.quadrants);
       })
       .then(() => {
@@ -86,6 +87,8 @@ const CompletePage = () => {
   }, [currentSession._id, currentUser._id, dispatch]);
 
   const make_base = (quadrants) => {
+    console.log("currentSession: ", currentSession)
+    
     return new Promise((resolve, reject) => {
       let context = canvas.current.getContext("2d");
 
