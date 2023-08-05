@@ -157,6 +157,27 @@ const Canvas = forwardRef((props, ref) => {
     return borderStyle;
   };
 
+  const getToolStyle = () => {
+    const playerIndex = session?.players?.indexOf(currentUser._id);
+    let toolStyle = { top: "10px", left: "10px"};
+  
+    switch (playerIndex) {
+      case 1:
+        toolStyle = { top: "10px", right: "10px"};;
+        break;
+      case 2:
+        toolStyle = { bottom: "10px", left: "10px"};;
+        break;
+      case 3:
+        toolStyle = { bottom: "10px", right: "10px"};;
+        break;
+      default:
+        break;
+    }
+  
+    return toolStyle;
+  }
+
   return (
     <div
       style={{
@@ -177,9 +198,8 @@ const Canvas = forwardRef((props, ref) => {
         />
         <div
           style={{
+            ...getToolStyle(),
             position: "absolute",
-            top: 10,
-            right: 10,
             padding: "10px",
             background: "#fff",
             boxShadow: "0 0 5px rgba(0, 0, 0, 0.3)"
