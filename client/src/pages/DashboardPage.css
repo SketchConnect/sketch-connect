@@ -102,7 +102,7 @@
     color: white;
     font-size: 18px;
     margin-bottom: 10px;
-    outline: none; /* removes the default browser outline */
+    outline: none;
   }
   
   .dashboard .profile-details button {
@@ -114,7 +114,7 @@
     color: white;
     font-size: 18px;
     cursor: pointer;
-    outline: none; /* removes the default browser outline */
+    outline: none;
   }
   
   .dashboard .profile-details button:hover {

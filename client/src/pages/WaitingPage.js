@@ -33,8 +33,6 @@ function WaitingPage() {
 
   useEffect(() => {
     if (currentSession._id && location.state?.fromHomePage !== true) {
-      console.log("join via link");
-
       dispatch(setLocation(LOCATION.WAITING));
       dispatch(getSessionAsync(sessionId));
       setPlayerCount(currentSession.players.length);

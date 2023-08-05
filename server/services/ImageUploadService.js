@@ -30,7 +30,7 @@ class ImageUploadService {
     return new Promise((resolve, reject) => {
       this.multer.single("img")(req, {}, async (error) => {
         if (error) {
-          console.log("Multer error during upload: ", error);
+          console.error("Multer error during upload: ", error);
           reject(error);
         } else {
           try {

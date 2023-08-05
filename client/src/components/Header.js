@@ -58,7 +58,7 @@ function Header() {
       await logOut();
       handleClose();
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
