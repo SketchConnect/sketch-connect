@@ -156,7 +156,7 @@ function WaitingPage() {
         >
           INVITE
         </motion.button>
-        {isFirst && (
+        {isFirst && playerCount === 4 && (
           <motion.button
             className="start-button"
             onClick={handleStartClick}
