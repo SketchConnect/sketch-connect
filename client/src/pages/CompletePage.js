@@ -39,16 +39,13 @@ const CompletePage = () => {
     dispatch(
       addSessionToUserAsync({
         userId: currentUser._id,
-        sessionId
+        sessionId: sessionId
       })
     );
 
-    fetch(
-      `https://sketch-connect-be.onrender.com/sessions/${sessionId}`,
-      {
-        method: "GET"
-      }
-    )
+    fetch(`https://sketch-connect-be.onrender.com/sessions/${sessionId}`, {
+      method: "GET"
+    })
       .then((response) => {
         if (!response.ok) {
           throw new Error("HTTP error " + response.status);
@@ -79,7 +76,7 @@ const CompletePage = () => {
       .catch((err) => console.error("Failed to fetch session: ", err));
   }, [sessionId, currentUser._id, dispatch]);
 
-  const make_base = (quadrants) => {    
+  const make_base = (quadrants) => {
     return new Promise((resolve, reject) => {
       let context = canvas.current.getContext("2d");
 
