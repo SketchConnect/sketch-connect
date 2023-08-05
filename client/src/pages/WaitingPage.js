@@ -32,7 +32,11 @@ function WaitingPage() {
   }, [sessionId, dispatch]);
 
   useEffect(() => {
-    if (currentSession._id && location.state?.fromHomePage !== true) {
+    if (
+      currentSession._id &&
+      location.state?.fromHomePage !== true &&
+      currentSession.length < 4
+    ) {
       dispatch(setLocation(LOCATION.WAITING));
       dispatch(getSessionAsync(sessionId));
       setPlayerCount(currentSession.players.length);
@@ -46,6 +50,9 @@ function WaitingPage() {
         dispatch(setLocation(LOCATION.LOGIN));
         navigate("/login", { state: { from: `/waiting/${sessionId}` } });
       }
+    } else {
+      dispatch(setLocation(LOCATION.HOME));
+      navigate("/");
     }
   }, [currentUser, currentSession._id]);
 
