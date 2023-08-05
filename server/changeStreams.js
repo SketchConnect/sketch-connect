@@ -33,10 +33,12 @@ function handlePlayerChange(change, io) {
     if (newPlayersLength !== previousPlayersLength) {
       console.log("Players array updated. New length: ", newPlayersLength);
 
-      io.to(String(change.fullDocument._id)).emit("numPlayersChanged", {
-        sessionId: change.fullDocument._id,
-        playersLength: newPlayersLength
-      });
+      setTimeout(() => {
+        io.to(String(change.fullDocument._id)).emit("numPlayersChanged", {
+          sessionId: change.fullDocument._id,
+          playersLength: newPlayersLength
+        });
+      }, 1000);
     }
   }
 }
