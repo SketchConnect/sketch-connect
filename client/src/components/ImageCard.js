@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-function ImageCard({ sessionId }) {
+function ImageCard({ sessionId, onClick }) {
   const [session, setSession] = useState(null);
 
   useEffect(() => {
@@ -19,8 +19,12 @@ function ImageCard({ sessionId }) {
   }
 
   return (
-    <div className="image-card">
+    <div
+      className="image-card"
+      onClick={() => onClick(session.finalImage)} // Trigger the onClick event when the image card is clicked
+    >
       <img src={session.finalImage} alt="Image" />
+      <h3>{session.topic}</h3>
     </div>
   );
 }
