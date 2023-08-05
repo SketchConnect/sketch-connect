@@ -1,10 +1,10 @@
 .popup-content {
   padding-top: 5%;
-  padding-button: 5%;
+  padding-bottom: 5%;
   background-color: white;
 }
 
-button {
+.hof-button {
   margin: 20px;
   padding: 10px 20px;
   border: none;
@@ -39,7 +39,8 @@ button {
   position: absolute;
   width: 20px;
   height: 2px;
-  background-color: #fff; /* Replace with your desired X symbol color */
+  background-color: #fff;
+  /* Replace with your desired X symbol color */
 }
 
 .close-button::before {

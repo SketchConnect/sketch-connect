@@ -23,8 +23,8 @@ function ImageCard({ sessionId, onClick }) {
       className="image-card"
       onClick={() => onClick(session.finalImage)} // Trigger the onClick event when the image card is clicked
     >
-      <img src={session.finalImage} alt="Image" />
-      <h3>{session.topic}</h3>
+      <img src={session.finalImage} alt="final-drawing" />
+      <p className="topic-text">{session.topic}</p>
     </div>
   );
 }

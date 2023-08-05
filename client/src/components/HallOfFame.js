@@ -39,10 +39,10 @@ function HallOfFame() {
         <div className="popup">
           <div className="popup-content">
             <img src={selectedImage} alt="Popup" className="popup-image" />
-            {/* <button className="download-button" onClick={handleDownload}>
+            {/* <button className="download-button hof-button" onClick={handleDownload}>
               Download
             </button> */}
-            <button className="close-button" onClick={closePopup}>
+            <button className="close-button hof-button" onClick={closePopup}>
               X
             </button>
           </div>
