@@ -45,6 +45,18 @@ Welcome to 'SketchConnect,' the ultimate collaborative doodling game for 4 playe
 
 ## Above and Beyond
 
+#### Image Storage
+SketchConnect incorporates many additional features such as cloud storage using Google’s external API, allowing players to save their final drawings.
+
+#### Sharing via Social Media
+Additionally, SketchConnect integrates with social media platforms, empowering players to share their final masterpieces with friends and family. 
+
+#### Research-driven UX
+In shaping SketchConnect, we prioritized a user-centric approach through conducting thorough UX research and testing with over 50 users. By understanding player preferences (style of online games played, prompts, timer configurations, etc.) we ensured an interface that would be fun, friendly, seamless and intuitive for a delightful collaborative online doodling experience.
+
+#### Authentication
+To safeguard user data and maintain a secure environment, the app implements Firebase authentication, providing a hassle-free login and registration process. With these innovative features, SketchConnect promises endless fun, collaboration, and artistic expression for all players.
+
 ## Next Steps
 
 ## Developed By
