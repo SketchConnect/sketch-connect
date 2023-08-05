@@ -18,29 +18,37 @@ Welcome to 'SketchConnect,' the ultimate collaborative doodling game for 4 playe
 
 #### Minimum Requirements
 
-- [ ] A canvas to doodle individually prompted and combined at the end
-- [ ] Making it collaborative with 4 players
--   Creating and storing a session
--   Storing the images
--   Getting Canvas image data and store it, stitch it together then store and display final image
+- [x] A canvas to doodle individually prompted and combined at the end
+- [x] Making it collaborative with 4 players
+- [x] Creating and storing a session
+- [x] Storing the images
+- [x] Getting Canvas image data and store it, stitch it together then store and display final image
 
 #### “Standard” Requirements
-
--   Guidelines for other person to continue from and they see a bit of what the other person has drawn
--   Downloadable PNG File
--   Share Via Social Media
--   Default Timer to complete Design
+- [x] Guidelines for other person to continue from and they see a bit of what the other person has drawn
+- [x] Downloadable PNG File
+- [x] Share Via Social Media
+- [x] Default Timer to complete Design
 
 #### Stretch Requirements
-
--   More drawing options such as brush color, width, fill, clear screen, and more
--   Oauth (Google / Apple / Facebook) Login
--   Public / Private session rooms
--   Group Chat to communicate with other players in-game
--   Configurable Timer / Game Settings
--   Players completed can watch what the other player is doing
+- [x] More drawing options such as brush color, width, fill, clear screen, and more
+- [x] Oauth (Google) Login
+- [ ] Public / Private session rooms
+- [ ] Group Chat to communicate with other players in-game
+- [ ] Configurable Timer / Game Settings
+- [ ] Players completed can watch what the other player is doing
 
 ## Course Technology Utilized
+#### Unit 1: HTML, CSS, JS
+The application's web pages were structured using HTML, complemented with CSS for styling. The core logic for handling dynamic interactions and client-side functionality was implemented using JavaScript to create a seamless user experience.
+#### Unit 2: React & Redux
+The front end of the application utilized React as the library for building interactive user interfaces, offering a component-based architecture to manage UI elements efficiently. For state management, Redux was employed, enabling centralized storage and seamless data sharing among components.
+#### Unit 3: Node & Express
+Node.js and Express were utilized to set up and operate the server, facilitating smooth communication between the React frontend components and backend services. With Express, handling HTTP requests, defining routes, and managing middleware become more straightforward, enhancing the system's overall efficiency.
+#### Unit 4: MongoDB
+MongoDB served as the database to efficiently store, retrieve, and modify user and game session data, ensuring data persistence even when the application is closed. Its schema-less and flexible nature, as a NoSQL database, made it a suitable choice for managing the large amounts of data present in the application.
+#### Unit 5: Builds & Deployment
+Deployment allows the application to be live and accessible from a public URL in which users can interact with SketchConnect. The React front-end was deployed on Vercel and the backend was deployed on Render which are two cloud-based platforms.
 
 ## Above and Beyond
 
@@ -57,6 +65,7 @@ In shaping SketchConnect, we prioritized a user-centric approach through conduct
 To safeguard user data and maintain a secure environment, the app implements Firebase authentication, providing a hassle-free login and registration process. With these innovative features, SketchConnect promises endless fun, collaboration, and artistic expression for all players.
 
 ## Next Steps
+The next steps to improve the app include adding public/private session rooms for more versatile gameplay, implementing a group chat feature for real-time communication, and introducing configurable timer and game settings to cater to different player preferences. Additionally, enabling a spectator mode will allow completed players to watch others in real time, enhancing the overall gaming experience.
 
 ## Developed By
 
@@ -72,7 +81,7 @@ To safeguard user data and maintain a secure environment, the app implements Fir
 
 #### A canvas to doodle individually prompted and combined at the end :
 
--   Create a basic a frontend interface
+-   Create a basic frontend interface
 -   Have the pages setup for the correct control flow for the user
 -   Create HTML5 Canvas and make it interactive for the user on the right page
 -   Fetch data from HTML 5 Canvas

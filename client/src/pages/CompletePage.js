@@ -18,7 +18,7 @@ import {
   PinterestIcon
 } from "react-share";
 import { addSessionToUserAsync } from "../redux/user/thunks";
-import { setLocation } from "../redux/app/reducer";
+import { resetApp, setLocation } from "../redux/app/reducer";
 import { LOCATION } from "../util/constant";
 
 const CompletePage = () => {
@@ -168,7 +168,8 @@ const CompletePage = () => {
         <div
           className="buttons-bottom"
           onClick={() => {
-            dispatch(setLocation(LOCATION.HOME));
+            dispatch(resetSession());
+            dispatch(resetApp());
             navigate("/");
           }}
         >
