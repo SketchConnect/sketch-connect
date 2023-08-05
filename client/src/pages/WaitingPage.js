@@ -25,9 +25,11 @@ function WaitingPage() {
 
   const [playerCount, setPlayerCount] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [isFirst, setIsFirst] = useState(false);
 
   useEffect(() => {
-    dispatch(getSessionAsync(sessionId));
+    dispatch(getSessionAsync(sessionId)).then(() => {
+    });
   }, [sessionId, dispatch]);
 
   useEffect(() => {
@@ -55,6 +57,7 @@ function WaitingPage() {
     socket.emit("join", sessionId);
 
     const handleNumPlayersChanged = (session) => {
+      
       console.log(
         `Received numPlayersChanged event: ${JSON.stringify(session)}`
       );
@@ -146,9 +149,13 @@ function WaitingPage() {
         <button className="invite-button" onClick={handleShareClick}>
           INVITE
         </button>
-        <button className="start-button" onClick={handleStartClick}>
-          START
-        </button>
+        {
+          true && 
+          <button className="start-button" onClick={handleStartClick}>
+            START
+          </button>
+        }
+        
       </div>
       <AnimatePresence>
         {isCopied && (

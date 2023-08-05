@@ -28,7 +28,6 @@ const CompletePage = () => {
   const currentUser = useSelector((state) => state.user);
 
   const dispatch = useDispatch();
-  // let [quadrants, setQuadrants] = useState([]);
   let canvas = useRef();
   let link = useRef();
   let playerPerGame = 4;
@@ -40,11 +39,8 @@ const CompletePage = () => {
     dispatch(
       addSessionToUserAsync({
         userId: currentUser._id,
-        sessionId: currentSession._id
+        sessionId
       })
-    );
-    dispatch(
-      updateStatusAsync({ sessionId: currentSession._id, status: "completed" })
     );
 
     fetch(
@@ -60,7 +56,6 @@ const CompletePage = () => {
         return response.json();
       })
       .then((response) => {
-        console.log("response: ", response);
         return make_base(response.quadrants);
       })
       .then(() => {
@@ -80,15 +75,11 @@ const CompletePage = () => {
         if (currentSession.finalImage) {
           setFinalImageSrc(currentSession.finalImage);
         }
-
-        //dispatch(resetSession());
       })
       .catch((err) => console.error("Failed to fetch session: ", err));
   }, [sessionId, currentUser._id, dispatch]);
 
-  const make_base = (quadrants) => {
-    console.log("currentSession: ", currentSession)
-    
+  const make_base = (quadrants) => {    
     return new Promise((resolve, reject) => {
       let context = canvas.current.getContext("2d");
 
@@ -103,7 +94,7 @@ const CompletePage = () => {
           images[i].onload = function () {
             loadedCount++;
             if (loadedCount === playerPerGame) {
-              drawImages(images);
+              drawImages();
               resolve();
             }
           };
@@ -111,7 +102,7 @@ const CompletePage = () => {
         }
       };
 
-      const drawImages = (images) => {
+      const drawImages = () => {
         canvas.current.width = 1600;
         canvas.current.height = 1200;
         let imageWidth = canvas.current.width / 2;

@@ -24,36 +24,22 @@ const GamePage = () => {
 
   useEffect(() => {
     const socket = io("https://sketch-connect-be.onrender.com");
-    socket.emit("join", currentSession._id);
+    socket.emit("join", sessionId);
 
     socket.on("sessionCompleted", (data) => {
-      navigate(`/complete/${currentSession._id}`);
+      navigate(`/complete/${sessionId}`);
     });
 
     socket.on("quadrantsUpdated", (data) => {
       if (data.status === "completed") {
         dispatch(setLocation(LOCATION.COMPLETE));
-        navigate(`/complete/${currentSession._id}`);
+        navigate(`/complete/${sessionId}`);
       }
     });
 
     setTimeout(() => {
       if (canvasRef.current) {
         canvasRef.current.captureDrawing();
-      }
-
-      if (user === players[3]) {
-        dispatch(
-          updateStatusAsync({
-            sessionId: currentSession._id,
-            status: "completed"
-          })
-        );
-        dispatch(setLocation(LOCATION.COMPLETE));
-        navigate(`/complete/${currentSession._id}`);
-      } else {
-        dispatch(setLocation(LOCATION.GAME));
-        navigate(`/game/${currentSession._id}`);
       }
     }, 10100);
 
@@ -84,6 +70,19 @@ const GamePage = () => {
         .then((response) => response.json())
         .then((data) => {
           console.log(data.url);
+          if (user === players[3]) {
+            dispatch(
+              updateStatusAsync({
+                sessionId: sessionId,
+                status: "completed"
+              })
+            );
+            dispatch(setLocation(LOCATION.COMPLETE));
+            navigate(`/complete/${sessionId}`);
+          } else {
+            dispatch(setLocation(LOCATION.GAME));
+            navigate(`/game/${sessionId}`);
+          }
         })
         .catch((error) => {
           console.error(error);

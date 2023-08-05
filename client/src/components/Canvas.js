@@ -53,7 +53,7 @@ const Canvas = forwardRef((props, ref) => {
     if (session) {
       const canvas = canvasRef.current;
       const ctx = canvas.getContext("2d");
-      drawLines(ctx, canvas.width, canvas.height, session);
+      //drawLines(ctx, canvas.width, canvas.height, session);
     }
   }, [session]);
 
@@ -119,7 +119,7 @@ const Canvas = forwardRef((props, ref) => {
     context.clearRect(0, 0, canvas.width, canvas.height);
 
     if (session) {
-      drawLines(context, canvas.width, canvas.height);
+      //drawLines(context, canvas.width, canvas.height);
     }
   };
 
