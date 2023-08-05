@@ -5,7 +5,11 @@ import Timer from "../components/Timer";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import { useNavigate, useParams } from "react-router-dom";
 import "./GamePage.css";
-import { getSessionAsync, quadrantImageAsync, updateStatusAsync } from "../redux/session/thunks";
+import {
+  getSessionAsync,
+  quadrantImageAsync,
+  updateStatusAsync
+} from "../redux/session/thunks";
 import { setLocation } from "../redux/app/reducer";
 import { LOCATION } from "../util/constant";
 import { io } from "socket.io-client";
@@ -25,7 +29,6 @@ const GamePage = () => {
   const [showTop, setShowTop] = useState(false);
   const [leftSrc, setLeftSrc] = useState("");
   const [topSrc, setTopSrc] = useState("");
-
 
   useEffect(() => {
     const socket = io("https://sketch-connect-be.onrender.com");
@@ -49,7 +52,7 @@ const GamePage = () => {
       if (canvasRef.current) {
         canvasRef.current.captureDrawing();
       }
-    }, 10100);
+    }, 15100);
 
     return () => {
       socket.off("sessionCompleted");
@@ -83,10 +86,10 @@ const GamePage = () => {
           setShowLeft(true);
           setShowTop(true);
         } else {
-          console.error("user is not in the players list")
-      }
-      })
-  }
+          console.error("user is not in the players list");
+        }
+      });
+  };
 
   const handleCapture = useCallback(
     (blob) => {
@@ -154,7 +157,7 @@ const GamePage = () => {
           <div className="timer-wrapper">
             <CountdownCircleTimer
               isPlaying
-              duration={10}
+              duration={15}
               colors={["#004777", "#F7B801", "#A30000", "#A30000"]}
               colorsTime={[10, 6, 4, 0]}
             >
@@ -164,17 +167,11 @@ const GamePage = () => {
         </div>
       </div>
       <div className="main">
-        {
-          showLeft && (
-            <img alt="left stripe" id="left-stripe" src={leftSrc}></img>
-          )
-        }
+        {showLeft && (
+          <img alt="left stripe" id="left-stripe" src={leftSrc}></img>
+        )}
         <div className="right">
-          {
-            showTop && (
-              <img alt="top stripe" id="top-stripe" src={topSrc}></img>
-            )
-          }
+          {showTop && <img alt="top stripe" id="top-stripe" src={topSrc}></img>}
           <div id="drawing-space">
             <Canvas ref={canvasRef} onCapture={handleCapture} />
           </div>
