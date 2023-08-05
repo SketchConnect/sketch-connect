@@ -1,10 +1,12 @@
 .game-container {
   display: flex;
+  justify-content: space-evenly;
+  align-items: center;
   color: #253674;
 }
 
 .game-info {
-  flex: 1;
+  /* flex: 1; */
   padding: 70px 10px 70px 70px;
   display: flex;
   flex-direction: column;
