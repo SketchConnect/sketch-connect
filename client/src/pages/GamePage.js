@@ -1,11 +1,11 @@
-import React, { useCallback, useEffect, useRef } from "react";
+import React, { useCallback, useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Canvas from "../components/Canvas";
 import Timer from "../components/Timer";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import { useNavigate, useParams } from "react-router-dom";
 import "./GamePage.css";
-import { quadrantImageAsync, updateStatusAsync } from "../redux/session/thunks";
+import { getSessionAsync, quadrantImageAsync, updateStatusAsync } from "../redux/session/thunks";
 import { setLocation } from "../redux/app/reducer";
 import { LOCATION } from "../util/constant";
 import { io } from "socket.io-client";
@@ -21,12 +21,18 @@ const GamePage = () => {
   const navigate = useNavigate();
 
   const canvasRef = useRef(null);
+  const [showLeft, setShowLeft] = useState(false);
+  const [showTop, setShowTop] = useState(false);
+  const [leftSrc, setLeftSrc] = useState("");
+  const [topSrc, setTopSrc] = useState("");
+
 
   useEffect(() => {
     const socket = io("https://sketch-connect-be.onrender.com");
     socket.emit("join", sessionId);
 
     socket.on("sessionCompleted", (data) => {
+      dispatch(setLocation(LOCATION.COMPLETE));
       navigate(`/complete/${sessionId}`);
     });
 
@@ -36,6 +42,8 @@ const GamePage = () => {
         navigate(`/complete/${sessionId}`);
       }
     });
+
+    setPrevImageAttr();
 
     setTimeout(() => {
       if (canvasRef.current) {
@@ -49,6 +57,36 @@ const GamePage = () => {
       socket.disconnect();
     };
   }, []);
+
+  const setPrevImageAttr = (session) => {
+    fetch(`https://sketch-connect-be.onrender.com/sessions/${sessionId}`, {
+      method: "GET"
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("HTTP error " + response.status);
+        }
+        return response.json();
+      })
+      .then((response) => {
+        if (currPlayer === 0) {
+          // first user doesn't have any previous images to show
+        } else if (currPlayer === 1) {
+          setLeftSrc(response.quadrants[0]);
+          setShowLeft(true);
+        } else if (currPlayer === 2) {
+          setTopSrc(response.quadrants[0]);
+          setShowTop(true);
+        } else if (currPlayer === 3) {
+          setLeftSrc(response.quadrants[2]);
+          setTopSrc(response.quadrants[1]);
+          setShowLeft(true);
+          setShowTop(true);
+        } else {
+          console.error("user is not in the players list")
+      }
+      })
+  }
 
   const handleCapture = useCallback(
     (blob) => {
@@ -126,8 +164,22 @@ const GamePage = () => {
           </div>
         </div>
       </div>
-      <div className="drawing-space">
-        <Canvas ref={canvasRef} onCapture={handleCapture} />
+      <div className="main">
+        {
+          showLeft && (
+            <img alt="left stripe" id="left-stripe" src={leftSrc}></img>
+          )
+        }
+        <div className="right">
+          {
+            showTop && (
+              <img alt="top stripe" id="top-stripe" src={topSrc}></img>
+            )
+          }
+          <div id="drawing-space">
+            <Canvas ref={canvasRef} onCapture={handleCapture} />
+          </div>
+        </div>
       </div>
     </div>
   );

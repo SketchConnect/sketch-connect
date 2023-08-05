@@ -19,7 +19,6 @@ const Canvas = forwardRef((props, ref) => {
   const currentUser = useSelector((state) => state.user);
   const sessionId = useSelector((state) => state.session._id);
   const [session, setSession] = useState(null);
-  // const [canvasScale, setCanvasScale] = useState(1);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -32,8 +31,6 @@ const Canvas = forwardRef((props, ref) => {
     const ctx = canvas.getContext("2d");
     ctx.scale(scale, scale);
     contextRef.current = ctx;
-
-    // const canvasScale = scale;
 
     const fetchSession = async () => {
       const response = await fetch(
@@ -48,14 +45,6 @@ const Canvas = forwardRef((props, ref) => {
 
     fetchSession();
   }, []);
-
-  useEffect(() => {
-    if (session) {
-      const canvas = canvasRef.current;
-      const ctx = canvas.getContext("2d");
-      //drawLines(ctx, canvas.width, canvas.height, session);
-    }
-  }, [session]);
 
   const handleColorChange = (e) => {
     const color = e.target.value;
@@ -117,10 +106,6 @@ const Canvas = forwardRef((props, ref) => {
     const canvas = canvasRef.current;
     const context = contextRef.current;
     context.clearRect(0, 0, canvas.width, canvas.height);
-
-    if (session) {
-      //drawLines(context, canvas.width, canvas.height);
-    }
   };
 
   const handleExportClick = () => {
@@ -151,145 +136,25 @@ const Canvas = forwardRef((props, ref) => {
     console.log("Sharing on social media");
   };
 
-  const fetchAndDrawImage = async (
-    url,
-    index,
-    sourceX,
-    sourceY,
-    destX,
-    destY
-  ) => {
-    try {
-      const response = await fetch(url);
-      const session = await response.json();
-
-      const image = new Image();
-      image.crossOrigin = "anonymous";
-
-      image.src = session.quadrants[index];
-
-      image.onload = () => {
-        const sourceWidth = image.naturalWidth;
-        const sourceHeight = image.naturalHeight;
-
-        const widthScale = contextRef.current.canvas.width / image.naturalWidth;
-        const heightScale =
-          contextRef.current.canvas.height / image.naturalHeight;
-
-        const destWidth = sourceWidth * widthScale;
-        const destHeight = sourceHeight * heightScale;
-
-        if (contextRef.current) {
-          contextRef.current.drawImage(
-            image,
-            sourceX,
-            sourceY,
-            sourceWidth,
-            sourceHeight,
-            destX,
-            destY,
-            destWidth,
-            destHeight
-          );
-        }
-      };
-
-      image.onerror = (err) => {
-        console.error("Failed to load image: ", err);
-      };
-    } catch (err) {
-      console.error("Error: ", err);
-    }
-  };
-
-  const drawLines = (ctx, width, height) => {
-    ctx.strokeStyle = "#FF0000";
-    ctx.lineWidth = 1;
-    ctx.setLineDash([5, 5]);
-
-    // switch statement - based on what player number
-    // redux store for getsession/id - session object has array of players and match id == list of players in session
-
-    // based on the switch - take appropriate quadrant image from bucket. (ask michelle)
-    // extracting strip of image and overlaying it on next canvas.
-
-    switch (session.players.indexOf(currentUser._id)) {
-      case 0:
-        // Vertical line
-        ctx.beginPath();
-        ctx.moveTo(width - 0.35 * getInchesAsPixels(), 0);
-        ctx.lineTo(width - 0.35 * getInchesAsPixels(), height);
-        ctx.stroke();
-
-        // Horizontal line
-        ctx.beginPath();
-        ctx.moveTo(0, height - 0.35 * getInchesAsPixels());
-        ctx.lineTo(width, height - 0.35 * getInchesAsPixels());
-        ctx.stroke();
-        ctx.setLineDash([]);
-        break;
-
+  const getBorderStyle = () => {
+    const playerIndex = session?.players?.indexOf(currentUser._id);
+    let borderStyle = { border: "1px solid black" };
+  
+    switch (playerIndex) {
       case 1:
-        fetchAndDrawImage(
-          `https://sketch-connect-be.onrender.com/sessions/${sessionId}`,
-          0,
-          width - 0.35 * getInchesAsPixels(),
-          0,
-          0,
-          0
-        );
-
-        // Horizontal line
-        ctx.beginPath();
-        ctx.moveTo(0, height - 0.35 * getInchesAsPixels());
-        ctx.lineTo(width, height - 0.35 * getInchesAsPixels());
-        ctx.stroke();
-
-        ctx.setLineDash([]);
+        borderStyle = { borderLeft: "1px dotted red", borderTop: "1px solid black" };
         break;
-
       case 2:
-        fetchAndDrawImage(
-          `https://sketch-connect-be.onrender.com/sessions/${sessionId}`,
-          0,
-          0,
-          height - 0.35 * getInchesAsPixels(),
-          0,
-          0
-        );
-
-        // Vertical line
-        ctx.beginPath();
-        ctx.moveTo(width - 0.35 * getInchesAsPixels(), 0);
-        ctx.lineTo(width - 0.35 * getInchesAsPixels(), height);
-        ctx.stroke();
-
-        ctx.setLineDash([]);
+        borderStyle = { borderLeft: "1px solid black", borderTop: "1px dotted red" };
         break;
-
       case 3:
-        fetchAndDrawImage(
-          `https://sketch-connect-be.onrender.com/sessions/${sessionId}`,
-          2,
-          width - 0.35 * getInchesAsPixels(),
-          0,
-          0,
-          0
-        );
-        fetchAndDrawImage(
-          `https://sketch-connect-be.onrender.com/sessions/${sessionId}`,
-          1,
-          0,
-          height - 0.35 * getInchesAsPixels(),
-          0,
-          0
-        );
+        borderStyle = { borderLeft: "1px dotted red", borderTop: "1px dotted red" };
+        break;
+      default:
         break;
     }
-  };
-
-  const getInchesAsPixels = () => {
-    return 96 * 2;
+  
+    return borderStyle;
   };
 
   return (
@@ -297,15 +162,17 @@ const Canvas = forwardRef((props, ref) => {
       style={{
         display: "flex",
         justifyContent: "center",
-        alignItems: "center"
+        alignItems: "center",
+        width: "100%",
+        height: "100%"
       }}
     >
-      <div style={{ position: "relative" }}>
+      <div style={{ position: "relative", margin: "0px 0px"}}>
         <canvas
           ref={canvasRef}
           width={800}
           height={600}
-          style={{ border: "1px solid #000" }}
+          style={{ ...getBorderStyle(), borderRight: "1px solid black", borderBottom: "1px solid black" }}
           onMouseDown={handleMouseDown}
         />
         <div

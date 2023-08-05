@@ -30,6 +30,40 @@
   height: 100px;
 }
 
-.drawing-space {
-  padding: 70px 70px 70px 10px;
+.main {
+  display: flex;
+  flex-direction: row;
+  border: 3px solid black;
+  height: fit-content;
+}
+
+#left-stripe {
+  width: 50px;
+  height: 600px;
+  object-fit: cover;
+  object-position: 100% 0%;
+  align-self: flex-end;
+  margin-bottom: 5px;
+  pointer-events: none;
+}
+
+.right {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  height: fit-content;
+}
+
+#top-stripe {
+  width: 800px;
+  height: 50px;
+  object-fit: cover;
+  object-position: 0% 100%;
+  pointer-events: none;
+}
+
+#drawing-space {
+
+  width: fit-content;
+  height: fit-content;
 }
