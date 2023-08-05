@@ -28,8 +28,7 @@ function WaitingPage() {
   const [isFirst, setIsFirst] = useState(false);
 
   useEffect(() => {
-    dispatch(getSessionAsync(sessionId)).then(() => {
-    });
+    dispatch(getSessionAsync(sessionId));
   }, [sessionId, dispatch]);
 
   useEffect(() => {
@@ -40,7 +39,7 @@ function WaitingPage() {
       dispatch(getSessionAsync(sessionId));
       setPlayerCount(currentSession.players.length);
       setLoading(false);
-      
+
       if (currentUser && !currentSession.players.includes(currentUser)) {
         dispatch(
           addPlayerAsync({ session: currentSession, player: currentUser })
@@ -57,7 +56,6 @@ function WaitingPage() {
     socket.emit("join", sessionId);
 
     const handleNumPlayersChanged = (session) => {
-      
       console.log(
         `Received numPlayersChanged event: ${JSON.stringify(session)}`
       );
@@ -82,6 +80,12 @@ function WaitingPage() {
       socket.disconnect();
     };
   }, [sessionId]);
+
+  useEffect(() => {
+    if (currentSession._id && currentSession.players[0] === currentUser) {
+      setIsFirst(true);
+    }
+  }, [currentSession, currentUser]);
 
   let imageSource;
   if (playerCount === 1) {
@@ -146,16 +150,24 @@ function WaitingPage() {
         />
       </div>
       <div className="button-container">
-        <button className="invite-button" onClick={handleShareClick}>
+        <motion.button
+          className="invite-button"
+          onClick={handleShareClick}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.9 }}
+        >
           INVITE
-        </button>
-        {
-          true && 
-          <button className="start-button" onClick={handleStartClick}>
+        </motion.button>
+        {isFirst && (
+          <motion.button
+            className="start-button"
+            onClick={handleStartClick}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.9 }}
+          >
             START
-          </button>
-        }
-        
+          </motion.button>
+        )}
       </div>
       <AnimatePresence>
         {isCopied && (

@@ -22,6 +22,7 @@
 
 .invite-button,
 .start-button {
+  font: inherit;
   cursor: pointer;
   border-radius: 20px;
   margin: 0 2em;
@@ -45,10 +46,10 @@
   background-color: white;
   color: #253674;
   padding: 30px 115px;
-  border-color: #253674;
+  border: 2px solid #253674;
 }
 
 .invite-button:hover {
-  background-color: lightgray;
+  background-color: rgb(225, 227, 248);
   cursor: pointer;
 }
