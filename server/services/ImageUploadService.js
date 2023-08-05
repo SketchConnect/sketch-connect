@@ -26,6 +26,7 @@ class ImageUploadService {
     this.bucket = storage.bucket("sketchconnect-images");
   }
 
+  // https://www.youtube.com/watch?v=wIOpe8S2Mk8&t=482s
   async uploadFile(req) {
     return new Promise((resolve, reject) => {
       this.multer.single("img")(req, {}, async (error) => {

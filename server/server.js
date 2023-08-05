@@ -1,3 +1,5 @@
+// https://socket.io/docs/v4/
+// https://mongoosejs.com/docs/
 import express from "express";
 import cors from "cors";
 import "./loadEnvironment.js";
