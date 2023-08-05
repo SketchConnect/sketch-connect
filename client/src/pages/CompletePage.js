@@ -3,11 +3,7 @@ import "./page.css";
 import "./CompletePage.css";
 import { useSelector, useDispatch } from "react-redux";
 import { resetSession } from "../redux/session/reducer";
-import {
-  finalImageAsync,
-  updateStatusAsync,
-  getSessionAsync
-} from "../redux/session/thunks";
+import { updateFinalImageAsync } from "../redux/session/thunks";
 import { useNavigate, useParams } from "react-router-dom";
 import {
   EmailShareButton,
@@ -61,20 +57,20 @@ const CompletePage = () => {
             const image = new File([blob], "image.png", {
               type: "image/png"
             });
-            dispatch(finalImageAsync({ sessionId, image }));
+            dispatch(updateFinalImageAsync({ sessionId, image }));
           },
           "image/png",
           1
         );
       })
-      .then(() => {
-        dispatch(getSessionAsync(sessionId));
-        if (currentSession.finalImage) {
-          setFinalImageSrc(currentSession.finalImage);
-        }
-      })
       .catch((err) => console.error("Failed to fetch session: ", err));
   }, [sessionId, currentUser._id, dispatch]);
+
+  useEffect(() => {
+    if (currentSession.finalImage) {
+      setFinalImageSrc(currentSession.finalImage);
+    }
+  }, [currentSession.finalImage]);
 
   const make_base = (quadrants) => {
     return new Promise((resolve, reject) => {

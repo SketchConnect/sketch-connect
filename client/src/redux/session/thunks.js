@@ -56,9 +56,9 @@ export const removePlayerAsync = createAsyncThunk(
   async ({ session, player }) => {
     return sessionService.removePlayer(session._id, player);
   }
-)
+);
 
-export const finalImageAsync = createAsyncThunk(
+export const updateFinalImageAsync = createAsyncThunk(
   FINAL_IMAGE,
   async ({ sessionId, image }) => {
     return await sessionService.finalImage(sessionId, image);

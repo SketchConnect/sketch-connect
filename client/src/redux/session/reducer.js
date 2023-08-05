@@ -6,7 +6,8 @@ import {
   updateStatusAsync,
   addPlayerAsync,
   getSessionAsync,
-  removePlayerAsync
+  removePlayerAsync,
+  updateFinalImageAsync
 } from "./thunks";
 
 const INITIAL_STATE = {
@@ -23,6 +24,7 @@ const INITIAL_STATE = {
   updateStatus: REQUEST_STATE.IDLE,
   addPlayer: REQUEST_STATE.IDLE,
   removePlayer: REQUEST_STATE.IDLE,
+  updateFinalImage: REQUEST_STATE.IDLE,
   erorr: null
 };
 
@@ -98,7 +100,7 @@ const sessionSlice = createSlice({
       })
       .addCase(updateStatusAsync.fulfilled, (state, action) => {
         state.updateStatus = REQUEST_STATE.FULFILLED;
-        state.status = action.payload;
+        state.status = action.payload.status;
       })
       .addCase(updateStatusAsync.rejected, (state, action) => {
         state.updateStatus = REQUEST_STATE.REJECTED;
@@ -128,6 +130,18 @@ const sessionSlice = createSlice({
       })
       .addCase(removePlayerAsync.rejected, (state, action) => {
         state.removePlayer = REQUEST_STATE.REJECTED;
+        state.error = action.error;
+      })
+      .addCase(updateFinalImageAsync.pending, (state) => {
+        state.updateFinalImage = REQUEST_STATE.PENDING;
+        state.error = null;
+      })
+      .addCase(updateFinalImageAsync.fulfilled, (state, action) => {
+        state.updateFinalImage = REQUEST_STATE.FULFILLED;
+        state.finalImage = action.payload;
+      })
+      .addCase(updateFinalImageAsync.rejected, (state, action) => {
+        state.updateFinalImage = REQUEST_STATE.REJECTED;
         state.error = action.error;
       });
   }

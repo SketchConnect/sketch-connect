@@ -91,6 +91,7 @@ const updateStatus = async (sessionId, status) => {
     if (!response.ok) {
       throw new Error(data?.message);
     }
+    return data;
   } catch (error) {
     console.error("Error updating session:", error);
     throw error;
@@ -147,7 +148,7 @@ const removePlayer = async (sessionId, playerId) => {
     console.error("Error removing player to session:", error);
     throw error;
   }
-}
+};
 
 const finalImage = async (sessionId, image) => {
   try {
@@ -168,6 +169,8 @@ const finalImage = async (sessionId, image) => {
     if (!response.ok) {
       throw new Error(data?.message);
     }
+
+    return data.url;
   } catch (error) {
     console.error("Error final image to session:", error);
     throw error;
