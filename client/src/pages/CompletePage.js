@@ -139,8 +139,8 @@ const CompletePage = () => {
           >
             Download
           </button>
+          <div id="share-btn">Share 👇</div>
           <div className="socials-share">
-            <div id="share-btn">Share 👇</div>
             <div className="social-btns">
               <EmailShareButton
                 url={finalImageSrc}

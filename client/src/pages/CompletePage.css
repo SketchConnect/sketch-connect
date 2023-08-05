@@ -38,7 +38,9 @@
   border-radius: 15px 0 0 15px;
   padding: 8px 24px;
   margin-bottom: 22px;
-  width: 80%;
+  width: auto;
+  text-align: right;
+  height: auto;
 }
 
 #download-btn {
