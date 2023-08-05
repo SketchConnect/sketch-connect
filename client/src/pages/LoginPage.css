@@ -16,6 +16,7 @@
 .google-button,
 .apple-button,
 .fb-button {
+  font: inherit;
   width: 100%;
   margin: 10px;
   display: flex;
