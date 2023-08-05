@@ -169,7 +169,7 @@ const CompletePage = () => {
           className="buttons-bottom"
           onClick={() => {
             dispatch(resetSession());
-            dispatch(setLocation(LOCATION.HOME));
+            dispatch(resetApp());
             navigate("/");
           }}
         >
