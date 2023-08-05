@@ -79,8 +79,7 @@ function Homepage() {
   const joinSession = (session) => {
     if (
       session.status === "waiting" &&
-      !session.players.includes(currentUser._id) &&
-      session.players.length < 4
+      !session.players.includes(currentUser._id)
     ) {
       let payload = { session: session, userId: currentUser._id };
       dispatch(setSession(payload));
