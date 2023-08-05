@@ -16,14 +16,12 @@
   width: 5px;
 }
 
-/* Track */
 .left-pane::-webkit-scrollbar-track {
   margin-top: 30px;
   margin-bottom: 30px;
   border-radius: 10px;
 }
 
-/* Handle */
 .left-pane::-webkit-scrollbar-thumb {
   background: #c86733;
   border-radius: 10px;
@@ -103,7 +101,6 @@
 }
 
 #circle {
-  /*position: absolute;*/
   align-self: flex-end;
   margin-bottom: 2vh;
   margin-left: -15px;

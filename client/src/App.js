@@ -54,7 +54,6 @@ function App() {
   useEffect(() => {
     fetch("https://sketch-connect-be.onrender.com")
       .then(() => {
-        console.log("Server is awake");
         setLoading(false);
       })
       .catch((err) => console.err(`Failed to wake server: ${err}`));

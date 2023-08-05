@@ -21,7 +21,7 @@ const LoginPage = () => {
     try {
       await googleSignIn();
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
   const currentUser = useSelector((state) => state.user);

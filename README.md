@@ -6,11 +6,46 @@ Welcome to 'SketchConnect,' the ultimate collaborative doodling game for 4 playe
 
 ## Table of Contents
 
+-   [Project Task Goals](#project-task-goals)
+-   [Course Technology Utilized](#course-technology-utilized)
+-   [Above and Beyond](#above-and-beyond)
+-   [Next Steps](#next-steps)
 -   [Developed By](#developed-by)
 -   [Project Description](#project-description)
--   [Project task requirements](#project-task-requirements)
 -   [Task breakdown](#task-breakdown)
 -   [Prototypes](#prototypes)
+
+## Project Task Goals
+
+#### Minimum Requirements
+
+-  A canvas to doodle individually prompted and combined at the end
+-   Making it collaborative with 4 players
+-   Creating and storing a session
+-   Storing the images
+-   Getting Canvas image data and store it, stitch it together then store and display final image
+
+#### “Standard” Requirements
+
+-   Guidelines for other person to continue from and they see a bit of what the other person has drawn
+-   Downloadable PNG File
+-   Share Via Social Media
+-   Default Timer to complete Design
+
+#### Stretch Requirements
+
+-   More drawing options such as brush color, width, fill, clear screen, and more
+-   Oauth (Google / Apple / Facebook) Login
+-   Public / Private session rooms
+-   Group Chat to communicate with other players in-game
+-   Configurable Timer / Game Settings
+-   Players completed can watch what the other player is doing
+
+## Course Technology Utilized
+
+## Above and Beyond
+
+## Next Steps
 
 ## Developed By
 
@@ -19,6 +54,8 @@ Welcome to 'SketchConnect,' the ultimate collaborative doodling game for 4 playe
 -   [Michelle Wang](https://github.com/michelle-wangg)
 -   [Shu Ting Hu](https://github.com/shuting-hu)
 -   [Vishal Desh](https://github.com/VDeshh)
+
+<!-- further materials (from initial) can remove or keep -->
 
 ## Project Description
 
@@ -47,32 +84,6 @@ We have numerous ideas for enhancing the game experience, such as:
 -   Options for public or private game rooms
 -   In-game group chats for player communication
 -   Additional game modes (e.g., 3x3 grid, collaborative drawing modes, etc.)
-
-## Project task requirements
-
-#### Minimum Requirements
-
--   A canvas to doodle individually prompted and combined at the end
--   Making it collaborative with 4 players
--   Creating and storing a session
--   Storing the images
--   Getting Canvas image data and store it, stitch it together then store and display final image
-
-#### “Standard” Requirements
-
--   Guidelines for other person to continue from and they see a bit of what the other person has drawn
--   Downloadable PNG File
--   Share Via Social Media
--   Default Timer to complete Design
-
-#### Stretch Requirements
-
--   More drawing options such as brush color, width, fill, clear screen, and more
--   Oauth (Google / Apple / Facebook) Login
--   Public / Private session rooms
--   Group Chat to communicate with other players in-game
--   Configurable Timer / Game Settings
--   Players completed can watch what the other player is doing
 
 ## Task breakdown
 

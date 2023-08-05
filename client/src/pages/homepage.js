@@ -38,7 +38,7 @@ function Homepage() {
       .then((fetchedSessions) => {
         setSessions(fetchedSessions);
       })
-      .catch((err) => console.log(`Failed to fetch sessions: ${err}`));
+      .catch((err) => console.error("Failed to fetch sessions:", err));
   }, []);
 
   useEffect(() => {
@@ -58,7 +58,6 @@ function Homepage() {
   const handleModalFormSubmit = (e) => {
     e.preventDefault();
 
-    console.log("the topics are ------------ ", topics);
     const newSession = {
       name: sessionName,
       isPublic: true,
@@ -78,10 +77,10 @@ function Homepage() {
   };
 
   const joinSession = (session) => {
-    console.log("the user that wants to join the game is ", currentUser._id);
     if (
-      session.status === "waiting"
-      //!session.players.includes(currentUser._id)
+      session.status === "waiting" &&
+      !session.players.includes(currentUser._id) &&
+      session.players.length < 4
     ) {
       let payload = { session: session, userId: currentUser._id };
       dispatch(setSession(payload));
@@ -114,7 +113,6 @@ function Homepage() {
       </Modal>
       <div className="page">
         <div className="content">
-          {/* factor out as a component later, if necessary */}
           <div className="left-pane">
             <div className="avatar">
               <Avatar

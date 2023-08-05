@@ -107,7 +107,6 @@ const GamePage = () => {
       )
         .then((response) => response.json())
         .then((data) => {
-          console.log(data.url);
           if (user === players[3]) {
             dispatch(
               updateStatusAsync({
