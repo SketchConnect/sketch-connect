@@ -14,9 +14,25 @@ function HallOfFame() {
     setShowPopup(true);
   };
 
-  // const handleDownload = () => {
-  //   // Logic to download the selected image
-  // };
+  const handleDownload = () => {
+    if (selectedImage) {
+      fetch(selectedImage)
+        .then((response) => response.blob())
+        .then((blob) => {
+          const url = window.URL.createObjectURL(blob);
+          const link = document.createElement("a");
+          link.href = url;
+          link.download = "image.png";
+          document.body.appendChild(link);
+          link.click();
+          window.URL.revokeObjectURL(url);
+          document.body.removeChild(link);
+        })
+        .catch((err) => {
+          console.error("Failed to download image: ", err);
+        });
+    }
+  };
 
   const closePopup = () => {
     setShowPopup(false);
@@ -39,9 +55,12 @@ function HallOfFame() {
         <div className="popup">
           <div className="popup-content">
             <img src={selectedImage} alt="Popup" className="popup-image" />
-            {/* <button className="download-button hof-button" onClick={handleDownload}>
+            <button
+              className="download-button hof-button"
+              onClick={handleDownload}
+            >
               Download
-            </button> */}
+            </button>
             <button className="close-button hof-button" onClick={closePopup}>
               X
             </button>
