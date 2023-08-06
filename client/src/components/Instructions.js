@@ -5,20 +5,16 @@ import "./Instructions.css";
 const Instructions = () => {
   const [isFlipped, setIsFlipped] = useState(false);
 
-  const handleMouseEnter = () => {
-    setIsFlipped(true);
-  };
-
-  const handleMouseLeave = () => {
-    setIsFlipped(false);
+  const handleClick = () => {
+    setIsFlipped(!isFlipped);
   };
 
   return (
     <div className="image-flip-container">
       <motion.div
         className="image-flip"
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
+        onClick={handleClick}
+        whileHover={{ scale: 0.95 }}
         animate={{
           rotateY: isFlipped ? 180 : 0
         }}
