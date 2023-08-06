@@ -18,21 +18,24 @@ Welcome to 'SketchConnect,' the ultimate collaborative doodling game for 4 playe
 
 #### Minimum Requirements
 
-- [x] A canvas to doodle individually prompted and combined at the end
-- [x] Making it collaborative with 4 players
-- [x] Creating and storing a session
-- [x] Storing the images
-- [x] Getting Canvas image data and store it, stitch it together then store and display final image
+- [x] Creating and storing a session for each game started
+- [x] Making it collaborative for 4 players
+- [x] A canvas representing a quadrant for each player's individual drawing
+- [x] Getting HTML5 Canvas drawing data and storing the images
+- [x] Connecting the 4 canvases into a 2x2 grid to form the final image
 
 #### “Standard” Requirements
-- [x] Guidelines for other person to continue from and they see a bit of what the other person has drawn
-- [x] Downloadable PNG File
-- [x] Share Via Social Media
-- [x] Default Timer to complete Design
+- [x] Guidelines for subset of previous player's drawings on current player's aligned edges
+- [x] Downloadable PNG file of final image
+- [x] Option to share final image via social media
+- [x] Default timer to complete design
+- [x] A randomized drawing prompt per game
+- [x] Generate session invite link for other players to join
 
 #### Stretch Requirements
-- [x] More drawing options such as brush color, width, fill, clear screen, and more
+- [x] Additional drawing options such as pen variety, stroke width, colours, etc.
 - [x] Oauth (Google) Login
+- [x] Hall of Fame on user dashboard displaying final drawings from previous games
 - [ ] Public / Private session rooms
 - [ ] Group Chat to communicate with other players in-game
 - [ ] Configurable Timer / Game Settings
@@ -63,6 +66,9 @@ In shaping SketchConnect, we prioritized a user-centric approach through conduct
 
 #### Authentication
 To safeguard user data and maintain a secure environment, the app implements Firebase authentication, providing a hassle-free login and registration process. With these innovative features, SketchConnect promises endless fun, collaboration, and artistic expression for all players.
+
+#### <span>Socket.IO</span> & Change Streams 
+<!-- TODO -->
 
 ## Next Steps
 The next steps to improve the app include adding public/private session rooms for more versatile gameplay, implementing a group chat feature for real-time communication, and introducing configurable timer and game settings to cater to different player preferences. Additionally, enabling a spectator mode will allow completed players to watch others in real time, enhancing the overall gaming experience.
