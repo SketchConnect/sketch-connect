@@ -13,6 +13,8 @@ import {
 import { setSession } from "../redux/session/reducer";
 import { LOCATION } from "../util/constant";
 import { setLocation } from "../redux/app/reducer";
+import { resetSession } from "../redux/session/reducer";
+import { resetApp } from "../redux/app/reducer";
 
 function WaitingPage() {
   const { sessionId } = useParams();
@@ -33,6 +35,12 @@ function WaitingPage() {
 
   useEffect(() => {
     if (currentSession._id && location.state?.fromHomePage !== true) {
+      if (currentSession.players.length >= 4) {
+        dispatch(resetSession());
+        dispatch(resetApp());
+        navigate("/");
+        return;
+      }
       dispatch(setLocation(LOCATION.WAITING));
       dispatch(getSessionAsync(sessionId));
       setPlayerCount(currentSession.players.length);
