@@ -60,7 +60,7 @@ function App() {
   }, []);
 
   useEffect(() => {
-    if (width < 1024) {
+    if (width < 768) {
       isOpen(true);
     } else {
       isOpen(false);

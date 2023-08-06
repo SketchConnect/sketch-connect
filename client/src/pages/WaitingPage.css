@@ -12,7 +12,10 @@
 }
 
 .lobby-header {
+  text-align: center;
   margin-top: 50px;
+  margin-left: 40px;
+  margin-right: 40px;
 }
 
 .button-container {
