@@ -14,7 +14,23 @@ function HallOfFame() {
   };
 
   const handleDownload = () => {
-    // Logic to download the selected image
+    if (selectedImage) {
+      fetch(selectedImage)
+        .then((response) => response.blob())
+        .then((blob) => {
+          const url = window.URL.createObjectURL(blob);
+          const link = document.createElement("a");
+          link.href = url;
+          link.download = "image.png";
+          document.body.appendChild(link);
+          link.click();
+          window.URL.revokeObjectURL(url);
+          document.body.removeChild(link);
+        })
+        .catch((err) => {
+          console.error("Failed to download image: ", err);
+        });
+    }
   };
 
   const closePopup = () => {
@@ -24,20 +40,27 @@ function HallOfFame() {
 
   return (
     <div className="hall-of-fame">
-      {/* Image cards */}
-      {sessionIds.map((id, index) => (
-        <ImageCard sessionId={id} />
-      ))}
+      {sessionIds.length > 0 &&
+        sessionIds.map((id, index) => {
+          if (id.trim() !== "") {
+            return (
+              <ImageCard key={id} sessionId={id} onClick={handleImageClick} />
+            );
+          }
+          return null;
+        })}
 
-      {/* Popup */}
       {showPopup && (
         <div className="popup">
           <div className="popup-content">
             <img src={selectedImage} alt="Popup" className="popup-image" />
-            <button className="download-button" onClick={handleDownload}>
+            <button
+              className="download-button hof-button"
+              onClick={handleDownload}
+            >
               Download
             </button>
-            <button className="close-button" onClick={closePopup}>
+            <button className="close-button hof-button" onClick={closePopup}>
               X
             </button>
           </div>

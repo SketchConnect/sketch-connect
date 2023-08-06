@@ -10,6 +10,8 @@ import Modal from "../components/Modal";
 import { motion } from "framer-motion";
 import { Avatar } from "@mantine/core";
 import topicJson from "./topics.json";
+import { setLocation } from "../redux/app/reducer";
+import { LOCATION } from "../util/constant";
 
 function Homepage() {
   const currentSessionId = useSelector((state) => state.session._id);
@@ -36,11 +38,12 @@ function Homepage() {
       .then((fetchedSessions) => {
         setSessions(fetchedSessions);
       })
-      .catch((err) => console.log(`Failed to fetch sessions: ${err}`));
+      .catch((err) => console.error("Failed to fetch sessions:", err));
   }, []);
 
   useEffect(() => {
     if (currentSessionId) {
+      dispatch(setLocation(LOCATION.WAITING));
       navigate(`/waiting/${currentSessionId}`, {
         state: { fromHomePage: true }
       });
@@ -74,10 +77,12 @@ function Homepage() {
   };
 
   const joinSession = (session) => {
-    console.log("the user that wants to join the game is ", currentUser._id);
-    if (
-      session.status === "waiting"
-      //!session.players.includes(currentUser._id)
+    if (session.players.length >= 4) {
+      alert("This session is full!")
+    } else if (
+      session.status === "waiting" &&
+      !session.players.includes(currentUser._id) && 
+      session.players.length < 4
     ) {
       let payload = { session: session, userId: currentUser._id };
       dispatch(setSession(payload));
@@ -95,6 +100,8 @@ function Homepage() {
             value={sessionName}
             onChange={(e) => setSessionName(e.target.value)}
             placeholder="Session name"
+            minLength="1"
+            maxLength="20"
             required
           />
           <motion.button
@@ -108,7 +115,6 @@ function Homepage() {
       </Modal>
       <div className="page">
         <div className="content">
-          {/* factor out as a component later, if necessary */}
           <div className="left-pane">
             <div className="avatar">
               <Avatar

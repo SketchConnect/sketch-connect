@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import "./WaitingPage.css";
+import Loading from "../components/Loading";
 import { motion, AnimatePresence } from "framer-motion";
 import { io } from "socket.io-client";
 import {
@@ -10,6 +11,10 @@ import {
   addPlayerAsync
 } from "../redux/session/thunks";
 import { setSession } from "../redux/session/reducer";
+import { LOCATION } from "../util/constant";
+import { setLocation } from "../redux/app/reducer";
+import { resetSession } from "../redux/session/reducer";
+import { resetApp } from "../redux/app/reducer";
 
 function WaitingPage() {
   const { sessionId } = useParams();
@@ -21,6 +26,8 @@ function WaitingPage() {
   const location = useLocation();
 
   const [playerCount, setPlayerCount] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [isFirst, setIsFirst] = useState(false);
 
   useEffect(() => {
     dispatch(getSessionAsync(sessionId));
@@ -28,12 +35,23 @@ function WaitingPage() {
 
   useEffect(() => {
     if (currentSession._id && location.state?.fromHomePage !== true) {
-      console.log("join via link");
+      if (currentSession.players.length >= 4) {
+        dispatch(resetSession());
+        dispatch(resetApp());
+        navigate("/");
+        return;
+      }
+      dispatch(setLocation(LOCATION.WAITING));
+      dispatch(getSessionAsync(sessionId));
+      setPlayerCount(currentSession.players.length);
+      setLoading(false);
+
       if (currentUser && !currentSession.players.includes(currentUser)) {
         dispatch(
           addPlayerAsync({ session: currentSession, player: currentUser })
         );
       } else if (!currentUser) {
+        dispatch(setLocation(LOCATION.LOGIN));
         navigate("/login", { state: { from: `/waiting/${sessionId}` } });
       }
     }
@@ -48,6 +66,7 @@ function WaitingPage() {
         `Received numPlayersChanged event: ${JSON.stringify(session)}`
       );
       setPlayerCount(session.playersLength);
+      setLoading(false);
     };
 
     const handleSessionStarted = (session) => {
@@ -68,6 +87,12 @@ function WaitingPage() {
     };
   }, [sessionId]);
 
+  useEffect(() => {
+    if (currentSession._id && currentSession.players[0] === currentUser) {
+      setIsFirst(true);
+    }
+  }, [currentSession, currentUser]);
+
   let imageSource;
   if (playerCount === 1) {
     imageSource = "player1.png";
@@ -81,9 +106,7 @@ function WaitingPage() {
 
   const handleShareClick = async () => {
     try {
-      await navigator.clipboard.writeText(
-        `${process.env.REACT_APP_FE_URL}/waiting/${currentSession._id}`
-      );
+      await navigator.clipboard.writeText(window.location.href);
       setIsCopied(true);
       setTimeout(() => {
         setIsCopied(false);
@@ -102,14 +125,22 @@ function WaitingPage() {
     }
   };
 
-  const startGame = () => {
+  const startGame = async () => {
     if (currentSession.players[0] === currentUser) {
-      navigate(`/game/turn/${sessionId}`);
+      await dispatch(setLocation(LOCATION.GAME));
+      navigate(`/game/turn/${sessionId}`, {
+        state: { toGame: true }
+      });
     } else {
-      navigate(`/game/${sessionId}`);
+      navigate(`/game/${sessionId}`, {
+        state: { toGame: true }
+      });
     }
   };
 
+  if (loading) {
+    return <Loading />;
+  }
   return (
     <div className="lobby-container">
       <h2 className="lobby-header">
@@ -118,15 +149,31 @@ function WaitingPage() {
           : `Session ${sessionId} is waiting for players to join...`}
       </h2>
       <div>
-        <img src={"/assets/images/players/" + imageSource} alt="lobby" />
+        <img
+          src={"/assets/images/players/" + imageSource}
+          alt="lobby"
+          referrerPolicy="no-referrer"
+        />
       </div>
       <div className="button-container">
-        <button className="invite-button" onClick={handleShareClick}>
+        <motion.button
+          className="invite-button"
+          onClick={handleShareClick}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.9 }}
+        >
           INVITE
-        </button>
-        <button className="start-button" onClick={handleStartClick}>
-          START
-        </button>
+        </motion.button>
+        {isFirst && playerCount === 4 && (
+          <motion.button
+            className="start-button"
+            onClick={handleStartClick}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.9 }}
+          >
+            START
+          </motion.button>
+        )}
       </div>
       <AnimatePresence>
         {isCopied && (

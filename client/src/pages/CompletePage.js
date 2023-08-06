@@ -3,8 +3,8 @@ import "./page.css";
 import "./CompletePage.css";
 import { useSelector, useDispatch } from "react-redux";
 import { resetSession } from "../redux/session/reducer";
-import { finalImageAsync } from "../redux/session/thunks";
-import { useNavigate } from "react-router-dom";
+import { updateFinalImageAsync } from "../redux/session/thunks";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   EmailShareButton,
   EmailIcon,
@@ -13,19 +13,33 @@ import {
   PinterestShareButton,
   PinterestIcon
 } from "react-share";
+import { addSessionToUserAsync } from "../redux/user/thunks";
+import { resetApp, setLocation } from "../redux/app/reducer";
+import { LOCATION } from "../util/constant";
 
 const CompletePage = () => {
-  let navigate = useNavigate();
-  const current = useSelector((state) => state.session);
+  const { sessionId } = useParams();
+  const navigate = useNavigate();
+  const currentSession = useSelector((state) => state.session);
+  const currentUser = useSelector((state) => state.user);
+
   const dispatch = useDispatch();
-  // let [quadrants, setQuadrants] = useState([]);
   let canvas = useRef();
   let link = useRef();
-  let playerPerGame = 3;
-  let finalImageSrc = "https://sketchconnect.vercel.app/assets/images/logo.png"; // TODO assign to combined drawing
+  let playerPerGame = 4;
+  const [finalImageSrc, setFinalImageSrc] = useState(
+    "https://sketchconnect.vercel.app/assets/images/logo.png"
+  );
 
   useEffect(() => {
-    fetch(`https://sketch-connect-be.onrender.com/sessions/${current._id}`, {
+    dispatch(
+      addSessionToUserAsync({
+        userId: currentUser._id,
+        sessionId: sessionId
+      })
+    );
+
+    fetch(`https://sketch-connect-be.onrender.com/sessions/${sessionId}`, {
       method: "GET"
     })
       .then((response) => {
@@ -38,19 +52,25 @@ const CompletePage = () => {
         return make_base(response.quadrants);
       })
       .then(() => {
-        canvas.current.toBlob((blob) => {
-          const sessionId = current._id;
-          const image = new File([blob], "image.png", {
-            type: "image/png"
-          });
-          dispatch(finalImageAsync({ sessionId, image }));
-        }, "image/png");
+        canvas.current.toBlob(
+          (blob) => {
+            const image = new File([blob], "image.png", {
+              type: "image/png"
+            });
+            dispatch(updateFinalImageAsync({ sessionId, image }));
+          },
+          "image/png",
+          1
+        );
       })
-      .then(() => {
-        dispatch(resetSession());
-      })
-      .catch((err) => console.log(`Failed to fetch session: ${err}`));
-  }, [dispatch]);
+      .catch((err) => console.error("Failed to fetch session: ", err));
+  }, [sessionId, currentUser._id, dispatch]);
+
+  useEffect(() => {
+    if (currentSession.finalImage) {
+      setFinalImageSrc(currentSession.finalImage);
+    }
+  }, [currentSession.finalImage]);
 
   const make_base = (quadrants) => {
     return new Promise((resolve, reject) => {
@@ -76,6 +96,8 @@ const CompletePage = () => {
       };
 
       const drawImages = () => {
+        canvas.current.width = 1600;
+        canvas.current.height = 1200;
         let imageWidth = canvas.current.width / 2;
         let imageHeight = canvas.current.height / 2;
 
@@ -93,7 +115,11 @@ const CompletePage = () => {
   const downloadImage = (session) => {
     let link = document.createElement("a");
     link.download = `${session.name}.png`;
-    link.href = canvas.current.toDataURL();
+    try {
+      link.href = canvas.current.toDataURL();
+    } catch (err) {
+      console.error("Failed to download image: ", err);
+    }
     link.click();
   };
 
@@ -105,12 +131,12 @@ const CompletePage = () => {
           <button
             id="download-btn"
             ref={link}
-            onClick={() => downloadImage(current)}
+            onClick={() => downloadImage(currentSession)}
           >
             Download
           </button>
+          <div id="share-btn">Share 👇</div>
           <div className="socials-share">
-            <div id="share-btn">Share 👇</div>
             <div className="social-btns">
               <EmailShareButton
                 url={finalImageSrc}
@@ -135,7 +161,14 @@ const CompletePage = () => {
           </div>
         </div>
 
-        <div className="buttons-bottom" onClick={() => navigate("/")}>
+        <div
+          className="buttons-bottom"
+          onClick={() => {
+            dispatch(resetSession());
+            dispatch(resetApp());
+            navigate("/");
+          }}
+        >
           <img
             id="newGame-btn"
             src={"/assets/images/puzzle-button.svg"}

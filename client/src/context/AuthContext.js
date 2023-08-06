@@ -82,10 +82,6 @@ export const AuthContextProvider = ({ children }) => {
     };
   }, []);
 
-  // Use the selector function to access the user state
-  const currentUser = useSelector((state) => state.user);
-  console.log("the user in AuthContext is", currentUser);
-
   return (
     <AuthContext.Provider
       value={{ googleSignIn, facebookSignIn, appleSignIn, logOut }}

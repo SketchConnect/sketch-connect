@@ -11,5 +11,5 @@ export const ADD_SESSION = "ADD_SESSION";
 export const DELETE_SESSION = "DELETE_SESSION";
 export const UPDATE_STATUS = "UPDATE_STATUS";
 export const ADD_PLAYER = "ADD_PLAYER";
-export const FINAL_IMAGE = "FINAL_IMAGE";
-export const QUADRANT_IMAGE = "QUADRANT_IMAGE";
+export const REMOVE_PLAYER = "REMOVE_PLAYER";
+export const UPDATE_FINAL_IMAGE = "UPDATE_FINAL_IMAGE";

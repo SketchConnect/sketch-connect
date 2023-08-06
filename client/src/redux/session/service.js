@@ -91,6 +91,7 @@ const updateStatus = async (sessionId, status) => {
     if (!response.ok) {
       throw new Error(data?.message);
     }
+    return data;
   } catch (error) {
     console.error("Error updating session:", error);
     throw error;
@@ -123,7 +124,33 @@ const addPlayer = async (sessionId, playerId) => {
   }
 };
 
-const finalImage = async (sessionId, image) => {
+const removePlayer = async (sessionId, playerId) => {
+  try {
+    const response = await fetch(
+      `https://sketch-connect-be.onrender.com/sessions/${sessionId}/remove-player`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ id: playerId })
+      }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data?.message);
+    }
+
+    return data;
+  } catch (error) {
+    console.error("Error removing player to session:", error);
+    throw error;
+  }
+};
+
+const updateFinalImage = async (sessionId, image) => {
   try {
     let formData = new FormData();
     formData.append("img", image);
@@ -142,31 +169,8 @@ const finalImage = async (sessionId, image) => {
     if (!response.ok) {
       throw new Error(data?.message);
     }
-  } catch (error) {
-    console.error("Error final image to session:", error);
-    throw error;
-  }
-};
 
-const quadrantImage = async (sessionId, image, quadrantNumber) => {
-  try {
-    let formData = new FormData();
-    formData.append("img", image);
-    formData.append("folder", "drawings/quadrants");
-    formData.append("quadrantNumber", quadrantNumber);
-    const response = await fetch(
-      `https://sketch-connect-be.onrender.com/sessions/${sessionId}/upload-drawing`,
-      {
-        method: "PATCH",
-        body: formData
-      }
-    );
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      throw new Error(data?.message);
-    }
+    return data.url;
   } catch (error) {
     console.error("Error final image to session:", error);
     throw error;
@@ -180,8 +184,8 @@ const services = {
   deleteSession,
   updateStatus,
   addPlayer,
-  finalImage,
-  quadrantImage
+  removePlayer,
+  updateFinalImage
 };
 
 export default services;

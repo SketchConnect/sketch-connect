@@ -1,8 +1,9 @@
 .timer {
-  font-family: "Chelsea Market", cursive;
+  font-family: inherit;
   display: flex;
   flex-direction: column;
   align-items: center;
+  pointer-events: none;
 }
 
 .time-wrapper {
@@ -10,7 +11,8 @@
   width: 80px;
   height: 60px;
   font-size: 48px;
-  font-family: "Montserrat";
+  font-family: inherit; 
+  pointer-events: none;
 }
 
 .time-wrapper .time {
@@ -25,6 +27,7 @@
   transform: translateY(0);
   opacity: 1;
   transition: all 0.2s;
+  font-family: inherit;
 }
 
 .time-wrapper .time.up {

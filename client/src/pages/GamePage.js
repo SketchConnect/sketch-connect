@@ -1,11 +1,13 @@
-import React, { useCallback, useEffect, useRef } from "react";
+import React, { useCallback, useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Canvas from "../components/Canvas";
 import Timer from "../components/Timer";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import { useNavigate, useParams } from "react-router-dom";
 import "./GamePage.css";
-import { quadrantImageAsync, updateStatusAsync } from "../redux/session/thunks";
+import { getSessionAsync, updateStatusAsync } from "../redux/session/thunks";
+import { setLocation } from "../redux/app/reducer";
+import { LOCATION } from "../util/constant";
 import { io } from "socket.io-client";
 
 const GamePage = () => {
@@ -19,38 +21,34 @@ const GamePage = () => {
   const navigate = useNavigate();
 
   const canvasRef = useRef(null);
+  const [showLeft, setShowLeft] = useState(false);
+  const [showTop, setShowTop] = useState(false);
+  const [leftSrc, setLeftSrc] = useState("");
+  const [topSrc, setTopSrc] = useState("");
 
   useEffect(() => {
     const socket = io("https://sketch-connect-be.onrender.com");
-    socket.emit("join", currentSession._id);
+    socket.emit("join", sessionId);
 
     socket.on("sessionCompleted", (data) => {
-      navigate(`/complete/${currentSession._id}`);
+      dispatch(setLocation(LOCATION.COMPLETE));
+      navigate(`/complete/${sessionId}`);
     });
 
     socket.on("quadrantsUpdated", (data) => {
       if (data.status === "completed") {
-        navigate(`/complete/${currentSession._id}`);
+        dispatch(setLocation(LOCATION.COMPLETE));
+        navigate(`/complete/${sessionId}`);
       }
     });
+
+    setPrevImageAttr();
 
     setTimeout(() => {
       if (canvasRef.current) {
         canvasRef.current.captureDrawing();
       }
-
-      if (user === players[3]) {
-        dispatch(
-          updateStatusAsync({
-            sessionId: currentSession._id,
-            status: "completed"
-          })
-        );
-        navigate(`/complete/${currentSession._id}`);
-      } else {
-        navigate(`/game/${currentSession._id}`);
-      }
-    }, 10100);
+    }, 15100);
 
     return () => {
       socket.off("sessionCompleted");
@@ -58,6 +56,36 @@ const GamePage = () => {
       socket.disconnect();
     };
   }, []);
+
+  const setPrevImageAttr = (session) => {
+    fetch(`https://sketch-connect-be.onrender.com/sessions/${sessionId}`, {
+      method: "GET"
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("HTTP error " + response.status);
+        }
+        return response.json();
+      })
+      .then((response) => {
+        if (currPlayer === 0) {
+          // first user doesn't have any previous images to show
+        } else if (currPlayer === 1) {
+          setLeftSrc(response.quadrants[0]);
+          setShowLeft(true);
+        } else if (currPlayer === 2) {
+          setTopSrc(response.quadrants[0]);
+          setShowTop(true);
+        } else if (currPlayer === 3) {
+          setLeftSrc(response.quadrants[2]);
+          setTopSrc(response.quadrants[1]);
+          setShowLeft(true);
+          setShowTop(true);
+        } else {
+          console.error("user is not in the players list");
+        }
+      });
+  };
 
   const handleCapture = useCallback(
     (blob) => {
@@ -78,7 +106,19 @@ const GamePage = () => {
       )
         .then((response) => response.json())
         .then((data) => {
-          console.log(data.url);
+          if (user === players[3]) {
+            dispatch(
+              updateStatusAsync({
+                sessionId: sessionId,
+                status: "completed"
+              })
+            );
+            dispatch(setLocation(LOCATION.COMPLETE));
+            navigate(`/complete/${sessionId}`);
+          } else {
+            dispatch(setLocation(LOCATION.GAME));
+            navigate(`/game/${sessionId}`);
+          }
         })
         .catch((error) => {
           console.error(error);
@@ -113,7 +153,7 @@ const GamePage = () => {
           <div className="timer-wrapper">
             <CountdownCircleTimer
               isPlaying
-              duration={10}
+              duration={15}
               colors={["#004777", "#F7B801", "#A30000", "#A30000"]}
               colorsTime={[10, 6, 4, 0]}
             >
@@ -122,8 +162,16 @@ const GamePage = () => {
           </div>
         </div>
       </div>
-      <div className="drawing-space">
-        <Canvas ref={canvasRef} onCapture={handleCapture} />
+      <div className="main">
+        {showLeft && (
+          <img alt="left stripe" id="left-stripe" src={leftSrc}></img>
+        )}
+        <div className="right">
+          {showTop && <img alt="top stripe" id="top-stripe" src={topSrc}></img>}
+          <div id="drawing-space">
+            <Canvas ref={canvasRef} onCapture={handleCapture} />
+          </div>
+        </div>
       </div>
     </div>
   );
