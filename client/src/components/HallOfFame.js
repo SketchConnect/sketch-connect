@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import ImageCard from "./ImageCard";
-import "./HallOfFame.css";
 
 function HallOfFame() {
   const [showPopup, setShowPopup] = useState(false);
