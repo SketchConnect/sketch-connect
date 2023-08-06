@@ -77,7 +77,9 @@ function Homepage() {
   };
 
   const joinSession = (session) => {
-    if (
+    if (session.players.length >= 4) {
+      alert("This session is full!")
+    } else if (
       session.status === "waiting" &&
       !session.players.includes(currentUser._id) && 
       session.players.length < 4
