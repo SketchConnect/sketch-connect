@@ -150,7 +150,7 @@ const removePlayer = async (sessionId, playerId) => {
   }
 };
 
-const finalImage = async (sessionId, image) => {
+const updateFinalImage = async (sessionId, image) => {
   try {
     let formData = new FormData();
     formData.append("img", image);
@@ -185,7 +185,7 @@ const services = {
   updateStatus,
   addPlayer,
   removePlayer,
-  finalImage
+  updateFinalImage
 };
 
 export default services;

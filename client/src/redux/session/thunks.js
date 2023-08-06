@@ -7,8 +7,7 @@ import {
   DELETE_SESSION,
   UPDATE_STATUS,
   ADD_PLAYER,
-  FINAL_IMAGE,
-  // QUADRANT_IMAGE,
+  UPDATE_FINAL_IMAGE,
   REMOVE_PLAYER
 } from "../utils";
 
@@ -59,8 +58,8 @@ export const removePlayerAsync = createAsyncThunk(
 );
 
 export const updateFinalImageAsync = createAsyncThunk(
-  FINAL_IMAGE,
+  UPDATE_FINAL_IMAGE,
   async ({ sessionId, image }) => {
-    return await sessionService.finalImage(sessionId, image);
+    return await sessionService.updateFinalImage(sessionId, image);
   }
 );
