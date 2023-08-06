@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { motion } from "framer-motion";
 import "./Instructions.css";
 
 const Instructions = () => {
@@ -14,13 +15,20 @@ const Instructions = () => {
 
   return (
     <div className="image-flip-container">
-      <div
-        className={`image-flip ${isFlipped ? "flipped" : ""}`}
+      <motion.div
+        className="image-flip"
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
+        animate={{
+          rotateY: isFlipped ? 180 : 0
+        }}
+        transition={{ duration: 0.3, ease: "easeInOut" }}
       >
         <div className="front">
-          <img src="/assets/images/instructions3.jpeg" alt="instruction background" />
+          <img
+            src="/assets/images/instructions3.jpeg"
+            alt="instruction background"
+          />
           <h1 id="instruction-title">HOW TO PLAY</h1>
         </div>
         <div className="back">
@@ -33,7 +41,7 @@ const Instructions = () => {
             seamless masterpiece.
           </p>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 };
