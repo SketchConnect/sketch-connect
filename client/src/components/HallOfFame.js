@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import ImageCard from "./ImageCard";
 import "./HallOfFame.css";
@@ -8,7 +8,6 @@ function HallOfFame() {
   const [selectedImage, setSelectedImage] = useState("");
   const currentUser = useSelector((state) => state.user);
   const sessionIds = currentUser.sessions;
-  let link = useRef();
 
   const handleImageClick = (image) => {
     setSelectedImage(image);
@@ -16,15 +15,22 @@ function HallOfFame() {
   };
 
   const handleDownload = () => {
-    let link = document.createElement("a");
     if (selectedImage) {
-      link.download = "downloaded_image.png";
-      try {
-        link.href = selectedImage;
-      } catch (err) {
-        console.error("Failed to download image: ", err);
-      }
-      link.click();
+      fetch(selectedImage)
+        .then((response) => response.blob())
+        .then((blob) => {
+          const url = window.URL.createObjectURL(blob);
+          const link = document.createElement("a");
+          link.href = url;
+          link.download = "image.png";
+          document.body.appendChild(link);
+          link.click();
+          window.URL.revokeObjectURL(url);
+          document.body.removeChild(link);
+        })
+        .catch((err) => {
+          console.error("Failed to download image: ", err);
+        });
     }
   };
 
@@ -51,7 +57,6 @@ function HallOfFame() {
             <img src={selectedImage} alt="Popup" className="popup-image" />
             <button
               className="download-button hof-button"
-              ref={link}
               onClick={handleDownload}
             >
               Download
