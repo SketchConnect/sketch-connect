@@ -5,11 +5,7 @@ import Timer from "../components/Timer";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import { useNavigate, useParams } from "react-router-dom";
 import "./GamePage.css";
-import {
-  getSessionAsync,
-  quadrantImageAsync,
-  updateStatusAsync
-} from "../redux/session/thunks";
+import { getSessionAsync, updateStatusAsync } from "../redux/session/thunks";
 import { setLocation } from "../redux/app/reducer";
 import { LOCATION } from "../util/constant";
 import { io } from "socket.io-client";

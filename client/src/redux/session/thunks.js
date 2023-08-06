@@ -8,7 +8,7 @@ import {
   UPDATE_STATUS,
   ADD_PLAYER,
   FINAL_IMAGE,
-  QUADRANT_IMAGE,
+  // QUADRANT_IMAGE,
   REMOVE_PLAYER
 } from "../utils";
 
@@ -62,12 +62,5 @@ export const updateFinalImageAsync = createAsyncThunk(
   FINAL_IMAGE,
   async ({ sessionId, image }) => {
     return await sessionService.finalImage(sessionId, image);
-  }
-);
-
-export const quadrantImageAsync = createAsyncThunk(
-  QUADRANT_IMAGE,
-  async ({ sessionId, image, quadrantNumber }) => {
-    return await sessionService.quadrantImage(sessionId, image, quadrantNumber);
   }
 );
