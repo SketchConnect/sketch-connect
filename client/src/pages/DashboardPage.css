@@ -79,7 +79,7 @@
   max-height: 500px;
   padding-top: 5%;
   background-color: white;
-  
+  border-radius: 15px;
 }
 
 .hof-button {
@@ -102,6 +102,7 @@
 }
 
 .download-button {
+  font: inherit;
   margin-top: 10px;
 }
 
