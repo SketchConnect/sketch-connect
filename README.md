@@ -74,7 +74,7 @@ To safeguard user data and maintain a secure environment, the app implements Fir
 The next steps to improve the app include adding public/private session rooms for more versatile gameplay, implementing a group chat feature for real-time communication, and introducing configurable timer and game settings to cater to different player preferences. Additionally, enabling a spectator mode will allow completed players to watch others in real time, enhancing the overall gaming experience.
 
 ## Developed By
-
+<!-- TODO: List of contributions. Highlight areas where each team member contributed significantly. [2-3 sentences per team member] -->
 -   [Martin Cai](https://github.com/martincai8)
 -   [Michelle Kim](https://github.com/michelleykim)
 -   [Michelle Wang](https://github.com/michelle-wangg)
