@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import "./LoginPage.css";
 import { UserAuth } from "../context/AuthContext";
 import { useLocation, useNavigate } from "react-router-dom";
-// import user from "../redux/user/reducer";
 import { useSelector } from "react-redux";
 
 const LoginPage = () => {

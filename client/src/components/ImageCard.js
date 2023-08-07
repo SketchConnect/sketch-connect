@@ -4,7 +4,6 @@ function ImageCard({ sessionId, onClick }) {
   const [session, setSession] = useState(null);
 
   useEffect(() => {
-    // Replace 'your-endpoint-url' with the actual URL of your API endpoint
     fetch(`https://sketch-connect-be.onrender.com/sessions/${sessionId}`, {
       method: "GET"
     })
@@ -13,7 +12,6 @@ function ImageCard({ sessionId, onClick }) {
       .catch((error) => console.error("Error fetching data:", error));
   }, []);
 
-  // Render null if session is null
   if (!session) {
     return null;
   }
