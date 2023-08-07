@@ -57,9 +57,10 @@ Deployment allows the application to be live and accessible from a public URL in
 
 #### Image Storage
 SketchConnect incorporates many additional features such as cloud storage using Google’s external API, allowing players to save their final drawings.
+<!-- TODO: more "in-depth explanation" here -->
 
 #### Sharing via Social Media
-Additionally, SketchConnect integrates with social media platforms, empowering players to share their final masterpieces with friends and family. 
+Additionally, SketchConnect integrates with social media platforms, empowering players to share their team's final masterpieces directly from the game interface. Utilized the `react-share` library to smoothly redirect to platforms like Twitter and Pinterest, elevating the user experience by fostering a sense of accomplishment and enhancing engagement through encouraging teams to showcase their creativity with a wider audience.
 
 #### Research-driven UX
 In shaping SketchConnect, we prioritized a user-centric approach through conducting thorough UX research and testing with over 50 users. By understanding player preferences (style of online games played, prompts, timer configurations, etc.) we ensured an interface that would be fun, friendly, seamless and intuitive for a delightful collaborative online doodling experience.
