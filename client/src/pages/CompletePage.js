@@ -32,12 +32,12 @@ const CompletePage = () => {
   );
 
   useEffect(() => {
-    dispatch(
-      addSessionToUserAsync({
-        userId: currentUser._id,
-        sessionId: sessionId
-      })
-    );
+    // dispatch(
+    //   addSessionToUserAsync({
+    //     userId: currentUser._id,
+    //     sessionId: sessionId
+    //   })
+    // );
 
     fetch(`https://sketch-connect-be.onrender.com/sessions/${sessionId}`, {
       method: "GET"
@@ -68,6 +68,9 @@ const CompletePage = () => {
 
   useEffect(() => {
     if (currentSession.finalImage) {
+      dispatch(
+        addSessionToUserAsync({ userId: currentUser._id, sessionId: sessionId })
+      );
       setFinalImageSrc(currentSession.finalImage);
     }
   }, [currentSession.finalImage]);

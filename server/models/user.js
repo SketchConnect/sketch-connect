@@ -19,7 +19,12 @@ const UserSchema = new Schema({
     required: true
   },
   sessions: {
-    type: [String]
+    type: [
+      {
+        topic: String,
+        finalImage: String
+      }
+    ]
   },
   profilePic: {
     type: String
