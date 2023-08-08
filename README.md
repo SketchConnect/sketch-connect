@@ -11,7 +11,6 @@ Welcome to 'SketchConnect,' the ultimate collaborative doodling game for 4 playe
 -   [Above and Beyond](#above-and-beyond)
 -   [Next Steps](#next-steps)
 -   [Developed By](#developed-by)
--   [Task breakdown](#task-breakdown)
 -   [Prototypes](#prototypes)
 
 ## Project Task Goals
