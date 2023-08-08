@@ -174,15 +174,25 @@ router.patch("/:id/add-session", async (req, res) => {
       finalImage: session.finalImage
     };
 
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ error: "No user found with given id" });
+    }
+
+    const duplicateSession = user.sessions.find(
+      (s) =>
+        s.topic === sessionToAdd.topic &&
+        s.finalImage === sessionToAdd.finalImage
+    );
+    if (duplicateSession) {
+      return res.status(200).send(user);
+    }
+
     const updatedUser = await User.findByIdAndUpdate(
       userId,
       { $push: { sessions: sessionToAdd } },
       { new: true }
     );
-
-    if (!updatedUser) {
-      return res.status(404).json({ error: "No user found with given id" });
-    }
 
     return res.status(200).json(updatedUser);
   } catch (error) {
