@@ -105,7 +105,7 @@ const userSlice = createSlice({
       })
       .addCase(addSessionToUserAsync.fulfilled, (state, action) => {
         state.addSessionToUser = REQUEST_STATE.FULFILLED;
-        state.status = action.payload;
+        state.sessions = action.payload.sessions;
       })
       .addCase(addSessionToUserAsync.rejected, (state, action) => {
         state.addSessionToUser = REQUEST_STATE.REJECTED;

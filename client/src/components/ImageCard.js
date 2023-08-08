@@ -1,30 +1,10 @@
 import React, { useEffect, useState } from "react";
 
-function ImageCard({ sessionId, onClick }) {
-  const [session, setSession] = useState(null);
-
-  useEffect(() => {
-    // Replace 'your-endpoint-url' with the actual URL of your API endpoint
-    fetch(`https://sketch-connect-be.onrender.com/sessions/${sessionId}`, {
-      method: "GET"
-    })
-      .then((response) => response.json())
-      .then((data) => setSession(data))
-      .catch((error) => console.error("Error fetching data:", error));
-  }, []);
-
-  // Render null if session is null
-  if (!session) {
-    return null;
-  }
-
+function ImageCard({ topic, finalImage, onClick }) {
   return (
-    <div
-      className="image-card"
-      onClick={() => onClick(session.finalImage)} // Trigger the onClick event when the image card is clicked
-    >
-      <img src={session.finalImage} alt="final-drawing" />
-      <p className="topic-text">{session.topic}</p>
+    <div className="image-card" onClick={() => onClick(finalImage)}>
+      <img src={finalImage} alt="final-drawing" />
+      <p className="topic-text">{topic}</p>
     </div>
   );
 }
