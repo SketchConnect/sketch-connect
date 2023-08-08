@@ -74,6 +74,9 @@ The next steps to improve the app include adding public/private session rooms fo
 ## Developed By
 <!-- TODO: List of contributions. Highlight areas where each team member contributed significantly. [2-3 sentences per team member] -->
 -   [Martin Cai](https://github.com/martincai8)
+    - Leveraged Socket.IO to facilitate real-time data broadcasting between clients and the server, enabling seamless interaction as players took turns drawing in their individual quadrants, thus enhancing the user experience.
+    - Designed a dedicated service for handling image uploads by utilizing Google Cloud Storage buckets. Integrated MongoDB to store URLs of the corresponding resources, thereby enhancing scalability, security, and streamlining the retrieval process.
+    - Implemented protected routes within the application, enforcing stringent access control. This strategy ensured that only authenticated users could access certain features, reinforcing overall security.
 -   [Michelle Kim](https://github.com/michelleykim)
 -   [Michelle Wang](https://github.com/michelle-wangg)
 -   [Shu Ting Hu](https://github.com/shuting-hu)
