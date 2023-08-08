@@ -25,17 +25,13 @@ const Instructions = () => {
             src="/assets/images/instructions3.jpeg"
             alt="instruction background"
           />
-          <h1 id="instruction-title">HOW TO PLAY</h1>
+          <h1 id="instruction-title">CLICK FOR INSTRUCTIONS</h1>
         </div>
         <div className="back">
-          <p className="instructions-text">
-            Welcome to 'SketchConnect,' the ultimate collaborative doodling game
-            for 4 players. Assigned to unique quadrants, each participant takes
-            turns drawing, only seeing a subset of previous players' work on
-            their aligned edges. Witness the magic of creativity and diversity
-            as the quadrants unite, creating a mesmerizing and (potentially)
-            seamless masterpiece.
-          </p>
+          <video className="instruction-video" controls>
+						<source src="/assets/videos/instruction.mp4" type="video/mp4" />
+				  		Your browser does not support the video tag.
+					</video>
         </div>
       </motion.div>
     </div>
