@@ -80,6 +80,9 @@ The next steps to improve the app include adding public/private session rooms fo
 -   [Michelle Kim](https://github.com/michelleykim)
 -   [Michelle Wang](https://github.com/michelle-wangg)
 -   [Shu Ting Hu](https://github.com/shuting-hu)
+    - Utilized Redux to facilitate fluid client-server API communication, enhancing state management for user and session actions.
+    - Streamlined the game flow by implementing session start, turn-based navigation, dynamic game lobby / drawing page components, and introduced loading states to facilitate smooth transitions.
+    - Employed the react-share library to seamlessly integrate social media platforms, providing direct sharing functionality of their final combined creation, encouraging game engagement and team accomplishment.
 -   [Vishal Desh](https://github.com/VDeshh)
 
 <!-- further materials (from initial) can remove or keep -->
