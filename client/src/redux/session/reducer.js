@@ -25,7 +25,7 @@ const INITIAL_STATE = {
   addPlayer: REQUEST_STATE.IDLE,
   removePlayer: REQUEST_STATE.IDLE,
   updateFinalImage: REQUEST_STATE.IDLE,
-  erorr: null
+  error: null
 };
 
 const sessionSlice = createSlice({
