@@ -116,9 +116,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     - Development of the frontend User interface and assisted in design
     - Worked on overlapping the images initially by stripping the images from the bucket and overlaying it on canvas which was then changed by the team to render outside the canvas boundaries.
     - Made API calls from individual quadrants to store into google cloud bucket and fetched from the same for image stripping.
-    - Assisted in writing redux calls for adding session to player object in the front end.
-    - Added Styling and coordinate mapping for canvas.
-
 ## Pull Requests
 
 1. Just fork a version of this repository, make the changes you want to, and make a pull request.
