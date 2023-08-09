@@ -6,7 +6,6 @@
 }
 
 .game-info {
-  /* flex: 1; */
   padding: 70px 10px 70px 70px;
   display: flex;
   flex-direction: column;
@@ -66,7 +65,6 @@
 }
 
 #drawing-space {
-
   width: fit-content;
   height: fit-content;
 }

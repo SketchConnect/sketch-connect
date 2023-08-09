@@ -78,8 +78,6 @@ function WaitingPage() {
     socket.on("numPlayersChanged", handleNumPlayersChanged);
     socket.on("sessionStarted", handleSessionStarted);
 
-    // TODO: handle session cancelled
-
     return () => {
       socket.off("numPlayersChanged", handleNumPlayersChanged);
       socket.off("sessionStarted", handleSessionStarted);
