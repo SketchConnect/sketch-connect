@@ -114,8 +114,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -   [Vishal Desh](https://github.com/VDeshh)
     - Created HTML 5 Canvas in react scaled according to the device's pixel ratio and added several state variables to handle different functionalities such as brush color, size, erasing, and exporting.
     - Development of the frontend User interface and assisted in design
-    - Worked on overlapping the images initially by stripping the images from the bucket and overlaying it on canvas which was then changed by the team to render outside the canvas boundaries.
-    - Made API calls from individual quadrants to store into google cloud bucket and fetched from the same for image stripping.
+    - Worked on overlapping the images initially by stripping the images from the bucket and overlaying it on canvas which was then changed by the team to render outside the canvas boundaries. Made API calls from individual quadrants to store into google cloud bucket and fetched from the same for image stripping.
 ## Pull Requests
 
 1. Just fork a version of this repository, make the changes you want to, and make a pull request.
