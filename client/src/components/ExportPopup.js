@@ -1,10 +1,6 @@
 import React from "react";
 
-const ExportPopup = ({
-  handleDownloadImage,
-  handleShareOnSocialMedia,
-  handleCloseExportPopup
-}) => {
+const ExportPopup = ({ handleDownloadImage, handleCloseExportPopup }) => {
   return (
     <div
       style={{
@@ -23,12 +19,6 @@ const ExportPopup = ({
         onClick={handleDownloadImage}
       >
         Download Image
-      </button>
-      <button
-        style={{ margin: "5px", padding: "5px 10px", cursor: "pointer" }}
-        onClick={handleShareOnSocialMedia}
-      >
-        Share on Social Media
       </button>
       <button
         style={{ margin: "5px", padding: "5px 10px", cursor: "pointer" }}

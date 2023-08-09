@@ -18,13 +18,9 @@ export const AuthContextProvider = ({ children }) => {
   const dispatch = useDispatch();
 
   const googleSignIn = () => {
-    signInWithPopup(auth, GoogleProvider)
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err.message);
-      });
+    signInWithPopup(auth, GoogleProvider).catch((err) => {
+      console.error(err.message);
+    });
   };
 
   const logOut = () => {

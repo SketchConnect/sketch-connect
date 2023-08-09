@@ -62,15 +62,11 @@ function WaitingPage() {
     socket.emit("join", sessionId);
 
     const handleNumPlayersChanged = (session) => {
-      console.log(
-        `Received numPlayersChanged event: ${JSON.stringify(session)}`
-      );
       setPlayerCount(session.playersLength);
       setLoading(false);
     };
 
     const handleSessionStarted = (session) => {
-      console.log(`Received sessionStarted event: ${JSON.stringify(session)}`);
       dispatch(setSession({ session: session }));
       startGame();
     };
