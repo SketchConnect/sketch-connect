@@ -1,7 +1,6 @@
-# SketchConnect
+# SketchConnect <img align="right" alt="SketchConnect" src="./client/public/assets/images/logo.png" width="300px" height="138px" style="border-radius: 25px;">
 
-Welcome to 'SketchConnect,' the ultimate collaborative doodling game for 4 players. Assigned to unique quadrants, each participant takes turns drawing, only seeing a subset of previous players' work on their aligned edges. Witness the magic of creativity and diversity as the quadrants unite, creating a mesmerizing and (potentially) seamless masterpiece. <img align="right" alt="SketchConnect" src="./client/public/assets/images/logo.png" width="300px" height="138px" style="border-radius: 25px;">
-
+Welcome to 'SketchConnect,' the ultimate collaborative doodling game for 4 players. Assigned to unique quadrants, each participant takes turns drawing, only seeing a subset of previous players' work on their aligned edges. Witness the magic of creativity and diversity as the quadrants unite, creating a mesmerizing and (potentially) seamless masterpiece.
 <!-- TABLE OF CONTENTS -->
 
 ## Table of Contents
