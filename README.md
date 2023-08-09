@@ -100,6 +100,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     - Designed a dedicated service for handling image uploads by utilizing Google Cloud Storage buckets. Integrated MongoDB to store URLs of the corresponding resources, thereby enhancing scalability, security, and streamlining the retrieval process.
     - Implemented protected routes within the application, enforcing stringent access control. This strategy ensured that only authenticated users could access certain features, reinforcing overall security.
 -   [Michelle Kim](https://github.com/michelleykim)
+    - Orchestrated the development of the application's user interface, leveraging an iterative user research combining user research insights for an intuitive, inclusive user experience.
+    - Employed the Redux Thunks to seamlessly integrate backend API invocations within the frontend framework, thereby ensuring efficient and synchronous data exchanges.
+    - Elevated the overall game flow by introducing a functionality that enables players to access a section of previous participants' drawings, fostering continuity and engagement. Additionally, combined individual player drawings into a cohesive composition upon completion of the gaming experience.
 -   [Michelle Wang](https://github.com/michelle-wangg)
     - Implemented user authentication using Firebase, ensuring both convenience and security in a streamlined sign-in experience, and storing user information in the database for profile-dependent functionalities.
     - Worked on the User Dashboard, creating endpoints to add session details to users, allowing for the display of completed images in the Hall of Fame.
