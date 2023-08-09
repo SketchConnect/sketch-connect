@@ -63,7 +63,6 @@ function HallOfFame() {
     <div className="hall-of-fame">
       {sessions.length > 0 &&
         sessions.map((session, index) => {
-          console.log(session);
           return (
             <ImageCard
               key={index}
