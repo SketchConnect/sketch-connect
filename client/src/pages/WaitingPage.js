@@ -121,7 +121,7 @@ function WaitingPage() {
 
   const startGame = async () => {
     if (currentSession.players[0] === currentUser) {
-      await dispatch(setLocation(LOCATION.GAME));
+      dispatch(setLocation(LOCATION.GAME));
       navigate(`/game/turn/${sessionId}`, {
         state: { toGame: true }
       });
@@ -139,8 +139,8 @@ function WaitingPage() {
     <div className="lobby-container">
       <h2 className="lobby-header">
         {playerCount === 4
-          ? `Session ${sessionId} is ready to start!`
-          : `Session ${sessionId} is waiting for players to join...`}
+          ? `${currentSession.name} is ready to start!`
+          : `${currentSession.name} is waiting for players to join...`}
       </h2>
       <div>
         <img
