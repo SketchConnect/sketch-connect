@@ -130,8 +130,8 @@ router.post("/", async (req, res) => {
  * - id (string): The ID of the user to update.
  *
  * Request body parameters:
- * - key: "name", value: the new name to be updated
- * - key: "email", value: the new email to be updated
+ * - name: the new name to be updated
+ * - email: the new email to be updated
  */
 router.patch("/:id", async (req, res) => {
   try {
@@ -157,27 +157,47 @@ router.patch("/:id", async (req, res) => {
  * - id (string): The ID of the user to update.
  *
  * Request body parameters:
- * - "sessionId", value: the session id to be added to the sessions array of the user
+ * - "sessionId", value: the session id to be added
  */
 router.patch("/:id/add-session", async (req, res) => {
   try {
     const userId = req.params.id;
     const { sessionId } = req.body;
 
+    const session = await Session.findById(sessionId);
+    if (!session) {
+      return res.status(404).json({ error: "No session found with given id" });
+    }
+
+    const sessionToAdd = {
+      topic: session.topic,
+      finalImage: session.finalImage
+    };
+
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ error: "No user found with given id" });
+    }
+
+    const duplicateSession = user.sessions.find(
+      (s) =>
+        s.topic === sessionToAdd.topic &&
+        s.finalImage === sessionToAdd.finalImage
+    );
+    if (duplicateSession) {
+      return res.status(200).send(user);
+    }
+
     const updatedUser = await User.findByIdAndUpdate(
       userId,
-      { $addToSet: { sessions: sessionId } },
+      { $push: { sessions: sessionToAdd } },
       { new: true }
     );
-
-    if (!updatedUser) {
-      return res.status(404).json({ error: "User not found." });
-    }
 
     return res.status(200).json(updatedUser);
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ error: "Server error." });
+    return res.status(500).send(error);
   }
 });
 

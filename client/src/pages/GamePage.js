@@ -141,7 +141,7 @@ const GamePage = () => {
     <div className="game-container">
       <div className="game-info">
         <div>
-          <h2>Session ID: {sessionId}</h2>
+          <h2>Session: {currentSession.name}</h2>
           <h2>Topic: {currentSession.topic}</h2>
         </div>
         <div className="curr-player">

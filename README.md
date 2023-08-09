@@ -1,6 +1,7 @@
-# SketchConnect
+# SketchConnect 
 
-Welcome to 'SketchConnect,' the ultimate collaborative doodling game for 4 players. Assigned to unique quadrants, each participant takes turns drawing, only seeing a subset of previous players' work on their aligned edges. Witness the magic of creativity and diversity as the quadrants unite, creating a mesmerizing and (potentially) seamless masterpiece. <img align="right" alt="SketchConnect" src="./client/public/assets/images/logo-readme.png" width="300px" height="auto" style="border-radius: 25px;">
+Welcome to 'SketchConnect,' the ultimate collaborative doodling game for 4 players. Assigned to unique quadrants, each participant takes turns drawing, only seeing a subset of previous players' work on their aligned edges. Witness the magic of creativity and diversity as the quadrants unite, creating a mesmerizing and (potentially) seamless masterpiece. 
+<img align="right" alt="SketchConnect" src="./client/public/assets/images/logo-readme.png" width="300px" height="auto" style="border-radius: 25px;">
 
 <!-- TABLE OF CONTENTS -->
 
@@ -10,7 +11,9 @@ Welcome to 'SketchConnect,' the ultimate collaborative doodling game for 4 playe
 -   [Course Technology Utilized](#course-technology-utilized)
 -   [Above and Beyond](#above-and-beyond)
 -   [Next Steps](#next-steps)
+-   [License](#open-source-license)
 -   [Developed By](#developed-by)
+-   [Pull Requests](#pull-requests)
 -   [Prototypes](#prototypes)
 
 ## Project Task Goals
@@ -71,6 +74,25 @@ To safeguard user data and maintain a secure environment, the app implements Fir
 ## Next Steps
 The next steps to improve the app include adding public/private session rooms for more versatile gameplay, implementing a group chat feature for real-time communication, and introducing configurable timer and game settings to cater to different player preferences. Additionally, enabling a spectator mode will allow completed players to watch others in real time, enhancing the overall gaming experience.
 
+## Open Source License
+
+```
+Copyright (C) 2023 Martin Cai, Michelle Kim, Michelle Wang, Shu Ting Hu, Vishal Desh
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+```
+
 ## Developed By
 <!-- TODO: List of contributions. Highlight areas where each team member contributed significantly. [2-3 sentences per team member] -->
 -   [Martin Cai](https://github.com/martincai8)
@@ -87,6 +109,11 @@ The next steps to improve the app include adding public/private session rooms fo
     - Streamlined the game flow by implementing session start, turn-based navigation, dynamic game lobby / drawing page components, and introduced loading states to facilitate smooth transitions.
     - Employed the react-share library to seamlessly integrate social media platforms, providing direct sharing functionality of their final combined creation, encouraging game engagement and team accomplishment.
 -   [Vishal Desh](https://github.com/VDeshh)
+
+## Pull Requests
+
+1. Just fork a version of this repository, make the changes you want to, and make a pull request.
+2. We will review the pull request, and accept or reject any incoming changes after testing.
 
 <!-- further materials (from initial) can remove or keep -->
 
