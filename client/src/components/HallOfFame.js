@@ -5,29 +5,7 @@ import ImageCard from "./ImageCard";
 function HallOfFame() {
   const [showPopup, setShowPopup] = useState(false);
   const [selectedImage, setSelectedImage] = useState("");
-  const [sessions, setSessions] = useState([]);
-  const currentUser = useSelector((state) => state.user);
-  // const sessions = useSelector((state) => state.user.sessions); // TODO: look into this after merging
-
-  useEffect(() => {
-    fetch(`https://sketch-connect-be.onrender.com/users/${currentUser._id}`, {
-      method: "GET"
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("HTTP error " + response.status);
-        }
-        return response.json();
-      })
-      .then((user) => {
-        if (!user.sessions) {
-          console.log(user);
-        } else {
-          setSessions(user.sessions);
-        }
-      })
-      .catch((err) => console.error("Failed to fetch user: ", err));
-  }, [currentUser._id]);
+  const sessions = useSelector((state) => state.user.sessions);
 
   const handleImageClick = (image) => {
     setSelectedImage(image);
@@ -59,38 +37,42 @@ function HallOfFame() {
     setSelectedImage("");
   };
 
-  return (
-    <div className="hall-of-fame">
-      {sessions.length > 0 &&
-        sessions.map((session, index) => {
-          return (
-            <ImageCard
-              key={index}
-              topic={session.topic}
-              finalImage={session.finalImage}
-              onClick={() => handleImageClick(session.finalImage)}
-            />
-          );
-        })}
+  if (!sessions) {
+    return <div>No sessions yet, go create some masterpieces!</div>;
+  } else {
+    return (
+      <div className="hall-of-fame">
+        {sessions.length > 0 &&
+          sessions.map((session, index) => {
+            return (
+              <ImageCard
+                key={index}
+                topic={session.topic}
+                finalImage={session.finalImage}
+                onClick={() => handleImageClick(session.finalImage)}
+              />
+            );
+          })}
 
-      {showPopup && (
-        <div className="popup">
-          <div className="popup-content">
-            <img src={selectedImage} alt="Popup" className="popup-image" />
-            <button
-              className="download-button hof-button"
-              onClick={handleDownload}
-            >
-              Download
-            </button>
-            <button className="close-button hof-button" onClick={closePopup}>
-              X
-            </button>
+        {showPopup && (
+          <div className="popup">
+            <div className="popup-content">
+              <img src={selectedImage} alt="Popup" className="popup-image" />
+              <button
+                className="download-button hof-button"
+                onClick={handleDownload}
+              >
+                Download
+              </button>
+              <button className="close-button hof-button" onClick={closePopup}>
+                X
+              </button>
+            </div>
           </div>
-        </div>
-      )}
-    </div>
-  );
+        )}
+      </div>
+    );
+  }
 }
 
 export default HallOfFame;
