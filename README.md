@@ -11,10 +11,10 @@ Welcome to 'SketchConnect,' the ultimate collaborative doodling game for 4 playe
 -   [Course Technology Utilized](#course-technology-utilized)
 -   [Above and Beyond](#above-and-beyond)
 -   [Next Steps](#next-steps)
--   [License](#open-source-license)
 -   [Developed By](#developed-by)
 -   [Pull Requests](#pull-requests)
 -   [Prototypes](#prototypes)
+-   [License](#open-source-license)
 
 ## Project Task Goals
 
@@ -74,25 +74,6 @@ To safeguard user data and maintain a secure environment, the app implements Fir
 ## Next Steps
 The next steps to improve the app include adding public/private session rooms for more versatile gameplay, implementing a group chat feature for real-time communication, and introducing configurable timer and game settings to cater to different player preferences. Additionally, enabling a spectator mode will allow completed players to watch others in real time, enhancing the overall gaming experience.
 
-## Open Source License
-
-```
-Copyright (C) 2023 Martin Cai, Michelle Kim, Michelle Wang, Shu Ting Hu, Vishal Desh
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
-```
-
 ## Developed By
 -   [Martin Cai](https://github.com/martincai8)
     - Leveraged Socket.IO to facilitate real-time data broadcasting between clients and the server, enabling seamless interaction as players took turns drawing in their individual quadrants, thus enhancing the user experience.
@@ -125,3 +106,22 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <img src="client/public/assets/images/hi-fi/gameLobbyPage.png" width=600px>
 <img src="client/public/assets/images/hi-fi/drawingPage.png" width=600px>
 <img src="client/public/assets/images/hi-fi/finishedDrawingPage.png" width=600px>
+
+## Open Source License
+
+```
+Copyright (C) 2023 Martin Cai, Michelle Kim, Michelle Wang, Shu Ting Hu, Vishal Desh
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+```
