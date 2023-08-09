@@ -1,6 +1,7 @@
+// https://www.youtube.com/watch?v=wIOpe8S2Mk8&t=482s
+// https://cloud.google.com/storage/docs/uploading-objects#storage-upload-object-client-libraries
 import { Storage } from "@google-cloud/storage";
 import Multer from "multer";
-import { format } from "date-fns";
 import path from "path";
 
 class ImageUploadService {
@@ -26,7 +27,6 @@ class ImageUploadService {
     this.bucket = storage.bucket("sketchconnect-images");
   }
 
-  // https://www.youtube.com/watch?v=wIOpe8S2Mk8&t=482s
   async uploadFile(req) {
     return new Promise((resolve, reject) => {
       this.multer.single("img")(req, {}, async (error) => {

@@ -1,3 +1,4 @@
+// https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API
 import React, {
   forwardRef,
   useImperativeHandle,
@@ -6,7 +7,7 @@ import React, {
   useState
 } from "react";
 import ExportPopup from "./ExportPopup";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 const Canvas = forwardRef((props, ref) => {
   const canvasRef = useRef(null);
@@ -132,51 +133,56 @@ const Canvas = forwardRef((props, ref) => {
     link.click();
   };
 
-  const handleShareOnSocialMedia = () => {
-    console.log("Sharing on social media");
-  };
-
   const getBorderStyle = () => {
     const playerIndex = session?.players?.indexOf(currentUser._id);
     let borderStyle = { border: "1px solid black" };
-  
+
     switch (playerIndex) {
       case 1:
-        borderStyle = { borderLeft: "1px dotted red", borderTop: "1px solid black" };
+        borderStyle = {
+          borderLeft: "1px dotted red",
+          borderTop: "1px solid black"
+        };
         break;
       case 2:
-        borderStyle = { borderLeft: "1px solid black", borderTop: "1px dotted red" };
+        borderStyle = {
+          borderLeft: "1px solid black",
+          borderTop: "1px dotted red"
+        };
         break;
       case 3:
-        borderStyle = { borderLeft: "1px dotted red", borderTop: "1px dotted red" };
+        borderStyle = {
+          borderLeft: "1px dotted red",
+          borderTop: "1px dotted red"
+        };
         break;
       default:
         break;
     }
-  
+
     return borderStyle;
   };
 
   const getToolStyle = () => {
     const playerIndex = session?.players?.indexOf(currentUser._id);
-    let toolStyle = { top: "10px", left: "10px"};
-  
+    let toolStyle = { top: "10px", left: "10px" };
+
     switch (playerIndex) {
       case 1:
-        toolStyle = { top: "10px", right: "10px"};;
+        toolStyle = { top: "10px", right: "10px" };
         break;
       case 2:
-        toolStyle = { bottom: "10px", left: "10px"};;
+        toolStyle = { bottom: "10px", left: "10px" };
         break;
       case 3:
-        toolStyle = { bottom: "10px", right: "10px"};;
+        toolStyle = { bottom: "10px", right: "10px" };
         break;
       default:
         break;
     }
-  
+
     return toolStyle;
-  }
+  };
 
   return (
     <div
@@ -188,12 +194,16 @@ const Canvas = forwardRef((props, ref) => {
         height: "100%"
       }}
     >
-      <div style={{ position: "relative", margin: "0px 0px"}}>
+      <div style={{ position: "relative", margin: "0px 0px" }}>
         <canvas
           ref={canvasRef}
           width={800}
           height={600}
-          style={{ ...getBorderStyle(), borderRight: "1px solid black", borderBottom: "1px solid black" }}
+          style={{
+            ...getBorderStyle(),
+            borderRight: "1px solid black",
+            borderBottom: "1px solid black"
+          }}
           onMouseDown={handleMouseDown}
           onMouseOut={handleMouseUp}
         />
@@ -269,7 +279,6 @@ const Canvas = forwardRef((props, ref) => {
         {showExportPopup && (
           <ExportPopup
             handleDownloadImage={handleDownloadImage}
-            handleShareOnSocialMedia={handleShareOnSocialMedia}
             handleCloseExportPopup={handleCloseExportPopup}
           />
         )}

@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+// https://mantine.dev/core/avatar/
+import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import HallOfFame from '../components/HallOfFame';
-import './DashboardPage.css';
+import HallOfFame from "../components/HallOfFame";
+import "./DashboardPage.css";
 import { Avatar } from "@mantine/core";
 import { updateUserAsync } from "../redux/user/thunks";
 
@@ -17,7 +18,9 @@ const DashboardPage = () => {
   const handleEmailChange = (e) => setEmail(e.target.value);
 
   const handleSave = () => {
-    dispatch(updateUserAsync({ userId: currentUser._id, updatedUser: { name, email } }));
+    dispatch(
+      updateUserAsync({ userId: currentUser._id, updatedUser: { name, email } })
+    );
   };
 
   return (
@@ -33,8 +36,16 @@ const DashboardPage = () => {
         <div className="profile-details">
           {editable ? (
             <>
-              <input className="name" value={name} onChange={handleNameChange} />
-              <input className="email" value={email} onChange={handleEmailChange} />
+              <input
+                className="name"
+                value={name}
+                onChange={handleNameChange}
+              />
+              <input
+                className="email"
+                value={email}
+                onChange={handleEmailChange}
+              />
             </>
           ) : (
             <>
@@ -42,13 +53,15 @@ const DashboardPage = () => {
               <p className="email">{email}</p>
             </>
           )}
-          <button onClick={() => {
-            if(editable) {
-              handleSave();
-            }
-            setEditable(!editable);
-          }}>
-            {editable ? 'Save' : 'Edit Profile'}
+          <button
+            onClick={() => {
+              if (editable) {
+                handleSave();
+              }
+              setEditable(!editable);
+            }}
+          >
+            {editable ? "Save" : "Edit Profile"}
           </button>
         </div>
       </div>

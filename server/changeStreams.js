@@ -1,3 +1,4 @@
+// https://www.mongodb.com/docs/manual/changeStreams/
 import Session from "./models/session.js";
 
 export function setupChangeStreams(io) {
@@ -31,8 +32,6 @@ function handlePlayerChange(change, io) {
     const newPlayersLength = change.fullDocument.players.length;
 
     if (newPlayersLength !== previousPlayersLength) {
-      console.log("Players array updated. New length: ", newPlayersLength);
-
       setTimeout(() => {
         io.to(String(change.fullDocument._id)).emit("numPlayersChanged", {
           sessionId: change.fullDocument._id,
@@ -55,8 +54,6 @@ function handleQuadrantsChange(change, io) {
     const newQuadrantsLength = change.fullDocument.quadrants.length;
 
     if (newQuadrantsLength !== previousQuadrantsLength) {
-      console.log("Quadrants array updated. New length: ", newQuadrantsLength);
-
       io.to(String(change.fullDocument._id)).emit(
         "quadrantsUpdated",
         change.fullDocument
@@ -73,19 +70,15 @@ function handleStatusChange(change, io) {
 
     switch (change.fullDocument.status) {
       case "ongoing":
-        console.log("Session started");
         emitEventName = "sessionStarted";
         break;
       case "completed":
-        console.log("Session completed");
         emitEventName = "sessionCompleted";
         break;
       case "cancelled":
-        console.log("Session cancelled");
         emitEventName = "sessionCancelled";
         break;
       default:
-        console.log(`Unknown status: ${change.fullDocument.status}`);
         return;
     }
 

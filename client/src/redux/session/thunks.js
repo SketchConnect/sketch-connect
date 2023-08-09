@@ -1,64 +1,58 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import { actions } from "./actions";
 import sessionService from "./service";
-import {
-  GET_SESSIONS,
-  GET_SESSION,
-  ADD_SESSION,
-  DELETE_SESSION,
-  UPDATE_STATUS,
-  ADD_PLAYER,
-  UPDATE_FINAL_IMAGE,
-  REMOVE_PLAYER
-} from "../utils";
 
-export const getSessionsAsync = createAsyncThunk(GET_SESSIONS, async () => {
-  return await sessionService.getSessions();
-});
+export const getSessionsAsync = createAsyncThunk(
+  actions.GET_SESSIONS,
+  async () => {
+    return await sessionService.getSessions();
+  }
+);
 
 export const getSessionAsync = createAsyncThunk(
-  GET_SESSION,
+  actions.GET_SESSION,
   async (sessionId) => {
     return await sessionService.getSession(sessionId);
   }
 );
 
 export const addSessionAsync = createAsyncThunk(
-  ADD_SESSION,
+  actions.ADD_SESSION,
   async (session) => {
     return await sessionService.addSession(session);
   }
 );
 
 export const deleteSessionAsync = createAsyncThunk(
-  DELETE_SESSION,
+  actions.DELETE_SESSION,
   async (sessionId) => {
     return await sessionService.deleteSession(sessionId);
   }
 );
 
 export const updateStatusAsync = createAsyncThunk(
-  UPDATE_STATUS,
+  actions.UPDATE_STATUS,
   async ({ sessionId, status }) => {
     return await sessionService.updateStatus(sessionId, status);
   }
 );
 
 export const addPlayerAsync = createAsyncThunk(
-  ADD_PLAYER,
+  actions.ADD_PLAYER,
   async ({ session, player }) => {
     return await sessionService.addPlayer(session._id, player);
   }
 );
 
 export const removePlayerAsync = createAsyncThunk(
-  REMOVE_PLAYER,
+  actions.REMOVE_PLAYER,
   async ({ session, player }) => {
     return sessionService.removePlayer(session._id, player);
   }
 );
 
 export const updateFinalImageAsync = createAsyncThunk(
-  UPDATE_FINAL_IMAGE,
+  actions.UPDATE_FINAL_IMAGE,
   async ({ sessionId, image }) => {
     return await sessionService.updateFinalImage(sessionId, image);
   }

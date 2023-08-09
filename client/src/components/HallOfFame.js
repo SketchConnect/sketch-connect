@@ -1,14 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import ImageCard from "./ImageCard";
 
 function HallOfFame() {
   const [showPopup, setShowPopup] = useState(false);
   const [selectedImage, setSelectedImage] = useState("");
+  const [selectedTopic, setSelectedTopic] = useState("");
   const sessions = useSelector((state) => state.user.sessions);
 
-  const handleImageClick = (image) => {
+  const handleImageClick = (image, topic) => {
     setSelectedImage(image);
+    setSelectedTopic(topic);
     setShowPopup(true);
   };
 
@@ -20,7 +22,7 @@ function HallOfFame() {
           const url = window.URL.createObjectURL(blob);
           const link = document.createElement("a");
           link.href = url;
-          link.download = "image.png";
+          link.download = `${selectedTopic}.png`;
           document.body.appendChild(link);
           link.click();
           window.URL.revokeObjectURL(url);
@@ -35,6 +37,7 @@ function HallOfFame() {
   const closePopup = () => {
     setShowPopup(false);
     setSelectedImage("");
+    setSelectedTopic("");
   };
 
   if (!sessions) {
@@ -44,13 +47,14 @@ function HallOfFame() {
       <div className="hall-of-fame">
         {sessions.length > 0 &&
           sessions.map((session, index) => {
-            console.log(session);
             return (
               <ImageCard
                 key={index}
                 topic={session.topic}
                 finalImage={session.finalImage}
-                onClick={() => handleImageClick(session.finalImage)}
+                onClick={() =>
+                  handleImageClick(session.finalImage, session.topic)
+                }
               />
             );
           })}

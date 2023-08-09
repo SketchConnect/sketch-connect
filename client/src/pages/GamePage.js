@@ -1,3 +1,4 @@
+// https://www.npmjs.com/package/react-countdown-circle-timer
 import React, { useCallback, useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Canvas from "../components/Canvas";
@@ -5,7 +6,7 @@ import Timer from "../components/Timer";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import { useNavigate, useParams } from "react-router-dom";
 import "./GamePage.css";
-import { getSessionAsync, updateStatusAsync } from "../redux/session/thunks";
+import { updateStatusAsync } from "../redux/session/thunks";
 import { setLocation } from "../redux/app/reducer";
 import { LOCATION } from "../util/constant";
 import { io } from "socket.io-client";
@@ -30,7 +31,7 @@ const GamePage = () => {
     const socket = io("https://sketch-connect-be.onrender.com");
     socket.emit("join", sessionId);
 
-    socket.on("sessionCompleted", (data) => {
+    socket.on("sessionCompleted", () => {
       dispatch(setLocation(LOCATION.COMPLETE));
       navigate(`/complete/${sessionId}`);
     });
@@ -57,7 +58,7 @@ const GamePage = () => {
     };
   }, []);
 
-  const setPrevImageAttr = (session) => {
+  const setPrevImageAttr = () => {
     fetch(`https://sketch-connect-be.onrender.com/sessions/${sessionId}`, {
       method: "GET"
     })
@@ -71,12 +72,15 @@ const GamePage = () => {
         if (currPlayer === 0) {
           // first user doesn't have any previous images to show
         } else if (currPlayer === 1) {
+          // second player sees the first player's image on the left border
           setLeftSrc(response.quadrants[0]);
           setShowLeft(true);
         } else if (currPlayer === 2) {
+          // third player sees the first player's image on the top border
           setTopSrc(response.quadrants[0]);
           setShowTop(true);
         } else if (currPlayer === 3) {
+          // fourth player sees the second player's image on the top border and the third player's image on the left border
           setLeftSrc(response.quadrants[2]);
           setTopSrc(response.quadrants[1]);
           setShowLeft(true);
@@ -105,7 +109,7 @@ const GamePage = () => {
         }
       )
         .then((response) => response.json())
-        .then((data) => {
+        .then(() => {
           if (user === players[3]) {
             dispatch(
               updateStatusAsync({

@@ -18,6 +18,7 @@ const INITIAL_STATE = {
   quadrants: [],
   finalImage: "",
   topic: "",
+  name: "",
   getSession: REQUEST_STATE.IDLE,
   addSession: REQUEST_STATE.IDLE,
   deleteSession: REQUEST_STATE.IDLE,
@@ -25,7 +26,7 @@ const INITIAL_STATE = {
   addPlayer: REQUEST_STATE.IDLE,
   removePlayer: REQUEST_STATE.IDLE,
   updateFinalImage: REQUEST_STATE.IDLE,
-  erorr: null
+  error: null
 };
 
 const sessionSlice = createSlice({
@@ -40,6 +41,7 @@ const sessionSlice = createSlice({
       state.quadrants = [];
       state.finalImage = "";
       state.topic = "";
+      state.name = "";
     },
     setSession: (state, action) => {
       state._id = action.payload.session._id;

@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { LOCATION } from "../../util/constant";
-import { REQUEST_STATE } from "../utils";
 
 const INITIAL_STATE = {
   location: LOCATION.HOME

@@ -1,3 +1,5 @@
+// https://www.npmjs.com/package/react-share
+// https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob
 import React, { useRef, useEffect, useState } from "react";
 import "./page.css";
 import "./CompletePage.css";
@@ -14,8 +16,7 @@ import {
   PinterestIcon
 } from "react-share";
 import { addSessionToUserAsync } from "../redux/user/thunks";
-import { resetApp, setLocation } from "../redux/app/reducer";
-import { LOCATION } from "../util/constant";
+import { resetApp } from "../redux/app/reducer";
 
 const CompletePage = () => {
   const { sessionId } = useParams();
