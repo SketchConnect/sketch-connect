@@ -142,8 +142,8 @@ function WaitingPage() {
     <div className="lobby-container">
       <h2 className="lobby-header">
         {playerCount === 4
-          ? `${currentSession.name} is ready to start!`
-          : `${currentSession.name} is waiting for players to join...`}
+          ? `${currentSession.name || sessionId} is ready to start!`
+          : `${currentSession.name || sessionId} is waiting for players to join...`}
       </h2>
       <div>
         <img
