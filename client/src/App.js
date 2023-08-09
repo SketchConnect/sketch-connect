@@ -1,3 +1,4 @@
+// https://reactrouter.com/en/main/start/overview
 import React, { useState, useEffect, useLayoutEffect } from "react";
 import {
   BrowserRouter,
@@ -33,6 +34,7 @@ const ProtectedRoute = ({ children }) => {
     <Navigate to="/login" state={{ from: location }} />
   );
 };
+
 function useWindowSize() {
   const [size, setSize] = useState(0);
   useLayoutEffect(() => {
@@ -56,7 +58,7 @@ function App() {
       .then(() => {
         setLoading(false);
       })
-      .catch((err) => console.err(`Failed to wake server: ${err}`));
+      .catch((err) => console.err("Failed to wake server", err));
   }, []);
 
   useEffect(() => {

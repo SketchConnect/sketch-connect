@@ -1,3 +1,6 @@
+// https://www.framer.com/motion/component/
+// https://www.framer.com/motion/animate-presence/
+// https://socket.io/docs/v3/client-api/
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";

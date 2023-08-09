@@ -1,3 +1,4 @@
+// https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API
 import React, {
   forwardRef,
   useImperativeHandle,
@@ -6,7 +7,7 @@ import React, {
   useState
 } from "react";
 import ExportPopup from "./ExportPopup";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 const Canvas = forwardRef((props, ref) => {
   const canvasRef = useRef(null);

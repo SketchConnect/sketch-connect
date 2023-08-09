@@ -1,3 +1,4 @@
+// https://firebase.google.com/docs/auth/web/google-signin
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 

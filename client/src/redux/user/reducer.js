@@ -63,7 +63,6 @@ const userSlice = createSlice({
       })
       .addCase(addUserAsync.fulfilled, (state, action) => {
         state.addUser = REQUEST_STATE.FULFILLED;
-        // state.list.push(action.payload);
       })
       .addCase(addUserAsync.rejected, (state, action) => {
         state.addUser = REQUEST_STATE.REJECTED;

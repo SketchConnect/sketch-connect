@@ -1,3 +1,4 @@
+// https://www.framer.com/motion/
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import "./Instructions.css";
@@ -29,9 +30,9 @@ const Instructions = () => {
         </div>
         <div className="back">
           <video className="instruction-video" controls>
-						<source src="/assets/videos/instruction.mp4" type="video/mp4" />
-				  		Your browser does not support the video tag.
-					</video>
+            <source src="/assets/videos/instruction.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
         </div>
       </motion.div>
     </div>

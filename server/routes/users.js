@@ -157,7 +157,7 @@ router.patch("/:id", async (req, res) => {
  * - id (string): The ID of the user to update.
  *
  * Request body parameters:
- * - "sessionId", value: the session id to be added
+ * - sessionId: the session id to be added
  */
 router.patch("/:id/add-session", async (req, res) => {
   try {

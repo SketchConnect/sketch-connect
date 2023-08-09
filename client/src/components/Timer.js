@@ -1,14 +1,10 @@
-import React, { useEffect, useRef, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
-
+import React, { useRef } from "react";
 import "./Timer.css";
 
 const Timer = ({ remainingTime }) => {
   const currentTime = useRef(remainingTime);
   const prevTime = useRef(null);
   const isNewTimeFirstTick = useRef(false);
-  const [lastRerender, setOneLastRerender] = useState(0);
 
   if (currentTime.current !== remainingTime) {
     isNewTimeFirstTick.current = true;
@@ -18,11 +14,7 @@ const Timer = ({ remainingTime }) => {
     isNewTimeFirstTick.current = false;
   }
 
-  // force one last re-render when the time is over to tirgger the last animation
   if (remainingTime === 0) {
-    setTimeout(() => {
-      setOneLastRerender((val) => val + 1);
-    }, 20);
     return <div className="timer">Times Up!</div>;
   }
 
