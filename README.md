@@ -79,6 +79,9 @@ The next steps to improve the app include adding public/private session rooms fo
     - Implemented protected routes within the application, enforcing stringent access control. This strategy ensured that only authenticated users could access certain features, reinforcing overall security.
 -   [Michelle Kim](https://github.com/michelleykim)
 -   [Michelle Wang](https://github.com/michelle-wangg)
+    - Implemented user authentication using Firebase, ensuring both convenience and security in a streamlined sign-in experience, and storing user information in the database for profile-dependent functionalities.
+    - Worked on the User Dashboard, creating endpoints to add session details to users, allowing for the display of completed images in the Hall of Fame.
+    - Help define user and session schema, added topics to the game page and updated the Mongo database to reflect these changes.
 -   [Shu Ting Hu](https://github.com/shuting-hu)
     - Utilized Redux to facilitate fluid client-server API communication, enhancing state management for user and session actions.
     - Streamlined the game flow by implementing session start, turn-based navigation, dynamic game lobby / drawing page components, and introduced loading states to facilitate smooth transitions.
